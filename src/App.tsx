@@ -1,11 +1,11 @@
-import { Sidebar } from "./components/shared/Sidebar";
+import { AppRouter } from "./routes/AppRouter";
+import { BrowserRouter } from "react-router-dom";
 
 function App() {
 	return (
-		<>
-			<Sidebar />
-      
-		</>
+		<BrowserRouter>
+			<AppRouter />
+		</BrowserRouter>
 	);
 }
 
