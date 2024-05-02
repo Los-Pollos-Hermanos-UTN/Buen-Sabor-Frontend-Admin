@@ -12,7 +12,16 @@ const drawerWidth: number = 240;
 
 export const AppRouter = () => {
 	return (
-		<Box sx={{ display: "flex", backgroundColor: "#E8E8E8" }}>
+		<Box
+			sx={{
+				display: "flex",
+				backgroundColor: "#E8E8E8",
+				minWidth: "100vw",
+				width: "auto",
+				minHeight: "100vh",
+				height: "auto",
+			}}
+		>
 			<SideBar drawerWidth={drawerWidth} />
 			<Box
 				component="main"

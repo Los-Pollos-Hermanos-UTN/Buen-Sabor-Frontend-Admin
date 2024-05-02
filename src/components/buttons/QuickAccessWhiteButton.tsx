@@ -12,7 +12,7 @@ export const QuickAccessWhiteButton = ({ icon, text }: WhiteButtonProp) => {
 			sx={{
 				color: "white",
 				textTransform: "capitalize",
-				width: "50%",
+				width: "100%",
                 justifyContent: "flex-start"
 			}}
 			startIcon={icon}
