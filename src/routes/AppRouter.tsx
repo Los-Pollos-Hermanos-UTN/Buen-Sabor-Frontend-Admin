@@ -4,15 +4,16 @@ import { Categories } from "../screens/Categories";
 import { Company } from "../screens/Company";
 import { Products } from "../screens/Products";
 import { Users } from "../screens/Users";
-import { Sidebar } from "../components/shared/Sidebar";
 import { Box, Toolbar } from "@mui/material";
+import { Promotions } from "../screens/Promotions";
+import { SideBar } from "../components/shared/SideBar";
 
 const drawerWidth: number = 240;
 
 export const AppRouter = () => {
 	return (
-		<Box sx={{ display: "flex" }}>
-			<Sidebar drawerWidth={drawerWidth} />
+		<Box sx={{ display: "flex", backgroundColor: "#E8E8E8" }}>
+			<SideBar drawerWidth={drawerWidth} />
 			<Box
 				component="main"
 				sx={{
@@ -24,12 +25,12 @@ export const AppRouter = () => {
 				<Routes>
 					<Route path="/" element={<Home />} />
 					<Route path="/productos" element={<Products />} />
-					<Route path="/promociones" element={<Home />} />
+					<Route path="/promociones" element={<Promotions />} />
 					<Route path="/empresa" element={<Company />} />
 					<Route path="/usuarios" element={<Users />} />
 					<Route path="/categorias" element={<Categories />} />
-				</Routes>	
+				</Routes>
 			</Box>
-		</Box>	
+		</Box>
 	);
 };

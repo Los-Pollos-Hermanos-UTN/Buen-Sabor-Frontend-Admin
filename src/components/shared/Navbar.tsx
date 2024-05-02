@@ -12,7 +12,7 @@ interface NavbarProps {
 	handleDrawerToggle: () => void;
 }
 
-export function Navbar({
+export function NavBar({
 	title,
 	drawerWidth,
 	handleDrawerToggle,

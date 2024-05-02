@@ -5,9 +5,8 @@ import Drawer from "@mui/material/Drawer";
 import ListItem from "@mui/material/ListItem";
 import ListItemButton from "@mui/material/ListItemButton";
 import ListItemText from "@mui/material/ListItemText";
-import { Stack, Toolbar } from "@mui/material";
+import { Stack } from "@mui/material";
 import { Link, useLocation } from "react-router-dom";
-import { Navbar } from "./Navbar";
 
 import AccountCircleOutlinedIcon from "@mui/icons-material/AccountCircleOutlined";
 import DataUsageOutlinedIcon from "@mui/icons-material/DataUsageOutlined";
@@ -16,6 +15,7 @@ import SellOutlinedIcon from "@mui/icons-material/SellOutlined";
 import FolderSharedOutlinedIcon from "@mui/icons-material/FolderSharedOutlined";
 import PeopleAltOutlinedIcon from "@mui/icons-material/PeopleAltOutlined";
 import StyleOutlinedIcon from "@mui/icons-material/StyleOutlined";
+import { NavBar } from "./NavBar";
 
 const drawerItems = [
 	{
@@ -47,7 +47,7 @@ interface SidebarProps {
 	drawerWidth?: number;
 }
 
-export function Sidebar({ drawerWidth }: SidebarProps) {
+export function SideBar({ drawerWidth }: SidebarProps) {
 	const location = useLocation();
 	const currentPathname = location.pathname;
 	const currentRouteName =
@@ -91,7 +91,7 @@ export function Sidebar({ drawerWidth }: SidebarProps) {
 	return (
 		<>
 			<CssBaseline />
-			<Navbar
+			<NavBar
 				title={currentRouteName}
 				drawerWidth={drawerWidth}
 				handleDrawerToggle={handleDrawerToggle}
