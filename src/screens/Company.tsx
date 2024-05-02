@@ -7,7 +7,7 @@ import { BranchCard } from "../components/cards/BranchCard";
 export const Company = () => {
 	const { isSmall } = useWindowResize();
 
-	const branches = ["", "", "", ""];
+	const branches = ["", "", "", "", ""];
 	return (
 		<Stack direction="column" m="3%" spacing={3}>
 			<SearchBar />
