@@ -83,7 +83,7 @@ export const CustomTable = <T,>({
 						<TableBody>
 							{rows
 								.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
-								.map((row, index: number) => {
+								.map((row: any, index: number) => {
 									return (
 										<TableRow
 											role="checkbox"

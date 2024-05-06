@@ -8,12 +8,15 @@ import { MyPieChart } from "../components/charts/PieChart";
 const quickAccess = [
 	{
 		title: "Productos",
+		route: "/productos"
 	},
 	{
-		title: "Empresas",
+		title: "Sucursales",
+		route: "/empresa"
 	},
 	{
 		title: "Usuarios",
+		route: "/usuarios"
 	},
 ];
 
@@ -26,9 +29,9 @@ export const Home = () => {
 				<></>
 			) : (
 				<>
-					<Stack direction="row" height="30%" width="100%" spacing={5}>
+					<Stack direction="row" height="30%" width="100%" spacing={2}>
 						{quickAccess.map((access) => (
-							<QuickAccessPaper key={access.title} title={access.title} />
+							<QuickAccessPaper key={access.title} title={access.title} navigateTo={access.route}/>
 						))}
 					</Stack>
 				</>
