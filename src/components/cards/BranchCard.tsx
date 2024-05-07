@@ -2,7 +2,7 @@ import Card from "@mui/material/Card";
 import CardContent from "@mui/material/CardContent";
 import CardMedia from "@mui/material/CardMedia";
 import Typography from "@mui/material/Typography";
-import { CardActions, Rating, Stack } from "@mui/material";
+import { Rating, Stack } from "@mui/material";
 import { QuickAccessWhiteButton } from "../buttons/QuickAccessWhiteButton";
 import EditIcon from "@mui/icons-material/Edit";
 import RoomIcon from "@mui/icons-material/Room";

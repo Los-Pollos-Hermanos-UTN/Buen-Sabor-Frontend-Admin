@@ -8,7 +8,7 @@ export const ProductFormSteps: FormStep[] = [
 		number: 1,
 		label: "Detalles del Producto",
 		isSubstep: false,
-		fields: <> Esto debe redirigir al primer substep </>,
+		fields: <> Si lees esto es xq se rompio :) </>,
 	},
 	{ label: "Nombre y Descripción", isSubstep: true, fields: <ProductFormStep1 /> },
 	{ label: "Variantes", isSubstep: true, fields: <ProductFormStep2 /> },

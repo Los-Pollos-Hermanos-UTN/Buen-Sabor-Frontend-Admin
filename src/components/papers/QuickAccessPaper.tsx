@@ -66,6 +66,7 @@ export const QuickAccessPaper = ({
 				width={0}
 				height={0}
 				steps={ProductFormSteps}
+				substepDefault={true}
 			/>
 		</>
 	);

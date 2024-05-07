@@ -23,6 +23,7 @@ const style = {
 };
 
 interface FormModalProps {
+	substepDefault: boolean;
 	open: boolean;
 	width: number;
 	height: number;
@@ -31,13 +32,14 @@ interface FormModalProps {
 }
 
 export function FormModal({
+	substepDefault,
 	open,
 	width,
 	height,
 	steps,
 	handleClose,
 }: FormModalProps) {
-	const [activeStep, setActiveStep] = useState<number>(0);
+	const [activeStep, setActiveStep] = useState<number>(substepDefault ? 1 : 0);
 
 	const handleNext = () => {
 		setActiveStep((prevActiveStep) => prevActiveStep + 1);
@@ -48,7 +50,7 @@ export function FormModal({
 	};
 
 	const handleReset = () => {
-		setActiveStep(0);
+		setActiveStep(substepDefault ? 1 : 0);
 	};
 
 	return (
