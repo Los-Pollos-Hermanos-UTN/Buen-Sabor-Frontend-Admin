@@ -6,7 +6,7 @@ import { Products } from "../screens/Products";
 import { Users } from "../screens/Users";
 import { Box, Toolbar } from "@mui/material";
 import { Promotions } from "../screens/Promotions";
-import { SideBar } from "../components/shared/SideBar";
+import { SideBar } from "../components/shared/Sidebar";
 
 const drawerWidth: number = 240;
 

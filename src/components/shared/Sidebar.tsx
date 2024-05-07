@@ -15,7 +15,7 @@ import SellOutlinedIcon from "@mui/icons-material/SellOutlined";
 import FolderSharedOutlinedIcon from "@mui/icons-material/FolderSharedOutlined";
 import PeopleAltOutlinedIcon from "@mui/icons-material/PeopleAltOutlined";
 import StyleOutlinedIcon from "@mui/icons-material/StyleOutlined";
-import { NavBar } from "./NavBar";
+import { NavBar } from "./Navbar";
 
 const drawerItems = [
 	{
