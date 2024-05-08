@@ -114,7 +114,7 @@ export function FormModal({
 								spacing={4}
 							>
 								<Button
-									disabled={activeStep === 0}
+									disabled={activeStep === 0 || (activeStep === 1 && substepDefault)}
 									onClick={handleBack}
 									startIcon={<ChevronLeftOutlinedIcon />}
 									sx={{ textTransform: "none", color: "#A9927D" }}

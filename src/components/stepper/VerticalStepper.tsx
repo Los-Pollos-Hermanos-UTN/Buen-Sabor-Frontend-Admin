@@ -31,7 +31,7 @@ export function VerticalStepper({
 								if (step.isSubstep)
 									return (
 										<SubStepperIcon
-											activeStep={activeStep}
+											activeStep={activeStep} 
 											index={index}
 											step={step}
 											props={props}

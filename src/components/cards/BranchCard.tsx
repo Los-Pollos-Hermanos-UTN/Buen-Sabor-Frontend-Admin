@@ -41,7 +41,7 @@ export function BranchCard() {
 				<CardMedia
 					component="img"
 					height="350"
-					image="https://cdn.discordapp.com/attachments/1020111596321775616/1235405617833967626/arquitetura-minimalista-universidade-monterrey-768x458.png?ex=663440a4&is=6632ef24&hm=31602ce982034fc8b734d3dfd7a94581d902cea106122948bc3917b8dc85733d&"
+					image="https://hips.hearstapps.com/hmg-prod/images/bosco-verticale-designed-by-stefano-boeri-2014-royalty-free-image-1676998427.jpg?crop=0.669xw:1.00xh;0.166xw,0&resize=640:*"
 					alt="Mansa Sucursal"
 				/>
 			</Stack>
