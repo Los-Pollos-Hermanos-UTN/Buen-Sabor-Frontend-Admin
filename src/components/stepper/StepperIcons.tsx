@@ -1,4 +1,5 @@
 import { StepIcon } from "@mui/material";
+import { FormStep } from "../forms/FormStep";
 
 interface StepperIconProps {
 	activeStep: number;
@@ -17,14 +18,19 @@ export const StepperIcon = ({
 		<StepIcon
 			{...props}
 			style={{
-				color: getColor(activeStep, index),
+				color: getColor(step, activeStep, index),
 			}}
-			icon={step.number}
+			icon={step.icon}
 		/>
 	);
 };
 
-export const SubStepperIcon = ({ activeStep, index }: StepperIconProps) => {
+
+export const SubStepperIcon = ({
+	step,
+	activeStep,
+	index,
+}: StepperIconProps) => {
 	return (
 		// Este div anidado sirve para desplegar el icono centrado sin afectar la linea del stepper
 		<div
@@ -43,19 +49,24 @@ export const SubStepperIcon = ({ activeStep, index }: StepperIconProps) => {
 					width: "8px",
 					height: "8px",
 					borderRadius: "50%",
-					backgroundColor: getColor(activeStep, index),
+					backgroundColor: getColor(step, activeStep, index),
 				}}
 			></div>
 		</div>
 	);
 };
 
-const getColor = (activeStep: number, index: number) => {
-	return activeStep < index
-		? "#C4C4C4"
-		: activeStep === index
-		? "#49111C"
-		: activeStep > index
-		? "#31E77A"
-		: "";
+const getColor = (step: FormStep, activeStep: number, index: number) => {
+	if (activeStep < index) {
+		return "#C4C4C4";
+	}
+	if (activeStep === index) {
+		return "#49111C";
+	}
+	if (activeStep > index) {
+		if ((step.substeps && step.number + step.substeps <= activeStep) || (!step.substeps)) {
+			return "#31E77A";
+		}
+		return "#49111C";
+	}
 };

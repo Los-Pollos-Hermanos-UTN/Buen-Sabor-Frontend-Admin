@@ -25,13 +25,20 @@ export function VerticalStepper({
 		<Box sx={{ maxWidth: 400 }}>
 			<Stepper activeStep={activeStep} orientation="vertical">
 				{steps.flatMap((step, index) => [
-					<Step key={step.label}>
+					<Step
+						completed={
+							step.substeps
+								? activeStep >= step.number + step.substeps
+								: activeStep > index
+						}
+						key={step.label}
+					>
 						<StepLabel
 							StepIconComponent={(props) => {
 								if (step.isSubstep)
 									return (
 										<SubStepperIcon
-											activeStep={activeStep} 
+											activeStep={activeStep}
 											index={index}
 											step={step}
 											props={props}

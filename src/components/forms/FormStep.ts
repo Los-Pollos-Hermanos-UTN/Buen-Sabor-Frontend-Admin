@@ -1,6 +1,8 @@
 export interface FormStep {
-	number?: number;
+	number: number;
+	icon?: number;
 	label: string;
 	isSubstep: boolean;
+	substeps?: number;
 	fields: JSX.Element;
 }
