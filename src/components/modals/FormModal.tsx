@@ -53,6 +53,10 @@ export function FormModal({
 		setActiveStep(substepDefault ? 1 : 0);
 	};
 
+	const handleSubmit = () => {
+		console.log("Producto Creado");
+	};
+
 	return (
 		<div>
 			<Modal open={open} onClose={handleClose}>
@@ -114,7 +118,9 @@ export function FormModal({
 								spacing={4}
 							>
 								<Button
-									disabled={activeStep === 0 || (activeStep === 1 && substepDefault)}
+									disabled={
+										activeStep === 0 || (activeStep === 1 && substepDefault)
+									}
 									onClick={handleBack}
 									startIcon={<ChevronLeftOutlinedIcon />}
 									sx={{ textTransform: "none", color: "#A9927D" }}
@@ -123,7 +129,9 @@ export function FormModal({
 								</Button>
 								<Button
 									variant="contained"
-									onClick={handleNext}
+									onClick={
+										activeStep === steps.length - 1 ? handleSubmit : handleNext
+									}
 									sx={{
 										width: "80%",
 										textTransform: "none",
@@ -133,7 +141,11 @@ export function FormModal({
 										},
 									}}
 								>
-									Continuar
+									{activeStep === steps.length - 1 ? (
+										<Typography>Finalizar</Typography>
+									) : (
+										<Typography>Continuar</Typography>
+									)}
 								</Button>
 							</Stack>
 						</Stack>

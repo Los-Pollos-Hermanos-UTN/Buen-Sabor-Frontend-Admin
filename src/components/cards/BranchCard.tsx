@@ -6,6 +6,7 @@ import { Rating, Stack } from "@mui/material";
 import { QuickAccessWhiteButton } from "../buttons/QuickAccessWhiteButton";
 import EditIcon from "@mui/icons-material/Edit";
 import RoomIcon from "@mui/icons-material/Room";
+import { Action } from "../../types/enums/Enums";
 
 export function BranchCard() {
 	return (
@@ -25,10 +26,12 @@ export function BranchCard() {
 						<Stack height="100%" justifyContent="space-between">
 							<Stack>
 								<QuickAccessWhiteButton
+									action={Action.CREATE} // Modificar
 									icon={<EditIcon sx={{ color: "#fff" }} />}
 									text={"Editar"}
 								/>
 								<QuickAccessWhiteButton
+									action={Action.CREATE} // Modificar
 									icon={<RoomIcon sx={{ color: "#fff" }} />}
 									text={"Ubicación"}
 								/>

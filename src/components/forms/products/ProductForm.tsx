@@ -1,4 +1,5 @@
 import { FormStep } from "../FormStep";
+import { ProductPreview } from "./steps/ProductPreview";
 import { ProductFormStep1 } from "./steps/ProductStep1";
 import { ProductFormStep2 } from "./steps/ProductStep2";
 import { ProductFormStep3 } from "./steps/ProductStep3";
@@ -36,6 +37,6 @@ export const ProductFormSteps: FormStep[] = [
 		icon: 3,
 		label: "Vista Previa",
 		isSubstep: false,
-		fields: <> Falta vista previa </>,
+		fields: <ProductPreview />,
 	},
 ];
