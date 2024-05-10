@@ -62,7 +62,7 @@ export const CustomTable = <T,>({
 			}}
 		>
 			<Paper sx={{ width: "100%", overflow: "hidden", borderRadius: "8px" }}>
-				<TableContainer className="custom-scrollbar" sx={{ maxHeight: "80vh" }}>
+				<TableContainer className="custom-scrollbar" sx={{ maxHeight: "59vh" }}>
 					<Table stickyHeader aria-label="sticky table">
 						<TableHead>
 							<TableRow>

@@ -6,10 +6,9 @@ export function TableDeleteButton() {
 		<IconButton
 			type="submit"
 			sx={{
-				p: "10px",
 				borderRadius: "8px",
-				height: "50px",
-				width: "50px",
+				height: "30px",
+				width: "30px",
 				backgroundColor: "#fff",
 			}}
 			aria-label="delete"
