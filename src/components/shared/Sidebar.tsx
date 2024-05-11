@@ -76,7 +76,7 @@ export function SideBar({ drawerWidth }: SidebarProps) {
 			{drawerItems.map((item) => (
 				<ListItem key={item.name} component={Link} to={item.route}>
 					<ListItemButton
-						sx={{ ...item.style, color: "black", borderRadius: "10px" }}
+						sx={{ ...item.style, color: "black", borderRadius: "10px", backgroundColor: currentPathname === item.route ? "#E8E8E8" : "transparent" }}
 					>
 						<Stack direction="row" spacing={1}>
 							{item.icon}
