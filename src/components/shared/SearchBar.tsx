@@ -1,12 +1,23 @@
 import { Box, InputBase, Stack } from "@mui/material";
 import { SearchButton } from "../buttons/SearchButton";
 import { AddButton } from "../buttons/AddButton";
+import { useState } from "react";
 
 interface SearchBarProps {
 	extraButtons?: JSX.Element[];
+	onSearch?: (searchTerm: string) => void;
 }
 
-export function SearchBar({ extraButtons }: SearchBarProps) {
+export function SearchBar({ extraButtons, onSearch }: SearchBarProps) {
+	const [searchTerm, setSearchTerm] = useState("");
+
+	const handleSearchChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+		setSearchTerm(event.target.value);
+		if (onSearch) {
+			onSearch(event.target.value);
+		}
+	};
+
 	return (
 		<Stack direction="row" spacing={1}>
 			<Box width="70%">
@@ -21,6 +32,8 @@ export function SearchBar({ extraButtons }: SearchBarProps) {
 						width: "100%",
 						pl: "3%",
 					}}
+					value={searchTerm}
+					onChange={handleSearchChange}
 				/>
 			</Box>
 			<SearchButton />

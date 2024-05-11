@@ -45,13 +45,6 @@ export const CustomTable = <T,>({
 		setPage(0);
 	};
 
-	const [rows, setRows] = useState<T[]>([]);
-
-	// Actualizar las filas cuando cambien los datos de la tabla
-	useEffect(() => {
-		setRows(data);
-	}, [data]);
-
 	return (
 		<div
 			style={{
@@ -81,7 +74,7 @@ export const CustomTable = <T,>({
 							</TableRow>
 						</TableHead>
 						<TableBody>
-							{rows
+							{data
 								.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
 								.map((row: any, index: number) => {
 									return (
@@ -121,7 +114,7 @@ export const CustomTable = <T,>({
 				<TablePagination
 					rowsPerPageOptions={[10, 25, 100]}
 					component="div"
-					count={rows.length}
+					count={data.length}
 					rowsPerPage={rowsPerPage}
 					page={page}
 					onPageChange={handleChangePage}
