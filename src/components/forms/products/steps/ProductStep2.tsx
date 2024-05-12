@@ -8,6 +8,7 @@ import {
 } from "@mui/material";
 import { useFormik } from "formik";
 import * as Yup from "yup";
+import FixedTags from "../../../selects/IngredientsSelect";
 
 const validationSchema = Yup.object({
 	weight: Yup.number().required("Required"),
@@ -56,22 +57,16 @@ export const ProductFormStep2 = () => {
 					helperText={formik.touched.calories && formik.errors.calories}
 				/>
 				<FormControl fullWidth>
-					<InputLabel id="ingredients-label">Ingredientes</InputLabel>
-					<Select
-						labelId="ingredients-label"
+					<FixedTags
 						id="ingredients"
-						name="ingredients"
-						multiple
-						value={formik.values.ingredients}
-						onChange={formik.handleChange}
-						error={
-							formik.touched.ingredients && Boolean(formik.errors.ingredients)
-						}
-					>
-						{/* Agregar ingredientes como MenuItem */}
-						<MenuItem value="Ingrediente1">Ingrediente1</MenuItem>
-						<MenuItem value="Ingrediente2">Ingrediente2</MenuItem>
-					</Select>
+						value={formik.values.ingredients.map(ingredient => ({ title: ingredient }))}
+						onChange={(event, newValue) => {
+							formik.setFieldValue(
+								'ingredients',
+								newValue.map((item: any) => item.title)
+							);
+						}}
+					/>
 				</FormControl>
 				<TextField
 					fullWidth
