@@ -1,13 +1,14 @@
-import { Stack, TextField } from "@mui/material";
+import { FormControl, Stack } from "@mui/material";
 import { useFormik } from "formik";
 import * as Yup from "yup";
+import FixedTags from "../../../selects/IngredientsSelect";
 
 const validationSchema = Yup.object({
-	photos: Yup.mixed().required("Required"),
+	ingredients: Yup.array().required("Required"),
 });
 
 const initialValues = {
-	photos: [],
+	ingredients: [],
 };
 
 export const ProductFormStep3 = () => {
@@ -22,16 +23,20 @@ export const ProductFormStep3 = () => {
 	return (
 		<form onSubmit={formik.handleSubmit}>
 			<Stack>
-				<TextField
-					fullWidth
-					id="photo"
-					name="photo"
-					label="Foto (URL)"
-					value={formik.values.photos}
-					onChange={formik.handleChange}
-					error={formik.touched.photos && Boolean(formik.errors.photos)}
-					helperText={formik.touched.photos && formik.errors.photos}
-				/>
+				<FormControl fullWidth>
+					<FixedTags
+						id="ingredients"
+						value={formik.values.ingredients.map((ingredient) => ({
+							title: ingredient,
+						}))}
+						onChange={(event, newValue) => {
+							formik.setFieldValue(
+								"ingredients",
+								newValue.map((item: any) => item.title)
+							);
+						}}
+					/>
+				</FormControl>
 			</Stack>
 		</form>
 	);

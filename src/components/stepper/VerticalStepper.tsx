@@ -61,7 +61,7 @@ export function VerticalStepper({
 					</Step>,
 				])}
 			</Stepper>
-			{activeStep === steps.length -1 && (
+			{activeStep === steps.length - 1 && (
 				<Button
 					onClick={handleReset}
 					startIcon={<RotateLeftOutlinedIcon />}

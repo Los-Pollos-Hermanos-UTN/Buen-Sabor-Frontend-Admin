@@ -1,23 +1,19 @@
 import {
 	TextField,
-	FormControl,
 	Stack,
 } from "@mui/material";
 import { useFormik } from "formik";
 import * as Yup from "yup";
-import FixedTags from "../../../selects/IngredientsSelect";
 
 const validationSchema = Yup.object({
 	weight: Yup.number().required("Required"),
 	calories: Yup.number().required("Required"),
-	ingredients: Yup.array().required("Required"),
 	stock: Yup.number().required("Required"),
 });
 
 const initialValues = {
 	weight: "",
 	calories: "",
-	ingredients: [],
 	stock: "",
 };
 
@@ -53,18 +49,6 @@ export const ProductFormStep2 = () => {
 					error={formik.touched.calories && Boolean(formik.errors.calories)}
 					helperText={formik.touched.calories && formik.errors.calories}
 				/>
-				<FormControl fullWidth>
-					<FixedTags
-						id="ingredients"
-						value={formik.values.ingredients.map(ingredient => ({ title: ingredient }))}
-						onChange={(event, newValue) => {
-							formik.setFieldValue(
-								'ingredients',
-								newValue.map((item: any) => item.title)
-							);
-						}}
-					/>
-				</FormControl>
 				<TextField
 					fullWidth
 					id="stock"

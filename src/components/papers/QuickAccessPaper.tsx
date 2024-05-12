@@ -64,7 +64,7 @@ export const QuickAccessPaper = ({
 				open={open}
 				handleClose={handleClose}
 				width={0}
-				height={0}
+				height={600}
 				steps={ProductFormSteps}
 				substepDefault={true}
 			/>

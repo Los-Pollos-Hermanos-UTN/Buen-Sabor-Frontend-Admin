@@ -3,6 +3,7 @@ import { ProductPreview } from "./steps/ProductPreview";
 import { ProductFormStep1 } from "./steps/ProductStep1";
 import { ProductFormStep2 } from "./steps/ProductStep2";
 import { ProductFormStep3 } from "./steps/ProductStep3";
+import { ProductFormStep4 } from "./steps/ProductStep4";
 
 export const ProductFormSteps: FormStep[] = [
 	{
@@ -21,20 +22,27 @@ export const ProductFormSteps: FormStep[] = [
 	},
 	{
 		number: 3,
-		label: "Variantes",
+		label: "Características",
 		isSubstep: true,
 		fields: <ProductFormStep2 />,
 	},
 	{
 		number: 4,
 		icon: 2,
-		label: "Fotos",
+		label: "Ingredientes",
 		isSubstep: false,
 		fields: <ProductFormStep3 />,
 	},
 	{
 		number: 5,
 		icon: 3,
+		label: "Fotos",
+		isSubstep: false,
+		fields: <ProductFormStep4 />,
+	},
+	{
+		number: 6,
+		icon: 4,
 		label: "Vista Previa",
 		isSubstep: false,
 		fields: <ProductPreview />,
