@@ -1,9 +1,6 @@
 import {
 	TextField,
 	FormControl,
-	InputLabel,
-	Select,
-	MenuItem,
 	Stack,
 } from "@mui/material";
 import { useFormik } from "formik";
