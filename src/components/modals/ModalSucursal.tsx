@@ -257,7 +257,7 @@ export function ModalSucursal({
 												<Select
 													fullWidth
 													name="direccion.localidad.nombre"
-													value={values.direccion.localidad.nombre}
+													value={values.direccion.localidad}
 													onChange={handleChange}
 												>
 													{localidades.map((option, index) => (
@@ -269,7 +269,7 @@ export function ModalSucursal({
 												<Select
 													fullWidth
 													name="direccion.localidad.provincia.nombre"
-													value={values.direccion.localidad.provincia.nombre}
+													value={values.direccion.localidad.provincia}
 													onChange={handleChange}
 												>
 													{provincias.map((option, index) => (
@@ -282,7 +282,7 @@ export function ModalSucursal({
 													fullWidth
 													name="direccion.localidad.provincia.pais.nombre"
 													value={
-														values.direccion.localidad.provincia.pais.nombre
+														values.direccion.localidad.provincia.pais
 													}
 													onChange={handleChange}
 												>
