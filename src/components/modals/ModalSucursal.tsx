@@ -102,11 +102,7 @@ export function ModalSucursal({
 					},
 				},
 			},
-		},
-		empresa: {
-			name: "",
-			branchs: [],
-		},
+		}
 	};
 	const localidades = [
 		{ id: 1, nombre: "Luján de Cuyo" },

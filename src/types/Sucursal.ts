@@ -1,4 +1,3 @@
-import { Empresa } from "./Empresa";
 import { Direccion } from "./Direccion";
 
 export interface Sucursal {
@@ -7,5 +6,4 @@ export interface Sucursal {
     horarioCierre: string;
     esCasaMatriz: boolean;
     direccion: Direccion;
-    empresa: Empresa;
 }
