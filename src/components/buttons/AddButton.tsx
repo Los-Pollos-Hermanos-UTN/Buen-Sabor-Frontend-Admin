@@ -1,10 +1,11 @@
 import { IconButton } from "@mui/material";
 import AddIcon from "@mui/icons-material/Add";
 
-export function AddButton() {
+export function AddButton({ handleClick }: { handleClick: () => void }) {
 	return (
 		<IconButton
 			type="submit"
+			onClick={handleClick}
 			sx={{
 				p: "10px",
 				borderRadius: "8px",

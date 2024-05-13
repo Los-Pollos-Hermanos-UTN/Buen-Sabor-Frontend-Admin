@@ -6,9 +6,14 @@ import { useState } from "react";
 interface SearchBarProps {
 	extraButtons?: JSX.Element[];
 	onSearch?: (searchTerm: string) => void;
+	handleOpen?: () => void;
 }
 
-export function SearchBar({ extraButtons, onSearch }: SearchBarProps) {
+export function SearchBar({
+	extraButtons,
+	onSearch,
+	handleOpen,
+}: SearchBarProps) {
 	const [searchTerm, setSearchTerm] = useState("");
 
 	const handleSearchChange = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -37,7 +42,7 @@ export function SearchBar({ extraButtons, onSearch }: SearchBarProps) {
 				/>
 			</Box>
 			<SearchButton />
-			<AddButton />
+			<AddButton handleClick={handleOpen!} />
 			{extraButtons}
 		</Stack>
 	);
