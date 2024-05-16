@@ -10,12 +10,14 @@ interface NavbarProps {
 	title: string;
 	drawerWidth?: number;
 	handleDrawerToggle: () => void;
+	setIsAuthenticated: (value: boolean) => void;
 }
 
 export function NavBar({
 	title,
 	drawerWidth,
 	handleDrawerToggle,
+	setIsAuthenticated,
 }: NavbarProps) {
 	const [anchorElNav, setAnchorElNav] = React.useState<null | HTMLElement>(
 		null
@@ -89,11 +91,9 @@ export function NavBar({
 							open={Boolean(anchorElUser)}
 							onClose={handleCloseUserMenu}
 						>
-							{["Profile", "Logout"].map((setting) => (
-								<MenuItem key={setting} onClick={handleCloseUserMenu}>
-									<Typography textAlign="center">{setting}</Typography>
-								</MenuItem>
-							))}
+							<MenuItem key="logout" onClick={() => setIsAuthenticated(false)}>
+								<Typography textAlign="center">Logout</Typography>
+							</MenuItem>
 						</Menu>
 					</Box>
 				</Stack>

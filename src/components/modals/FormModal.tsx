@@ -10,6 +10,12 @@ import ChevronLeftOutlinedIcon from "@mui/icons-material/ChevronLeftOutlined";
 import { BackButton } from "../buttons/BackButton";
 import { VerticalStepper } from "../stepper/VerticalStepper";
 import { FormStep } from "../forms/FormStep";
+import { Product } from "../../types/Product";
+import { Formik } from "formik";
+import React from "react";
+import { Sucursal } from "../../types/Sucursal";
+import { postData } from "../../services/RequestExecutor";
+import { Empresa } from "../../types/Empresa";
 
 const style = {
 	position: "absolute" as "absolute",
@@ -23,19 +29,25 @@ const style = {
 };
 
 interface FormModalProps {
+	title: string;
 	substepDefault: boolean;
 	open: boolean;
 	width: number;
 	height: number;
+	initialValues: Product | Sucursal | Empresa;
+	postUrl: string;
 	steps: FormStep[];
 	handleClose: () => void;
 }
 
 export function FormModal({
+	title,
 	substepDefault,
 	open,
 	width,
 	height,
+	initialValues,
+	postUrl,
 	steps,
 	handleClose,
 }: FormModalProps) {
@@ -53,8 +65,25 @@ export function FormModal({
 		setActiveStep(substepDefault ? 1 : 0);
 	};
 
-	const handleSubmit = () => {
-		console.log("Producto Creado");
+	const isLastStep = () => {
+		return activeStep === steps.length - 1;
+	};
+
+	const handleSubmit = async (values: any) => {
+		console.log({ values });
+		if (values.domicilio) {
+			values.domicilio = null;
+		}
+		if (!isLastStep()) {
+			handleNext();
+			return;
+		}
+		try {
+			const response = await postData(postUrl, values);
+			console.log({ response });
+		} catch (error) {
+			console.error(error);
+		}
 	};
 
 	return (
@@ -76,7 +105,7 @@ export function FormModal({
 					>
 						<Stack direction="row" spacing={2} alignItems="center">
 							<BackButton onClick={handleClose} />
-							<Typography variant="h6">Agregar Producto</Typography>
+							<Typography variant="h6">{title}</Typography>
 							<Chip
 								label="En Progreso"
 								variant="filled"
@@ -98,57 +127,80 @@ export function FormModal({
 								handleReset={handleReset}
 							/>
 						</Stack>
-						<Stack width="70%" height="100%" direction="column">
-							<Stack height="90%">
-								{
-									<>
-										{steps[activeStep] && steps[activeStep].fields ? (
-											steps[activeStep].fields
-										) : (
-											<></>
-										)}
-									</>
-								}
-							</Stack>
-							<Stack
-								direction="row"
-								alignContent="center"
-								mb="5%"
-								justifyContent="space-between"
-								spacing={4}
-							>
-								<Button
-									disabled={
-										activeStep === 0 || (activeStep === 1 && substepDefault)
-									}
-									onClick={handleBack}
-									startIcon={<ChevronLeftOutlinedIcon />}
-									sx={{ textTransform: "none", color: "#A9927D" }}
-								>
-									Volver
-								</Button>
-								<Button
-									variant="contained"
-									onClick={
-										activeStep === steps.length - 1 ? handleSubmit : handleNext
-									}
-									sx={{
-										width: "80%",
-										textTransform: "none",
-										backgroundColor: "#49111C",
-										"&:hover": {
-											backgroundColor: "#49111C",
-										},
-									}}
-								>
-									{activeStep === steps.length - 1 ? (
-										<Typography>Finalizar</Typography>
-									) : (
-										<Typography>Continuar</Typography>
-									)}
-								</Button>
-							</Stack>
-						</Stack>
+						<Formik
+							initialValues={initialValues}
+							onSubmit={async (values, _actions) => {
+								try {
+									await handleSubmit(values);
+								} catch (ex: any) {}
+							}}
+						>
+							{({
+								values,
+								errors,
+								touched,
+								handleChange,
+								handleBlur,
+								handleSubmit,
+								isSubmitting,
+							}) => (
+								<Stack width="70%" height="100%" direction="column">
+									<Stack height="90%">
+										{
+											<>
+												{steps[activeStep] && steps[activeStep].fields ? (
+													React.cloneElement(steps[activeStep].fields, {
+														handleChange,
+													})
+												) : (
+													<></>
+												)}
+											</>
+										}
+									</Stack>
+									<Stack
+										direction="row"
+										alignContent="center"
+										mb="5%"
+										justifyContent="space-between"
+										spacing={4}
+									>
+										<Button
+											disabled={
+												activeStep === 0 || (activeStep === 1 && substepDefault)
+											}
+											onClick={handleBack}
+											startIcon={<ChevronLeftOutlinedIcon />}
+											sx={{ textTransform: "none", color: "#A9927D" }}
+										>
+											Volver
+										</Button>
+										<Button
+											variant="contained"
+											type="submit"
+											onClick={(event) => {
+												event.preventDefault();
+												handleSubmit();
+											}}
+											sx={{
+												width: "80%",
+												textTransform: "none",
+												backgroundColor: "#49111C",
+												"&:hover": {
+													backgroundColor: "#49111C",
+												},
+											}}
+										>
+											{isLastStep() ? (
+												<Typography>Finalizar</Typography>
+											) : (
+												<Typography>Continuar</Typography>
+											)}
+										</Button>
+									</Stack>
+								</Stack>
+							)}
+						</Formik>
 					</Stack>
 				</Box>
 			</Modal>

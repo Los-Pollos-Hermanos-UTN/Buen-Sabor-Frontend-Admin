@@ -1,6 +1,10 @@
 import { Sucursal } from "./Sucursal";
 
 export interface Empresa {
-    name: string;
-    branchs: Sucursal[];
+    id?: string;
+    eliminado: boolean;
+    nombre: string;
+    razonSocial: string;
+    cuil: string;
+    sucursales?: Sucursal[];
 }

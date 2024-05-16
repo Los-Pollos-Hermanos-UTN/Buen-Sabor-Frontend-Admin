@@ -7,7 +7,15 @@ import { QuickAccessWhiteButton } from "../buttons/QuickAccessWhiteButton";
 import { FormModal } from "../modals/FormModal";
 import { useState } from "react";
 import { Action } from "../../types/enums/Enums";
-import { ProductFormSteps } from "../forms/products/ProductForm";
+import {
+	ProductFormSteps,
+	ProductInitialValues,
+} from "../forms/products/ProductFormData";
+import {
+	SucursalFormSteps,
+	SucursalesInitialValues,
+} from "../forms/sucursal/SucursalFormData";
+import { CONSTANTS } from "../../constants/constants";
 
 const CustomPaper = styled(Paper)(({ theme }) => ({
 	backgroundColor: "rgba(10, 9, 8, 0.5)",
@@ -60,13 +68,24 @@ export const QuickAccessPaper = ({
 					</Stack>
 				</Stack>
 			</CustomPaper>
+
+			{/* MEJORAR POR FAVOR */}
 			<FormModal
+				title={title === "Productos" ? "Agregar Producto" : "Agregar Sucursal"}
 				open={open}
 				handleClose={handleClose}
 				width={0}
 				height={600}
-				steps={ProductFormSteps}
-				substepDefault={true}
+				initialValues={
+					title === "Productos" ? ProductInitialValues : SucursalesInitialValues
+				}
+				postUrl={
+					title === "Productos"
+						? CONSTANTS.product.postURL
+						: CONSTANTS.sucursal.postURL
+				}
+				steps={title === "Productos" ? ProductFormSteps : SucursalFormSteps}
+				substepDefault={title === "Productos" ? true : false}
 			/>
 		</>
 	);

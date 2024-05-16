@@ -1,34 +1,29 @@
 import { Box, Stack, Typography } from "@mui/material";
 import { SearchBar } from "../components/shared/SearchBar";
-import { useWindowResize } from "../hooks/useWindowResize";
 import { EditButton } from "../components/buttons/EditButton";
 import { BranchCard } from "../components/cards/BranchCard";
 import { useEffect, useState } from "react";
-import { ModalSucursal } from "../components/modals/ModalSucursal";
+import { Sucursal } from "../types/Sucursal";
+import { getData } from "../services/RequestExecutor";
+import { CONSTANTS } from "../constants/constants";
 
 export const Company = () => {
-	const { isSmall } = useWindowResize();
-
 	const [open, setOpen] = useState<boolean>(false);
 	const handleOpen = () => setOpen(true);
 	const handleClose = () => setOpen(false);
 
-	const [sucursales, setSucursales] = useState<any[]>([]);
+	const [sucursales, setSucursales] = useState<Sucursal[]>([]);
 
 	useEffect(() => {
-		fetch("http://localhost:8080/sucursal/")
-			.then((response) => {
-				if (!response.ok) {
-					throw new Error("Error en la petición");
-				}
-				return response.json();
-			})
-			.then((data) => {
-				setSucursales(data);
-			})
-			.catch((error) => {
-				console.error("Error:", error);
-			});
+		const getSucursales = async () => {
+			try {
+				const response = await getData<Sucursal[]>(CONSTANTS.sucursal.getUrl);
+				setSucursales(response);
+			} catch (error) {
+				console.error(error);
+			}
+		};
+		getSucursales();
 	}, []);
 
 	return (
@@ -54,14 +49,6 @@ export const Company = () => {
 					))}
 				</Stack>
 			</Stack>
-			<ModalSucursal
-				open={open}
-				handleClose={handleClose}
-				width={0}
-				height={600}
-				steps={[]}
-				substepDefault={true}
-			/>
 		</>
 	);
 };

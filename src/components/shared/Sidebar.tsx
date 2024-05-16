@@ -45,9 +45,10 @@ const drawerItems = [
 
 interface SidebarProps {
 	drawerWidth?: number;
+	setIsAuthenticated: (value: boolean) => void;
 }
 
-export function SideBar({ drawerWidth }: SidebarProps) {
+export function SideBar({ drawerWidth, setIsAuthenticated }: SidebarProps) {
 	const location = useLocation();
 	const currentPathname = location.pathname;
 	const currentRouteName =
@@ -76,7 +77,13 @@ export function SideBar({ drawerWidth }: SidebarProps) {
 			{drawerItems.map((item) => (
 				<ListItem key={item.name} component={Link} to={item.route}>
 					<ListItemButton
-						sx={{ ...item.style, color: "black", borderRadius: "10px", backgroundColor: currentPathname === item.route ? "#E8E8E8" : "transparent" }}
+						sx={{
+							...item.style,
+							color: "black",
+							borderRadius: "10px",
+							backgroundColor:
+								currentPathname === item.route ? "#E8E8E8" : "transparent",
+						}}
 					>
 						<Stack direction="row" spacing={1}>
 							{item.icon}
@@ -95,6 +102,7 @@ export function SideBar({ drawerWidth }: SidebarProps) {
 				title={currentRouteName}
 				drawerWidth={drawerWidth}
 				handleDrawerToggle={handleDrawerToggle}
+				setIsAuthenticated={setIsAuthenticated}
 			/>
 			<Box
 				component="nav"

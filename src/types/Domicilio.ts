@@ -1,6 +1,6 @@
 import { Localidad } from "./Localidad";
 
-export interface Direccion {
+export interface Domicilio {
     calle: string;
     numero: number;
     cp: number;

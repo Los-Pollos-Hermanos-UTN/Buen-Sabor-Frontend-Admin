@@ -11,8 +11,8 @@ const quickAccess = [
 		route: "/productos"
 	},
 	{
-		title: "Usuarios",
-		route: "/usuarios"
+		title: "Sucursales",
+		route: "/empresa"
 	},
 ];
 

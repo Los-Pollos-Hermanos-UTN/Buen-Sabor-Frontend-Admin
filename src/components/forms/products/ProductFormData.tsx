@@ -5,6 +5,13 @@ import { ProductFormStep2 } from "./steps/ProductStep2";
 import { ProductFormStep3 } from "./steps/ProductStep3";
 import { ProductFormStep4 } from "./steps/ProductStep4";
 
+export const ProductInitialValues = {
+	name: "",
+	atrb1: "",
+	atrb2: "",
+	atrb3: "",
+};
+
 export const ProductFormSteps: FormStep[] = [
 	{
 		number: 1,
