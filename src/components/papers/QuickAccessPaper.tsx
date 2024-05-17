@@ -13,9 +13,11 @@ import {
 } from "../forms/products/ProductFormData";
 import {
 	SucursalFormSteps,
+	SucursalValidationSchemas,
 	SucursalesInitialValues,
 } from "../forms/sucursal/SucursalFormData";
 import { CONSTANTS } from "../../constants/constants";
+import { ArticuloManufacturadoValidationSchemas } from "../forms/manufacturado/ManufacturadoFormData";
 
 const CustomPaper = styled(Paper)(({ theme }) => ({
 	backgroundColor: "rgba(10, 9, 8, 0.5)",
@@ -71,21 +73,26 @@ export const QuickAccessPaper = ({
 
 			{/* MEJORAR POR FAVOR */}
 			<FormModal
-				title={title === "Productos" ? "Agregar Producto" : "Agregar Sucursal"}
+				title={title === "Articulos" ? "Agregar Producto" : "Agregar Sucursal"}
 				open={open}
 				handleClose={handleClose}
 				width={0}
 				height={600}
 				initialValues={
-					title === "Productos" ? ProductInitialValues : SucursalesInitialValues
+					title === "Articulos" ? ProductInitialValues : SucursalesInitialValues
+				}
+				validationSchemas={
+					title === "Articulos"
+						? ArticuloManufacturadoValidationSchemas
+						: SucursalValidationSchemas
 				}
 				postUrl={
-					title === "Productos"
-						? CONSTANTS.product.postURL
+					title === "Articulos"
+						? CONSTANTS.manufacturado.postURL
 						: CONSTANTS.sucursal.postURL
 				}
-				steps={title === "Productos" ? ProductFormSteps : SucursalFormSteps}
-				substepDefault={title === "Productos" ? true : false}
+				steps={title === "Articulos" ? ProductFormSteps : SucursalFormSteps}
+				substepDefault={title === "Articulos" ? true : false}
 			/>
 		</>
 	);

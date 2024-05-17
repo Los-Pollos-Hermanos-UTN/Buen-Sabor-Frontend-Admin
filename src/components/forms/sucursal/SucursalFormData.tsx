@@ -2,6 +2,7 @@ import { Sucursal } from "../../../types/Sucursal";
 import { FormStep } from "../FormStep";
 import { SucursalStep1 } from "./steps/SucursalStep1";
 import { SucursalStep2 } from "./steps/SucursalStep2";
+import * as yup from "yup";
 
 export const SucursalesInitialValues: Sucursal = {
 	id: undefined,
@@ -37,6 +38,49 @@ export const SucursalesInitialValues: Sucursal = {
 	categorias: [],
 	empleados: [],
 };
+
+// Esquemas de validación para Sucursal
+export const SucursalValidationSchemas = [
+	// Esquema de validación para el paso 1
+	yup.object().shape({
+		eliminado: yup.boolean().required(),
+		nombre: yup.string().required("El nombre de la sucursal es requerido"),
+		horarioApertura: yup
+			.string()
+			.required("El horario de apertura es requerido"),
+		horarioCierre: yup.string().required("El horario de cierre es requerido"),
+		casaMatriz: yup.boolean().required(),
+		domicilio: yup.object().shape({
+			calle: yup.string().required("La calle es requerida"),
+			numero: yup.number().required("El número es requerido"),
+			cp: yup.number().required("El código postal es requerido"),
+			piso: yup.number().nullable(),
+			nroDepto: yup.number().nullable(),
+			localidad: yup.object().shape({
+				nombre: yup.string().required("La localidad es requerida"),
+				provincia: yup.object().shape({
+					nombre: yup.string().required("La provincia es requerida"),
+					pais: yup.object().shape({
+						nombre: yup.string().required("El país es requerido"),
+					}),
+				}),
+			}),
+		}),
+	}),
+	// Esquema de validación para el paso 2
+	yup.object().shape({
+		empresa: yup.object().shape({
+			id: yup.string().required(),
+			eliminado: yup.boolean().required(),
+			nombre: yup.string().required(),
+			razonSocial: yup.string().required(),
+			cuil: yup.string().required(),
+		}),
+		promociones: yup.array(),
+		categorias: yup.array(),
+		empleados: yup.array(),
+	}),
+];
 
 export const SucursalFormSteps: FormStep[] = [
 	{

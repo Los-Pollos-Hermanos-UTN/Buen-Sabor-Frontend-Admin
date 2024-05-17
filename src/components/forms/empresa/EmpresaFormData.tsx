@@ -1,6 +1,7 @@
 import { Empresa } from "../../../types/Empresa";
 import { FormStep } from "../FormStep";
 import { EmpresaStep1 } from "./steps/EmpresaStep1";
+import * as yup from "yup";
 
 export const EmpresaInitialValues: Empresa = {
 	id: undefined,
@@ -10,6 +11,18 @@ export const EmpresaInitialValues: Empresa = {
 	cuil: "",
 	sucursales: [],
 };
+
+export const EmpresaValidationSchemas = [
+	yup.object().shape({
+		eliminado: yup.boolean().required(),
+		nombre: yup.string().required("El nombre de la empresa es requerido"),
+		razonSocial: yup
+			.string()
+			.required("La razón social de la empresa es requerida"),
+		cuil: yup.string().required("El CUIL de la empresa es requerido"),
+		sucursales: yup.array(),
+	}),
+];
 
 export const EmpresaFormSteps: FormStep[] = [
 	{

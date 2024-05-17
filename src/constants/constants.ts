@@ -7,8 +7,16 @@ export const CONSTANTS = {
 		getUrl: "https://buensabor-back.onrender.com/empresa/short",
 		postURL: "https://buensabor-back.onrender.com/empresa/",
 	},
-	product: {
-		getUrl: "",
-		postURL: "",
+	manufacturado: {
+		getUrl: "https://buensabor-back.onrender.com/articuloManufacturado",
+		postURL: "https://buensabor-back.onrender.com/articuloManufacturado/",
 	},
+	insumo: {
+		getUrl: "https://buensabor-back.onrender.com/articuloInsumo",
+		postURL: "https://buensabor-back.onrender.com/articuloInsumo/",
+	},
+	unidadMedida: {
+        getUrl: "https://buensabor-back.onrender.com/unidadMedida",
+        postURL: "https://buensabor-back.onrender.com/unidadMedida/",
+    },
 };

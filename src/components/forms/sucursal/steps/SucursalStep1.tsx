@@ -7,14 +7,20 @@ import {
 } from "@mui/material";
 
 export const SucursalStep1 = (props: any) => {
+	const { values, errors, handleChange, handleBlur } = props;
+
 	return (
 		<Stack spacing={2}>
 			<TextField
 				fullWidth
-				id="Nombre"
+				id="nombre"
 				name="nombre"
 				label="Nombre de la Sucursal"
-				onChange={props.handleChange}
+				value={values.nombre}
+				onChange={handleChange}
+				onBlur={handleBlur}
+				error={Boolean(errors.nombre)}
+				helperText={errors.nombre}
 				variant="outlined"
 			/>
 			<Stack direction="row" spacing={1} justifyContent="space-between">
@@ -22,30 +28,36 @@ export const SucursalStep1 = (props: any) => {
 					label="Horario de Apertura"
 					name="horarioApertura"
 					type="text"
-					onChange={props.handleChange}
+					value={values.horarioApertura}
+					onChange={handleChange}
+					onBlur={handleBlur}
+					error={Boolean(errors.horarioApertura)}
+					helperText={errors.horarioApertura}
 				/>
 				<Divider orientation="vertical" />
 				<TextField
 					label="Horario de Cierre"
 					name="horarioCierre"
 					type="text"
-					onChange={props.handleChange}
+					value={values.horarioCierre}
+					onChange={handleChange}
+					onBlur={handleBlur}
+					error={Boolean(errors.horarioCierre)}
+					helperText={errors.horarioCierre}
 				/>
 			</Stack>
-			<Stack width="40%">
-				<FormControlLabel
-					control={
-						<Checkbox
-							onChange={props.handleChange}
-							name="casaMatriz"
-							color="primary"
-							sx={{ "& .MuiSvgIcon-root": { fontSize: 28 } }}
-						/>
-					}
-					label="Es Casa Matriz?"
-					name="casaMatriz"
-				/>
-			</Stack>
+			<FormControlLabel
+				control={
+					<Checkbox
+						onChange={handleChange}
+						name="casaMatriz"
+						color="primary"
+						checked={values.casaMatriz}
+					/>
+				}
+				label="Es Casa Matriz?"
+				name="casaMatriz"
+			/>
 		</Stack>
 	);
 };

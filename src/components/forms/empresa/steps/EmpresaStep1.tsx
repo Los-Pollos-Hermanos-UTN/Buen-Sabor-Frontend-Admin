@@ -1,30 +1,45 @@
-import {
-	Stack,
-	TextField,
-} from "@mui/material";
+import { Stack, TextField } from "@mui/material";
 
 export const EmpresaStep1 = (props: any) => {
+	const { values, errors, handleChange, handleBlur } = props;
+
 	return (
 		<Stack spacing={2}>
 			<TextField
 				fullWidth
-				id="Nombre"
+				id="nombre"
 				name="nombre"
 				label="Nombre de la Empresa"
-				onChange={props.handleChange}
+				value={values.nombre}
+				onChange={handleChange}
+				onBlur={handleBlur}
+				error={Boolean(errors.nombre)}
+				helperText={errors.nombre}
 				variant="outlined"
 			/>
 			<TextField
-				label="Razón Social"
+				fullWidth
+				id="razonSocial"
 				name="razonSocial"
-				type="text"
-				onChange={props.handleChange}
+				label="Razón Social"
+				value={values.razonSocial}
+				onChange={handleChange}
+				onBlur={handleBlur}
+				error={Boolean(errors.razonSocial)}
+				helperText={errors.razonSocial}
+				variant="outlined"
 			/>
 			<TextField
-				label="Cuil"
+				fullWidth
+				id="cuil"
 				name="cuil"
-				type="text"
-				onChange={props.handleChange}
+				label="CUIL"
+				value={values.cuil}
+				onChange={handleChange}
+				onBlur={handleBlur}
+				error={Boolean(errors.cuil)}
+				helperText={errors.cuil}
+				variant="outlined"
 			/>
 		</Stack>
 	);

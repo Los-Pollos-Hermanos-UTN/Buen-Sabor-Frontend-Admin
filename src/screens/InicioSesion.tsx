@@ -9,6 +9,7 @@ import { FormModal } from "../components/modals/FormModal";
 import {
 	EmpresaFormSteps,
 	EmpresaInitialValues,
+	EmpresaValidationSchemas,
 } from "../components/forms/empresa/EmpresaFormData";
 
 interface InicioSesionProps {
@@ -63,6 +64,7 @@ export const InicioSesion = ({ setIsAuthenticated }: InicioSesionProps) => {
 				width={700}
 				height={400}
 				initialValues={EmpresaInitialValues}
+				validationSchemas={EmpresaValidationSchemas}
 				postUrl={CONSTANTS.empresa.postURL}
 				steps={EmpresaFormSteps}
 				substepDefault={false}

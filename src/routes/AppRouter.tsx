@@ -2,19 +2,20 @@ import { Route, Routes } from "react-router-dom";
 import { Home } from "../screens/Home";
 import { Categories } from "../screens/Categories";
 import { Company } from "../screens/Company";
-import { Products } from "../screens/Products";
+import { ManufacturadosPage } from "../screens/ManufacturadosPage";
 import { Users } from "../screens/Users";
 import { Box, Stack, Toolbar } from "@mui/material";
 import { Promotions } from "../screens/Promotions";
 import { SideBar } from "../components/shared/SideBar";
 import { useState } from "react";
 import { InicioSesion } from "../screens/InicioSesion";
+import { InsumosPage } from "../screens/InsumosPage";
 
 const drawerWidth: number = 240;
 
 export const AppRouter = () => {
 	// TODO: Login with redux / context
-	const [isAuthenticated, setIsAuthenticated] = useState<boolean>(false);
+	const [isAuthenticated, setIsAuthenticated] = useState<boolean>(true);
 
 	return (
 		<>
@@ -43,7 +44,8 @@ export const AppRouter = () => {
 						<Toolbar />
 						<Routes>
 							<Route path="/" element={<Home />} />
-							<Route path="/productos" element={<Products />} />
+							<Route path="/manufacturados" element={<ManufacturadosPage />} />
+							<Route path="/insumos" element={<InsumosPage />} />
 							<Route path="/promociones" element={<Promotions />} />
 							<Route path="/empresa" element={<Company />} />
 							<Route path="/usuarios" element={<Users />} />

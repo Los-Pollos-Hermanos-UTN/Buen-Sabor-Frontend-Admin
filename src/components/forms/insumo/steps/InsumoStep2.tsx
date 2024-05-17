@@ -1,0 +1,93 @@
+import {
+	Stack,
+	TextField,
+	Checkbox,
+	FormControlLabel,
+	FormControl,
+	InputLabel,
+	MenuItem,
+	Select,
+} from "@mui/material";
+import { useState, useEffect } from "react";
+import { CONSTANTS } from "../../../../constants/constants";
+import { getData } from "../../../../services/RequestExecutor";
+import { UnidadMedida } from "../../../../types/UnidadMedida";
+
+export const InsumoStep2 = (props: any) => {
+	const { values, errors, handleChange, handleBlur } = props;
+
+	const [unidadesMedida, setUnidadesMedida] = useState<UnidadMedida[]>([]);
+
+	useEffect(() => {
+		const getUnidadesMedida = async () => {
+			try {
+				const response = await getData<UnidadMedida[]>(
+					CONSTANTS.unidadMedida.getUrl
+				);
+				setUnidadesMedida(response);
+			} catch (error) {
+				console.error(error);
+			}
+		};
+		getUnidadesMedida();
+	}, []);
+
+	return (
+		<Stack spacing={2}>
+			<FormControl fullWidth>
+				<InputLabel id="unidad-medida-label">Unidad de Medida</InputLabel>
+				<Select
+					labelId="unidad-medida-label"
+					id="unidad-medida-select"
+					value={values.unidadMedida}
+					label="Unidad de Medida"
+					onChange={handleChange("unidadMedida")}
+				>
+					{unidadesMedida.map((unidad) => (
+						<MenuItem key={unidad.id} value={unidad}>
+							{unidad.denominacion}
+						</MenuItem>
+					))}
+				</Select>
+			</FormControl>
+			<TextField
+				fullWidth
+				id="stockActual"
+				name="stockActual"
+				label="Stock Actual"
+				type="number"
+				value={values.stockActual}
+				onChange={handleChange}
+				onBlur={handleBlur}
+				error={Boolean(errors.stockActual)}
+				helperText={errors.stockActual}
+				variant="outlined"
+			/>
+			<TextField
+				fullWidth
+				id="stockMaximo"
+				name="stockMaximo"
+				label="Stock Máximo"
+				type="number"
+				value={values.stockMaximo}
+				onChange={handleChange}
+				onBlur={handleBlur}
+				error={Boolean(errors.stockMaximo)}
+				helperText={errors.stockMaximo}
+				variant="outlined"
+			/>
+			<FormControlLabel
+				control={
+					<Checkbox
+						onChange={handleChange}
+						name="esParaElaborar"
+						color="primary"
+						checked={values.esParaElaborar}
+					/>
+				}
+				label="Es Para Elaborar?"
+				name="esParaElaborar"
+			/>
+		</Stack>
+	);
+};

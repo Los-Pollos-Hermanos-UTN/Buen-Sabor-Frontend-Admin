@@ -16,6 +16,9 @@ import React from "react";
 import { Sucursal } from "../../types/Sucursal";
 import { postData } from "../../services/RequestExecutor";
 import { Empresa } from "../../types/Empresa";
+import { ArticuloManufacturado } from "../../types/Manufacturado";
+import { ArticuloInsumo } from "../../types/Insumo";
+import * as yup from "yup";
 
 const style = {
 	position: "absolute" as "absolute",
@@ -34,7 +37,13 @@ interface FormModalProps {
 	open: boolean;
 	width: number;
 	height: number;
-	initialValues: Product | Sucursal | Empresa;
+	initialValues:
+		| Product
+		| Sucursal
+		| Empresa
+		| ArticuloManufacturado
+		| ArticuloInsumo;
+	validationSchemas: yup.AnySchema[];
 	postUrl: string;
 	steps: FormStep[];
 	handleClose: () => void;
@@ -47,6 +56,7 @@ export function FormModal({
 	width,
 	height,
 	initialValues,
+	validationSchemas,
 	postUrl,
 	steps,
 	handleClose,
@@ -129,6 +139,7 @@ export function FormModal({
 						</Stack>
 						<Formik
 							initialValues={initialValues}
+							validationSchema={validationSchemas[activeStep]}
 							onSubmit={async (values, _actions) => {
 								try {
 									await handleSubmit(values);
@@ -143,6 +154,7 @@ export function FormModal({
 								handleBlur,
 								handleSubmit,
 								isSubmitting,
+								setFieldValue,
 							}) => (
 								<Stack width="70%" height="100%" direction="column">
 									<Stack height="90%">
@@ -150,7 +162,14 @@ export function FormModal({
 											<>
 												{steps[activeStep] && steps[activeStep].fields ? (
 													React.cloneElement(steps[activeStep].fields, {
+														values,
+														errors,
+														touched,
 														handleChange,
+														handleBlur,
+														handleSubmit,
+														isSubmitting,
+														setFieldValue,
 													})
 												) : (
 													<></>
@@ -179,6 +198,8 @@ export function FormModal({
 											variant="contained"
 											type="submit"
 											onClick={(event) => {
+												console.log(errors);
+												
 												event.preventDefault();
 												handleSubmit();
 											}}
