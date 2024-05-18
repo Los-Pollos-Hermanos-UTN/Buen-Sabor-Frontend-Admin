@@ -3,7 +3,6 @@ import { useState } from "react";
 import { SearchBar } from "../components/shared/SearchBar";
 import { CustomTable } from "../components/table/CustomTable";
 import { useWindowResize } from "../hooks/useWindowResize";
-import { hardcodedUsers } from "../data/hardcodedUsers";
 import { User, userColumns } from "../types/User";
 
 export const Users = () => {
@@ -15,17 +14,17 @@ export const Users = () => {
 		setSearchTerm(newSearchTerm);
 	};
 
-	const filteredUsers = hardcodedUsers.filter((product) =>
-		Object.values(product).some((value) =>
-			value.toString().toLowerCase().includes(searchTerm.toLowerCase())
-		)
-	);
+	// const filteredUsers = hardcodedUsers.filter((product) =>
+	// 	Object.values(product).some((value) =>
+	// 		value.toString().toLowerCase().includes(searchTerm.toLowerCase())
+	// 	)
+	// );
 
 	return (
 	<Stack direction="column" m="3%" spacing={5}>
 		<SearchBar onSearch={handleSearch}/>
 		<CustomTable<User>
-			data={filteredUsers}
+			data={[]}
 			columns={userColumns}
 			handleDelete={() => { }}
 		/>

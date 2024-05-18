@@ -8,7 +8,7 @@ import { MyPieChart } from "../components/charts/PieChart";
 const quickAccess = [
 	{
 		title: "Articulos",
-		route: "/articulos"
+		route: "/manufacturados"
 	},
 	{
 		title: "Sucursales",

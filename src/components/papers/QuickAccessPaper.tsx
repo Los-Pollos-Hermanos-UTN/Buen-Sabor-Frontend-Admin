@@ -8,16 +8,16 @@ import { FormModal } from "../modals/FormModal";
 import { useState } from "react";
 import { Action } from "../../types/enums/Enums";
 import {
-	ProductFormSteps,
-	ProductInitialValues,
-} from "../forms/products/ProductFormData";
-import {
 	SucursalFormSteps,
 	SucursalValidationSchemas,
 	SucursalesInitialValues,
 } from "../forms/sucursal/SucursalFormData";
 import { CONSTANTS } from "../../constants/constants";
-import { ArticuloManufacturadoValidationSchemas } from "../forms/manufacturado/ManufacturadoFormData";
+import {
+	ArticuloManufacturadoFormSteps,
+	ArticuloManufacturadoInitialValues,
+	ArticuloManufacturadoValidationSchemas,
+} from "../forms/manufacturado/ManufacturadoFormData";
 
 const CustomPaper = styled(Paper)(({ theme }) => ({
 	backgroundColor: "rgba(10, 9, 8, 0.5)",
@@ -73,13 +73,19 @@ export const QuickAccessPaper = ({
 
 			{/* MEJORAR POR FAVOR */}
 			<FormModal
-				title={title === "Articulos" ? "Agregar Producto" : "Agregar Sucursal"}
+				title={
+					title === "Articulos"
+						? "Agregar Producto Manufacturado"
+						: "Agregar Sucursal"
+				}
 				open={open}
 				handleClose={handleClose}
 				width={0}
 				height={600}
 				initialValues={
-					title === "Articulos" ? ProductInitialValues : SucursalesInitialValues
+					title === "Articulos"
+						? ArticuloManufacturadoInitialValues
+						: SucursalesInitialValues
 				}
 				validationSchemas={
 					title === "Articulos"
@@ -91,8 +97,12 @@ export const QuickAccessPaper = ({
 						? CONSTANTS.manufacturado.postURL
 						: CONSTANTS.sucursal.postURL
 				}
-				steps={title === "Articulos" ? ProductFormSteps : SucursalFormSteps}
-				substepDefault={title === "Articulos" ? true : false}
+				steps={
+					title === "Articulos"
+						? ArticuloManufacturadoFormSteps
+						: SucursalFormSteps
+				}
+				substepDefault={false}
 			/>
 		</>
 	);

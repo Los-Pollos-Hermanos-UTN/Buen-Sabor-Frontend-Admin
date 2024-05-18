@@ -10,7 +10,6 @@ import ChevronLeftOutlinedIcon from "@mui/icons-material/ChevronLeftOutlined";
 import { BackButton } from "../buttons/BackButton";
 import { VerticalStepper } from "../stepper/VerticalStepper";
 import { FormStep } from "../forms/FormStep";
-import { Product } from "../../types/Product";
 import { Formik } from "formik";
 import React from "react";
 import { Sucursal } from "../../types/Sucursal";
@@ -38,7 +37,6 @@ interface FormModalProps {
 	width: number;
 	height: number;
 	initialValues:
-		| Product
 		| Sucursal
 		| Empresa
 		| ArticuloManufacturado
