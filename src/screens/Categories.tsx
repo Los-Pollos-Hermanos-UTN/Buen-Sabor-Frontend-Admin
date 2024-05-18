@@ -9,7 +9,6 @@ import {
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import { SearchBar } from "../components/shared/SearchBar";
 import { Category } from "../types/Category";
-import { hardcodedCategories } from "../data/hardcodedCategories";
 
 interface ICategoriaButton {
 	categoria: Category;
@@ -55,7 +54,7 @@ const CategoriaButton: FC<ICategoriaButton> = ({ categoria }) => {
 };
 
 export const Categories = () => {
-	const categorias: Category[] = hardcodedCategories;
+	const categorias: Category[] = [];
 
 	return (
 		<Stack direction="column" m="3%" spacing={5}>
