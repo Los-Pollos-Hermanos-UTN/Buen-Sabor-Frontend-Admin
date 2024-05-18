@@ -1,5 +1,5 @@
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
-import { Category } from "../../types/Category";
+import { Categoria } from "../../types/Categoria";
 import {
 	Accordion,
 	AccordionSummary,
@@ -9,7 +9,7 @@ import {
 import { FC, useState } from "react";
 
 interface CategoriaButtonProps {
-	categoria: Category;
+	categoria: Categoria;
 }
 
 export const CategoriaButton: FC<CategoriaButtonProps> = ({ categoria }) => {

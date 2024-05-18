@@ -95,7 +95,7 @@ export function SideBar({ drawerWidth, setIsAuthenticated }: SidebarProps) {
 									width: "100%",
 								}}
 							/>
-							<Accordion elevation={0}>
+							<Accordion elevation={0} defaultExpanded>
 								<AccordionSummary
 									expandIcon={<ExpandMoreIcon />}
 									aria-controls="panel1-content"

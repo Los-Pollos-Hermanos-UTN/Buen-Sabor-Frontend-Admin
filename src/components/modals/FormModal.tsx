@@ -18,6 +18,8 @@ import { Empresa } from "../../types/Empresa";
 import { ArticuloManufacturado } from "../../types/Manufacturado";
 import { ArticuloInsumo } from "../../types/Insumo";
 import * as yup from "yup";
+import { UnidadMedida } from "../../types/UnidadMedida";
+import { Categoria } from "../../types/Categoria";
 
 const style = {
 	position: "absolute" as "absolute",
@@ -40,7 +42,9 @@ interface FormModalProps {
 		| Sucursal
 		| Empresa
 		| ArticuloManufacturado
-		| ArticuloInsumo;
+		| ArticuloInsumo
+		| UnidadMedida
+		| Categoria;
 	validationSchemas: yup.AnySchema[];
 	postUrl: string;
 	steps: FormStep[];
@@ -111,7 +115,12 @@ export function FormModal({
 						justifyContent="space-between"
 						alignItems="center"
 					>
-						<Stack direction="row" spacing={2} alignItems="center">
+						<Stack
+							direction="row"
+							spacing={2}
+							alignItems="center"
+							mb={height === 300 ? "5%" : ""}
+						>
 							<BackButton onClick={handleClose} />
 							<Typography variant="h6">{title}</Typography>
 							<Chip
@@ -197,7 +206,7 @@ export function FormModal({
 											type="submit"
 											onClick={(event) => {
 												console.log(errors);
-												
+
 												event.preventDefault();
 												handleSubmit();
 											}}

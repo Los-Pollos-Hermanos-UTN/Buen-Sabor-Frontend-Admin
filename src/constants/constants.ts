@@ -19,4 +19,8 @@ export const CONSTANTS = {
         getUrl: "https://buensabor-back.onrender.com/unidadMedida",
         postURL: "https://buensabor-back.onrender.com/unidadMedida/",
     },
+	categorias: {
+        getUrl: "https://buensabor-back.onrender.com/categorias",
+        postURL: "https://buensabor-back.onrender.com/categorias/",
+    },
 };

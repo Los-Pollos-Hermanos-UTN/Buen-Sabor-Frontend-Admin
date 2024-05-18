@@ -1,6 +1,5 @@
 import {
 	Autocomplete,
-	Button,
 	Chip,
 	FormControl,
 	IconButton,
@@ -19,9 +18,21 @@ import { CONSTANTS } from "../../../../constants/constants";
 import { ArticuloManufacturadoDetalle } from "../../../../types/Manufacturado";
 import { ArticuloInsumo } from "../../../../types/Insumo";
 import { UnidadMedida } from "../../../../types/UnidadMedida";
+import { AddButton } from "../../../buttons/AddButton";
+import { FormModal } from "../../../modals/FormModal";
+import {
+	UnidadMedidaInitialValues,
+	UnidadMedidaValidationSchemas,
+	UnidadMedidaFormSteps,
+} from "../../unidadMedida/UnidadMedidaFormData";
 
 export const ManufacturadoStep2 = (props: any) => {
 	const { values, errors, handleChange, setFieldValue } = props;
+
+	const [open, setOpen] = useState<boolean>(false);
+	const handleOpen = () => setOpen(true);
+	const handleClose = () => setOpen(false);
+
 	const [insumos, setInsumos] = useState<ArticuloInsumo[]>([]);
 	const [unidadesMedida, setUnidadesMedida] = useState<UnidadMedida[]>([]);
 
@@ -87,93 +98,110 @@ export const ManufacturadoStep2 = (props: any) => {
 	};
 
 	return (
-		<Stack spacing={2}>
-			<FormControl fullWidth>
-				<InputLabel id="unidad-medida-label">Unidad de Medida</InputLabel>
-				<Select
-					labelId="unidad-medida-label"
-					id="unidad-medida-select"
-					value={values.unidadMedida}
-					label="Unidad de Medida"
-					onChange={handleChange("unidadMedida")}
-				>
-					{unidadesMedida.map((unidad) => (
-						<MenuItem key={unidad.id} value={unidad}>
-							{unidad.denominacion}
-						</MenuItem>
-					))}
-				</Select>
-			</FormControl>
-			<Autocomplete
-				multiple
-				id="articuloInsumo"
-				options={insumos}
-				getOptionLabel={(option) => option.denominacion}
-				onChange={(_, newValue) => {
-					const newInsumo = newValue[newValue.length - 1];
-					if (newInsumo) {
-						setFieldValue("articuloManufacturadoDetalles", [
-							...values.articuloManufacturadoDetalles,
-							{
-								id: null,
-								eliminado: false,
-								cantidad: 1,
-								articuloInsumo: newInsumo,
-							},
-						]);
-					}
-				}}
-				renderTags={(_, getTagProps) => (
-					<div style={{ maxHeight: "200px", overflow: "auto" }}>
-						{values.articuloManufacturadoDetalles.map(
-							(detalle: ArticuloManufacturadoDetalle, index: number) => (
-								<Chip
-									label={`${detalle.articuloInsumo.denominacion} x${detalle.cantidad}`}
-									{...getTagProps({ index })}
-									deleteIcon={
-										<>
-											<IconButton
-												onClick={() =>
-													handleIncrement(detalle.articuloInsumo.denominacion)
-												}
-												size="small"
-											>
-												<AddIcon fontSize="inherit" />
-											</IconButton>
-											<IconButton
-												onClick={() =>
-													handleDecrement(detalle.articuloInsumo.denominacion)
-												}
-												size="small"
-											>
-												<RemoveIcon fontSize="inherit" />
-											</IconButton>
-											<IconButton
-												onClick={() =>
-													handleDelete(detalle.articuloInsumo.denominacion)
-												}
-												size="small"
-											>
-												<DeleteIcon fontSize="inherit" />
-											</IconButton>
-										</>
-									}
-								/>
-							)
-						)}
-					</div>
-				)}
-				style={{ width: 500 }}
-				renderInput={(params) => (
-					<TextField
-						{...params}
-						label="Insumos"
-						placeholder="Seleccionar Insumo"
-						error={Boolean(errors.articuloManufacturadoDetalles)}
-						helperText={errors.articuloManufacturadoDetalles}
-					/>
-				)}
+		<>
+			<Stack spacing={2}>
+				<Stack direction="row" spacing={3} alignItems="center">
+					<FormControl fullWidth>
+						<InputLabel id="unidad-medida-label">Unidad de Medida</InputLabel>
+						<Select
+							labelId="unidad-medida-label"
+							id="unidad-medida-select"
+							value={values.unidadMedida}
+							label="Unidad de Medida"
+							onChange={handleChange("unidadMedida")}
+						>
+							{unidadesMedida.map((unidad) => (
+								<MenuItem key={unidad.id} value={unidad as any}>
+									{unidad.denominacion}
+								</MenuItem>
+							))}
+						</Select>
+					</FormControl>
+					<AddButton handleClick={handleOpen} />
+				</Stack>
+				<Autocomplete
+					multiple
+					id="articuloInsumo"
+					options={insumos}
+					getOptionLabel={(option) => option.denominacion}
+					onChange={(_, newValue) => {
+						const newInsumo = newValue[newValue.length - 1];
+						if (newInsumo) {
+							setFieldValue("articuloManufacturadoDetalles", [
+								...values.articuloManufacturadoDetalles,
+								{
+									id: null,
+									eliminado: false,
+									cantidad: 1,
+									articuloInsumo: newInsumo,
+								},
+							]);
+						}
+					}}
+					renderTags={(_, getTagProps) => (
+						<div style={{ maxHeight: "200px", overflow: "auto" }}>
+							{values.articuloManufacturadoDetalles.map(
+								(detalle: ArticuloManufacturadoDetalle, index: number) => (
+									<Chip
+										label={`${detalle.articuloInsumo.denominacion} x${detalle.cantidad}`}
+										{...getTagProps({ index })}
+										deleteIcon={
+											<>
+												<IconButton
+													onClick={() =>
+														handleIncrement(detalle.articuloInsumo.denominacion)
+													}
+													size="small"
+												>
+													<AddIcon fontSize="inherit" />
+												</IconButton>
+												<IconButton
+													onClick={() =>
+														handleDecrement(detalle.articuloInsumo.denominacion)
+													}
+													size="small"
+												>
+													<RemoveIcon fontSize="inherit" />
+												</IconButton>
+												<IconButton
+													onClick={() =>
+														handleDelete(detalle.articuloInsumo.denominacion)
+													}
+													size="small"
+												>
+													<DeleteIcon fontSize="inherit" />
+												</IconButton>
+											</>
+										}
+									/>
+								)
+							)}
+						</div>
+					)}
+					style={{ width: 500 }}
+					renderInput={(params) => (
+						<TextField
+							{...params}
+							label="Insumos"
+							placeholder="Seleccionar Insumo"
+							error={Boolean(errors.articuloManufacturadoDetalles)}
+							helperText={errors.articuloManufacturadoDetalles}
+						/>
+					)}
+				/>
+			</Stack>
+			<FormModal
+				title={"Agregar Unidad de Medida"}
+				open={open}
+				handleClose={handleClose}
+				width={600}
+				height={300}
+				initialValues={UnidadMedidaInitialValues}
+				validationSchemas={UnidadMedidaValidationSchemas}
+				postUrl={CONSTANTS.unidadMedida.postURL}
+				steps={UnidadMedidaFormSteps}
+				substepDefault={false}
 			/>
-		</Stack>
+		</>
 	);
 };
