@@ -35,6 +35,7 @@ export const ManufacturadoStep2 = (props: any) => {
 
 	const [insumos, setInsumos] = useState<ArticuloInsumo[]>([]);
 	const [unidadesMedida, setUnidadesMedida] = useState<UnidadMedida[]>([]);
+	const [selectedInsumos, setSelectedInsumos] = useState<ArticuloInsumo[]>([]);
 
 	useEffect(() => {
 		const getInsumos = async () => {
@@ -88,13 +89,43 @@ export const ManufacturadoStep2 = (props: any) => {
 	};
 
 	const handleDelete = (denominacion: string) => {
-		setFieldValue(
-			"articuloManufacturadoDetalles",
-			values.articuloManufacturadoDetalles.filter(
-				(detalle: ArticuloManufacturadoDetalle) =>
-					detalle.articuloInsumo.denominacion !== denominacion
-			)
+		const updatedDetalles = values.articuloManufacturadoDetalles.filter(
+			(detalle: ArticuloManufacturadoDetalle) =>
+				detalle.articuloInsumo.denominacion !== denominacion
 		);
+		setFieldValue("articuloManufacturadoDetalles", updatedDetalles);
+
+		const updatedSelectedInsumos = selectedInsumos.filter(
+			(insumo) => insumo.denominacion !== denominacion
+		);
+		setSelectedInsumos(updatedSelectedInsumos);
+	};
+
+	const handleAutocompleteChange = (_, newValue) => {
+		setSelectedInsumos(newValue);
+
+		const updatedDetalles = values.articuloManufacturadoDetalles.filter(
+			(detalle: ArticuloManufacturadoDetalle) =>
+				newValue.some(
+					(insumo) => insumo.denominacion === detalle.articuloInsumo.denominacion
+				)
+		);
+
+		newValue.forEach((newInsumo) => {
+			if (!values.articuloManufacturadoDetalles.some(
+				(detalle: ArticuloManufacturadoDetalle) =>
+					detalle.articuloInsumo.denominacion === newInsumo.denominacion
+			)) {
+				updatedDetalles.push({
+					id: null,
+					eliminado: false,
+					cantidad: 1,
+					articuloInsumo: newInsumo,
+				});
+			}
+		});
+
+		setFieldValue("articuloManufacturadoDetalles", updatedDetalles);
 	};
 
 	return (
@@ -125,24 +156,8 @@ export const ManufacturadoStep2 = (props: any) => {
 					options={insumos}
 					getOptionLabel={(option) => option.denominacion}
 					disableClearable
-					onChange={(_, newValue) => {
-						const newInsumo = newValue[newValue.length - 1];
-						if (newInsumo) {
-							setFieldValue("articuloManufacturadoDetalles", [
-								...values.articuloManufacturadoDetalles.filter(
-									(detalle: ArticuloManufacturadoDetalle) =>
-										detalle.articuloInsumo.denominacion !==
-										newInsumo.denominacion
-								),
-								{
-									id: null,
-									eliminado: false,
-									cantidad: 1,
-									articuloInsumo: newInsumo,
-								},
-							]);
-						}
-					}}
+					value={selectedInsumos}
+					onChange={handleAutocompleteChange}
 					renderTags={(_, getTagProps) => (
 						<div style={{ maxHeight: "200px", overflow: "auto" }}>
 							{values.articuloManufacturadoDetalles.map(
