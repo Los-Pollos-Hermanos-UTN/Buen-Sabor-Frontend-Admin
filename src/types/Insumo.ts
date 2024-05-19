@@ -21,6 +21,6 @@ export const insumoColumns: TableColumn[] = [
 	{ label: "Stock Actual", key: "stockActual" },
 	{ label: "Stock Máximo", key: "stockMaximo" },
 	{ label: "Unidad de Medida", key: "unidadMedida.denominacion" }, // Anidado
-	{ label: "Para Elaborar", key: "esParaElaborar" },
+	{ label: "Para Elaborar", key: "esParaElaborar", isBoolean: true },
 	{ label: "Acciones", key: "acciones" },
 ];

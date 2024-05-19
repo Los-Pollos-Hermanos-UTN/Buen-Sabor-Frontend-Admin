@@ -6,15 +6,19 @@ import TableContainer from "@mui/material/TableContainer";
 import TableHead from "@mui/material/TableHead";
 import TablePagination from "@mui/material/TablePagination";
 import TableRow from "@mui/material/TableRow";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { TableEditButton } from "./TableEditButton";
 import { TableDeleteButton } from "./TableDeleteButton";
 import { Stack } from "@mui/material";
 import "./CustomTableStyles.css";
 
+import CheckIcon from "@mui/icons-material/Check";
+import CloseIcon from "@mui/icons-material/Close";
+
 export interface TableColumn {
 	label: string;
 	key: string;
+	isBoolean?: boolean;
 }
 
 export interface TableProps<T> {
@@ -43,6 +47,16 @@ export const CustomTable = <T,>({
 	) => {
 		setRowsPerPage(+event.target.value);
 		setPage(0);
+	};
+
+	const getValueByNestedKey = (obj: any, key: string) => {
+		const keys = key.split(".");
+		let value = obj;
+		for (const k of keys) {
+			if (value == null) return undefined;
+			value = value[k];
+		}
+		return value;
 	};
 
 	return (
@@ -87,10 +101,11 @@ export const CustomTable = <T,>({
 											}}
 										>
 											{columns.map((column: any, i: number) => {
-												const cellValue = row[column.key];
 												return (
 													<TableCell key={i} align={"center"}>
-														{column.label === "Acciones" ? (
+														{column.key.includes(".") ? (
+															getValueByNestedKey(row, column.key)
+														) : column.label === "Acciones" ? (
 															<Stack
 																direction="row"
 																spacing={2}
@@ -99,8 +114,14 @@ export const CustomTable = <T,>({
 																<TableEditButton />
 																<TableDeleteButton />
 															</Stack>
+														) : column.isBoolean ? (
+															row[column.key] ? (
+																<CheckIcon />
+															) : (
+																<CloseIcon />
+															)
 														) : (
-															cellValue
+															row[column.key]
 														)}
 													</TableCell>
 												);
