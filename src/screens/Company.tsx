@@ -6,6 +6,8 @@ import { useEffect, useState } from "react";
 import { Sucursal } from "../types/Sucursal";
 import { getData } from "../services/RequestExecutor";
 import { CONSTANTS } from "../constants/constants";
+import { SucursalFormSteps, SucursalInitialValues, SucursalValidationSchemas } from "../components/forms/sucursal/SucursalFormData";
+import { FormModal } from "../components/modals/FormModal";
 
 export const Company = () => {
 	const [open, setOpen] = useState<boolean>(false);
@@ -49,6 +51,18 @@ export const Company = () => {
 					))}
 				</Stack>
 			</Stack>
+			<FormModal
+				title={"Agregar Sucursal"}
+				open={open}
+				handleClose={handleClose}
+				width={0}
+				height={600}
+				initialValues={SucursalInitialValues}
+				validationSchemas={SucursalValidationSchemas}
+				postUrl={CONSTANTS.sucursal.postURL}
+				steps={SucursalFormSteps}
+				substepDefault={false}
+			/>
 		</>
 	);
 };

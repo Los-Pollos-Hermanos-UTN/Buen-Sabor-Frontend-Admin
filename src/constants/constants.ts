@@ -16,11 +16,23 @@ export const CONSTANTS = {
 		postURL: "https://buensabor-back.onrender.com/articuloInsumo/",
 	},
 	unidadMedida: {
-        getUrl: "https://buensabor-back.onrender.com/unidadMedida",
-        postURL: "https://buensabor-back.onrender.com/unidadMedida/",
-    },
+		getUrl: "https://buensabor-back.onrender.com/unidadMedida",
+		postURL: "https://buensabor-back.onrender.com/unidadMedida/",
+	},
 	categorias: {
-        getUrl: "https://buensabor-back.onrender.com/categorias",
-        postURL: "https://buensabor-back.onrender.com/categorias/",
-    },
+		getUrl: "https://buensabor-back.onrender.com/categorias",
+		postURL: "https://buensabor-back.onrender.com/categorias/",
+	},
+	paises: {
+		getUrl: "https://buensabor-back.onrender.com/paises",
+		postURL: "https://buensabor-back.onrender.com/paises/",
+	},
+	provincias: {
+		getUrl: "https://buensabor-back.onrender.com/provincias",
+		postURL: "https://buensabor-back.onrender.com/provincias/",
+	},
+	localidades: {
+		getUrl: "https://buensabor-back.onrender.com/localidades",
+		postURL: "https://buensabor-back.onrender.com/localidades/",
+	},
 };
