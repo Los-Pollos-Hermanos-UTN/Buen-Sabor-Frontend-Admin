@@ -15,6 +15,7 @@ import {
 	ArticuloManufacturadoInitialValues,
 	ArticuloManufacturadoValidationSchemas,
 } from "../components/forms/manufacturado/ManufacturadoFormData";
+import { searchInObject } from "../utils/SearchUtils";
 
 export const ManufacturadosPage = () => {
 	const [searchTerm, setSearchTerm] = useState("");
@@ -45,10 +46,8 @@ export const ManufacturadosPage = () => {
 		setSearchTerm(newSearchTerm);
 	};
 
-	const filteredManufactured = manufacturados.filter((product) =>
-		Object.values(product).some((value) =>
-			value.toString().toLowerCase().includes(searchTerm.toLowerCase())
-		)
+	const filteredManufactured = manufacturados.filter((manufactured) =>
+		searchInObject(manufactured, searchTerm)
 	);
 
 	return (

@@ -4,6 +4,7 @@ import { SearchBar } from "../components/shared/SearchBar";
 import { CustomTable } from "../components/table/CustomTable";
 import { useWindowResize } from "../hooks/useWindowResize";
 import { User, userColumns } from "../types/User";
+import { searchInObject } from "../utils/SearchUtils";
 
 export const Users = () => {
 	const { isSmall } = useWindowResize();
@@ -14,20 +15,18 @@ export const Users = () => {
 		setSearchTerm(newSearchTerm);
 	};
 
-	// const filteredUsers = hardcodedUsers.filter((product) =>
-	// 	Object.values(product).some((value) =>
-	// 		value.toString().toLowerCase().includes(searchTerm.toLowerCase())
-	// 	)
+	// const filteredUsers = hardcodedUsers.filter((user) =>
+	// 	searchInObject(user, searchTerm)
 	// );
 
 	return (
-	<Stack direction="column" m="3%" spacing={5}>
-		<SearchBar onSearch={handleSearch}/>
-		<CustomTable<User>
-			data={[]}
-			columns={userColumns}
-			handleDelete={() => { }}
-		/>
-	</Stack>
+		<Stack direction="column" m="3%" spacing={5}>
+			<SearchBar onSearch={handleSearch} />
+			<CustomTable<User>
+				data={[]}
+				columns={userColumns}
+				handleDelete={() => {}}
+			/>
+		</Stack>
 	);
 };

@@ -1,13 +1,12 @@
 import { Categoria } from "../../../types/Categoria";
 import { FormStep } from "../FormStep";
 import { CategoriaStep1 } from "./steps/CategoriaStep1";
-import { CategoriaStep2 } from "./steps/CategoriaStep2";
 import * as yup from "yup";
 
 export const CategoriaInitialValues: Categoria = {
-    denominacion: "",
-    subCategorias: [],
-    sucursales: []
+	denominacion: "",
+	subCategorias: [],
+	sucursales: [],
 };
 
 export const CategoriaValidationSchemas = [
@@ -16,9 +15,6 @@ export const CategoriaValidationSchemas = [
 		denominacion: yup
 			.string()
 			.required("La denominación de la categoría es requerida"),
-	}),
-	yup.object().shape({
-		// Esquema de validación para el tercer paso
 		sucursales: yup
 			.array()
 			.of(
@@ -35,15 +31,8 @@ export const CategoriaFormSteps: FormStep[] = [
 	{
 		number: 1,
 		icon: 1,
-		label: "Detalles de la Categoría",
+		label: "Datos de la Categoría",
 		isSubstep: false,
 		fields: <CategoriaStep1 />,
-	},
-	{
-		number: 2,
-		icon: 2,
-		label: "Sucursales",
-		isSubstep: false,
-		fields: <CategoriaStep2 />,
 	},
 ];

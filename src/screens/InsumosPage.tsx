@@ -11,6 +11,7 @@ import {
 	InsumoInitialValues,
 	InsumoValidationSchemas,
 } from "../components/forms/insumo/InsumoFormData";
+import { searchInObject } from "../utils/SearchUtils";
 
 export const InsumosPage = () => {
 	const [searchTerm, setSearchTerm] = useState("");
@@ -39,10 +40,8 @@ export const InsumosPage = () => {
 		setSearchTerm(newSearchTerm);
 	};
 
-	const filteredSupplies = insumos.filter((product) =>
-		Object.values(product).some((value) =>
-			value.toString().toLowerCase().includes(searchTerm.toLowerCase())
-		)
+	const filteredSupplies = insumos.filter((supply) =>
+		searchInObject(supply, searchTerm)
 	);
 
 	return (

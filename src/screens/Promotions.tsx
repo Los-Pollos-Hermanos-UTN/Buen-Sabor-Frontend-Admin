@@ -4,6 +4,7 @@ import { SearchBar } from "../components/shared/SearchBar";
 import { CustomTable } from "../components/table/CustomTable";
 import { Promotion, promotionColumns } from "../types/Promotion";
 import { ListActiveButton } from "../components/buttons/ListActiveButton";
+import { searchInObject } from "../utils/SearchUtils";
 
 export const Promotions = () => {
 
@@ -13,10 +14,8 @@ export const Promotions = () => {
 		setSearchTerm(newSearchTerm);
 	};
 
-	// const filteredPromotions = hardcodedPromotions.filter((product) =>
-	// 	Object.values(product).some((value) =>
-	// 		value.toString().toLowerCase().includes(searchTerm.toLowerCase())
-	// 	)
+	// const filteredPromotions = hardcodedPromotions.filter((promotion) =>
+	// 	searchInObject(promotion, searchTerm)
 	// );
 
 
