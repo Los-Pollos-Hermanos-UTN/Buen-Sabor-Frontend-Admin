@@ -10,7 +10,7 @@ import { Action } from "../../types/enums/Enums";
 import {
 	SucursalFormSteps,
 	SucursalValidationSchemas,
-	SucursalesInitialValues,
+	SucursalInitialValues,
 } from "../forms/sucursal/SucursalFormData";
 import { CONSTANTS } from "../../constants/constants";
 import {
@@ -85,7 +85,7 @@ export const QuickAccessPaper = ({
 				initialValues={
 					title === "Articulos"
 						? ArticuloManufacturadoInitialValues
-						: SucursalesInitialValues
+						: SucursalInitialValues
 				}
 				validationSchemas={
 					title === "Articulos"
