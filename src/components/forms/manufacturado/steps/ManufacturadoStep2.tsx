@@ -1,3 +1,4 @@
+import React, { useEffect, useRef, useState } from "react";
 import {
 	Autocomplete,
 	Chip,
@@ -9,10 +10,9 @@ import {
 	Stack,
 	TextField,
 } from "@mui/material";
-import AddIcon from "@mui/icons-material/Add";
-import RemoveIcon from "@mui/icons-material/Remove";
 import DeleteIcon from "@mui/icons-material/Delete";
-import { useEffect, useState } from "react";
+import EditIcon from "@mui/icons-material/Edit";
+import CheckIcon from "@mui/icons-material/Check";
 import { getData } from "../../../../services/RequestExecutor";
 import { CONSTANTS } from "../../../../constants/constants";
 import { ArticuloManufacturadoDetalle } from "../../../../types/Manufacturado";
@@ -36,6 +36,9 @@ export const ManufacturadoStep2 = (props: any) => {
 	const [insumos, setInsumos] = useState<ArticuloInsumo[]>([]);
 	const [unidadesMedida, setUnidadesMedida] = useState<UnidadMedida[]>([]);
 	const [selectedInsumos, setSelectedInsumos] = useState<ArticuloInsumo[]>([]);
+	const [editingInsumo, setEditingInsumo] = useState<string | null>(null);
+	const [newCantidad, setNewCantidad] = useState<number>(0);
+	const inputRef = useRef<HTMLInputElement | null>(null);
 
 	useEffect(() => {
 		const getInsumos = async () => {
@@ -63,58 +66,53 @@ export const ManufacturadoStep2 = (props: any) => {
 		getUnidadesMedida();
 	}, [open]);
 
-	const handleIncrement = (denominacion: string) => {
-		setFieldValue(
-			"articuloManufacturadoDetalles",
-			values.articuloManufacturadoDetalles.map(
-				(detalle: ArticuloManufacturadoDetalle) =>
-					detalle.articuloInsumo.denominacion === denominacion
-						? { ...detalle, cantidad: detalle.cantidad + 1 }
-						: detalle
-			)
-		);
-	};
+	useEffect(() => {
+		if (editingInsumo !== null && inputRef.current) {
+			inputRef.current.focus();
+		}
+	}, [editingInsumo]);
 
-	const handleDecrement = (denominacion: string) => {
-		setFieldValue(
-			"articuloManufacturadoDetalles",
-			values.articuloManufacturadoDetalles.map(
-				(detalle: ArticuloManufacturadoDetalle) =>
-					detalle.articuloInsumo.denominacion === denominacion &&
-					detalle.cantidad > 0
-						? { ...detalle, cantidad: detalle.cantidad - 1 }
-						: detalle
-			)
-		);
-	};
+	useEffect(() => {
+		const handleClickOutside = (event: MouseEvent) => {
+			if (
+				inputRef.current &&
+				!inputRef.current.contains(event.target as Node)
+			) {
+				if (editingInsumo) {
+					handleSaveEdit(editingInsumo);
+				}
+			}
+		};
+
+		document.addEventListener("mousedown", handleClickOutside);
+		return () => {
+			document.removeEventListener("mousedown", handleClickOutside);
+		};
+	}, [editingInsumo]);
 
 	const handleDelete = (denominacion: string) => {
 		const updatedDetalles = values.articuloManufacturadoDetalles.filter(
 			(detalle: ArticuloManufacturadoDetalle) =>
 				detalle.articuloInsumo.denominacion !== denominacion
 		);
-		setFieldValue("articuloManufacturadoDetalles", updatedDetalles);
-
-		const updatedSelectedInsumos = selectedInsumos.filter(
-			(insumo) => insumo.denominacion !== denominacion
+		setSelectedInsumos(
+			selectedInsumos.filter(
+				(insumo) => insumo.denominacion !== denominacion
+			)
 		);
-		setSelectedInsumos(updatedSelectedInsumos);
+		setFieldValue("articuloManufacturadoDetalles", updatedDetalles);
 	};
 
 	const handleAutocompleteChange = (_, newValue) => {
 		setSelectedInsumos(newValue);
 
-		const updatedDetalles = values.articuloManufacturadoDetalles.filter(
-			(detalle: ArticuloManufacturadoDetalle) =>
-				newValue.some(
-					(insumo) => insumo.denominacion === detalle.articuloInsumo.denominacion
-				)
+		const updatedDetalles = values.articuloManufacturadoDetalles.filter((detalle: ArticuloManufacturadoDetalle) =>
+			newValue.some((insumo) => insumo.denominacion === detalle.articuloInsumo.denominacion)
 		);
 
 		newValue.forEach((newInsumo) => {
 			if (!values.articuloManufacturadoDetalles.some(
-				(detalle: ArticuloManufacturadoDetalle) =>
-					detalle.articuloInsumo.denominacion === newInsumo.denominacion
+				(detalle: ArticuloManufacturadoDetalle) => detalle.articuloInsumo.denominacion === newInsumo.denominacion
 			)) {
 				updatedDetalles.push({
 					id: null,
@@ -126,6 +124,47 @@ export const ManufacturadoStep2 = (props: any) => {
 		});
 
 		setFieldValue("articuloManufacturadoDetalles", updatedDetalles);
+	};
+
+	const handleEditClick = (denominacion: string, cantidad: number) => {
+		setEditingInsumo(denominacion);
+		setNewCantidad(cantidad);
+		setTimeout(() => {
+			if (inputRef.current) {
+				inputRef.current.focus();
+			}
+		}, 0); // Ensures that the input is focused after the state is updated
+	};
+
+	const handleSaveEdit = (denominacion: string) => {
+		setFieldValue(
+			"articuloManufacturadoDetalles",
+			values.articuloManufacturadoDetalles.map(
+				(detalle: ArticuloManufacturadoDetalle) =>
+					detalle.articuloInsumo.denominacion === denominacion
+						? { ...detalle, cantidad: newCantidad }
+						: detalle
+			)
+		);
+		setEditingInsumo(null);
+		setNewCantidad(0);
+		if (inputRef.current) {
+			inputRef.current.blur();
+		}
+	};
+
+	const handleIconClick = (event: React.MouseEvent) => {
+		event.currentTarget.blur();
+	};
+
+	const preventBackspacePropagation = (event) => {
+		if (event.key === 'Backspace') {
+			event.stopPropagation();
+		} else if (event.key === 'Enter') {
+			if (editingInsumo) {
+				handleSaveEdit(editingInsumo);
+			}
+		}
 	};
 
 	return (
@@ -163,36 +202,62 @@ export const ManufacturadoStep2 = (props: any) => {
 							{values.articuloManufacturadoDetalles.map(
 								(detalle: ArticuloManufacturadoDetalle, index: number) => (
 									<Chip
-										label={`${detalle.articuloInsumo.denominacion} x${detalle.cantidad} ${detalle.articuloInsumo.unidadMedida.denominacion}`}
+										key={detalle.articuloInsumo.denominacion}
+										label={
+											<div style={{ display: "flex", alignItems: "center" }}>
+												{detalle.articuloInsumo.denominacion} x{" "}
+												{editingInsumo === detalle.articuloInsumo.denominacion ? (
+													<input
+														type="number"
+														value={newCantidad}
+														onChange={(e) => setNewCantidad(Number(e.target.value))}
+														onKeyDown={preventBackspacePropagation}
+														style={{ width: "60px", marginRight: "8px", MozAppearance: 'textfield', appearance: 'textfield' }}
+														ref={inputRef}
+													/>
+												) : (
+													`${detalle.cantidad}`
+												)}
+												{" "}{detalle.articuloInsumo.unidadMedida.denominacion}
+											</div>
+										}
 										{...getTagProps({ index })}
 										deleteIcon={
 											<>
+												{editingInsumo === detalle.articuloInsumo.denominacion ? (
+													<IconButton
+														onClick={(event) => {
+															handleSaveEdit(detalle.articuloInsumo.denominacion);
+															handleIconClick(event);
+														}}
+														size="small"
+														onMouseLeave={() => setEditingInsumo(null)}
+													>
+														<CheckIcon fontSize="inherit" />
+													</IconButton>
+												) : (
+													<IconButton
+														onClick={(event) => {
+															handleEditClick(detalle.articuloInsumo.denominacion, detalle.cantidad);
+															handleIconClick(event);
+														}}
+														size="small"
+													>
+														<EditIcon fontSize="inherit" />
+													</IconButton>
+												)}
 												<IconButton
-													onClick={() =>
-														handleIncrement(detalle.articuloInsumo.denominacion)
-													}
-													size="small"
-												>
-													<AddIcon fontSize="inherit" />
-												</IconButton>
-												<IconButton
-													onClick={() =>
-														handleDecrement(detalle.articuloInsumo.denominacion)
-													}
-													size="small"
-												>
-													<RemoveIcon fontSize="inherit" />
-												</IconButton>
-												<IconButton
-													onClick={() =>
-														handleDelete(detalle.articuloInsumo.denominacion)
-													}
+													onClick={(event) => {
+														handleDelete(detalle.articuloInsumo.denominacion);
+														handleIconClick(event);
+													}}
 													size="small"
 												>
 													<DeleteIcon fontSize="inherit" />
 												</IconButton>
 											</>
 										}
+										style={{ marginRight: "4px" }}
 									/>
 								)
 							)}
