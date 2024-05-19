@@ -26,7 +26,7 @@ export const Company = () => {
 			}
 		};
 		getSucursales();
-	}, []);
+	}, [open]);
 
 	return (
 		<>

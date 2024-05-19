@@ -33,7 +33,7 @@ export const InicioSesion = ({ setIsAuthenticated }: InicioSesionProps) => {
 			}
 		};
 		getEmpresas();
-	}, []);
+	}, [open]);
 
 	return (
 		<>

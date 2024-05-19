@@ -34,7 +34,7 @@ export const InsumosPage = () => {
 			}
 		};
 		getInsumos();
-	}, []);
+	}, [open]);
 
 	const handleSearch = (newSearchTerm: string) => {
 		setSearchTerm(newSearchTerm);

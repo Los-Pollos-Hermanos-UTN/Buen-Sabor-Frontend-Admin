@@ -41,7 +41,7 @@ export const InsumoStep2 = (props: any) => {
 			}
 		};
 		getUnidadesMedida();
-	}, []);
+	}, [open]);
 
 	return (
 		<>

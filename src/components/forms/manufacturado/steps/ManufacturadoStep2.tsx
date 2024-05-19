@@ -61,7 +61,7 @@ export const ManufacturadoStep2 = (props: any) => {
 		};
 		getInsumos();
 		getUnidadesMedida();
-	}, []);
+	}, [open]);
 
 	const handleIncrement = (denominacion: string) => {
 		setFieldValue(

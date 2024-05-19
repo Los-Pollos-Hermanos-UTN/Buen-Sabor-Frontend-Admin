@@ -40,7 +40,7 @@ export const ManufacturadosPage = () => {
 			}
 		};
 		getmanufacturados();
-	}, []);
+	}, [open]);
 
 	const handleSearch = (newSearchTerm: string) => {
 		setSearchTerm(newSearchTerm);
