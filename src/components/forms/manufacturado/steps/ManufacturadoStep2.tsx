@@ -124,11 +124,16 @@ export const ManufacturadoStep2 = (props: any) => {
 					id="articuloInsumo"
 					options={insumos}
 					getOptionLabel={(option) => option.denominacion}
+					disableClearable
 					onChange={(_, newValue) => {
 						const newInsumo = newValue[newValue.length - 1];
 						if (newInsumo) {
 							setFieldValue("articuloManufacturadoDetalles", [
-								...values.articuloManufacturadoDetalles,
+								...values.articuloManufacturadoDetalles.filter(
+									(detalle: ArticuloManufacturadoDetalle) =>
+										detalle.articuloInsumo.denominacion !==
+										newInsumo.denominacion
+								),
 								{
 									id: null,
 									eliminado: false,
@@ -143,7 +148,7 @@ export const ManufacturadoStep2 = (props: any) => {
 							{values.articuloManufacturadoDetalles.map(
 								(detalle: ArticuloManufacturadoDetalle, index: number) => (
 									<Chip
-										label={`${detalle.articuloInsumo.denominacion} x${detalle.cantidad}`}
+										label={`${detalle.articuloInsumo.denominacion} x${detalle.cantidad} ${detalle.articuloInsumo.unidadMedida.denominacion}`}
 										{...getTagProps({ index })}
 										deleteIcon={
 											<>
