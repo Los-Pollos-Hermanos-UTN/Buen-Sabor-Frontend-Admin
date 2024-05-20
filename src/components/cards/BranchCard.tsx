@@ -7,8 +7,13 @@ import { QuickAccessWhiteButton } from "../buttons/QuickAccessWhiteButton";
 import EditIcon from "@mui/icons-material/Edit";
 import RoomIcon from "@mui/icons-material/Room";
 import { Action } from "../../types/enums/Enums";
+import { Sucursal } from "../../types/Sucursal";
 
-export function BranchCard() {
+interface BranchCardProps {
+	sucursal: Sucursal;
+}
+
+export function BranchCard({ sucursal }: BranchCardProps) {
 	return (
 		<Card
 			sx={{
@@ -21,7 +26,7 @@ export function BranchCard() {
 				<CardContent>
 					<Stack height="100%">
 						<Typography gutterBottom variant="h5" component="div" color="white">
-							Sucursal
+							{sucursal.nombre}
 						</Typography>
 						<Stack height="100%" justifyContent="space-between">
 							<Stack>

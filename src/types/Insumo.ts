@@ -8,6 +8,7 @@ export interface ArticuloInsumo {
 	precioVenta: number | null;
 	imagenes: string[] | null;
 	unidadMedida: UnidadMedida;
+	categoriaId: string;
 	precioCompra: number;
 	stockActual: number;
 	stockMaximo: number;

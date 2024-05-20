@@ -7,18 +7,19 @@ import * as yup from "yup";
 export const InsumoInitialValues: ArticuloInsumo = {
 	id: 0,
 	eliminado: false,
-	denominacion: "Queso",
-	precioVenta: 1000,
+	denominacion: "",
+	precioVenta: 0,
 	imagenes: null,
 	unidadMedida: {
-		id: 1,
+		id: null,
 		eliminado: false,
-		denominacion: "Gramos",
+		denominacion: "",
 	},
-	precioCompra: 2000,
-	stockActual: 50,
-	stockMaximo: 100,
-	esParaElaborar: true,
+	precioCompra: 0,
+	stockActual: 0,
+	stockMaximo: 0,
+	esParaElaborar: false,
+	categoriaId: "",
 };
 export const InsumoValidationSchemas = [
 	yup.object().shape({
@@ -28,6 +29,9 @@ export const InsumoValidationSchemas = [
 			.required("La denominación del insumo es requerida"),
 		precioVenta: yup.number().required("El precio de venta es requerido"),
 		precioCompra: yup.number().required("El precio de compra es requerido"),
+		categoriaId: yup
+			.string()
+			.required("La categoria es requerida"),
 	}),
 	yup.object().shape({
 		// Esquema de validación para el segundo paso

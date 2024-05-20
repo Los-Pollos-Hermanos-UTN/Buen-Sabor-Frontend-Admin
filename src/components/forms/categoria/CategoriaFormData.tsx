@@ -7,6 +7,7 @@ export const CategoriaInitialValues: Categoria = {
 	denominacion: "",
 	subCategorias: [],
 	sucursales: [],
+	padreId: null,
 };
 
 export const CategoriaValidationSchemas = [
@@ -24,6 +25,7 @@ export const CategoriaValidationSchemas = [
 				})
 			)
 			.required("Debe seleccionar al menos una sucursal"),
+		padreId: yup.string().nullable(),
 	}),
 ];
 

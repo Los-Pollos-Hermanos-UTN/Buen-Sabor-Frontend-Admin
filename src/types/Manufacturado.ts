@@ -16,6 +16,7 @@ export interface ArticuloManufacturado {
 	precioVenta: number;
 	imagenes: string[] | null;
 	unidadMedida: UnidadMedida;
+	categoriaId: string;
 	descripcion: string;
 	tiempoEstimadoMinutos: number;
 	preparacion: string;

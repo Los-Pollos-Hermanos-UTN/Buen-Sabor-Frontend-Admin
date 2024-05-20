@@ -1,4 +1,4 @@
-import { useState } from "react";
+import React from "react";
 import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
 import Modal from "@mui/material/Modal";
@@ -11,15 +11,9 @@ import { BackButton } from "../buttons/BackButton";
 import { VerticalStepper } from "../stepper/VerticalStepper";
 import { FormStep } from "../forms/FormStep";
 import { Formik } from "formik";
-import React from "react";
-import { Sucursal } from "../../types/Sucursal";
 import { postData } from "../../services/RequestExecutor";
-import { Empresa } from "../../types/Empresa";
-import { ArticuloManufacturado } from "../../types/Manufacturado";
-import { ArticuloInsumo } from "../../types/Insumo";
 import * as yup from "yup";
-import { UnidadMedida } from "../../types/UnidadMedida";
-import { Categoria } from "../../types/Categoria";
+import { Loader } from "../shared/Loader";
 
 const style = {
 	position: "absolute" as "absolute",
@@ -38,13 +32,7 @@ interface FormModalProps {
 	open: boolean;
 	width: number;
 	height: number;
-	initialValues:
-		| Sucursal
-		| Empresa
-		| ArticuloManufacturado
-		| ArticuloInsumo
-		| UnidadMedida
-		| Categoria;
+	initialValues: any;
 	validationSchemas: yup.AnySchema[];
 	postUrl: string;
 	steps: FormStep[];
@@ -63,7 +51,9 @@ export function FormModal({
 	steps,
 	handleClose,
 }: FormModalProps) {
-	const [activeStep, setActiveStep] = useState<number>(substepDefault ? 1 : 0);
+	const [activeStep, setActiveStep] = React.useState<number>(
+		substepDefault ? 1 : 0
+	);
 
 	const handleNext = () => {
 		setActiveStep((prevActiveStep) => prevActiveStep + 1);
@@ -83,9 +73,6 @@ export function FormModal({
 
 	const handleSubmit = async (values: any) => {
 		console.log({ values });
-		if (values.domicilio) {
-			values.domicilio = null;
-		}
 		if (!isLastStep()) {
 			handleNext();
 			return;
@@ -205,11 +192,12 @@ export function FormModal({
 											variant="contained"
 											type="submit"
 											onClick={(event) => {
-												console.log(errors);
+												console.log({ errors });
 
 												event.preventDefault();
 												handleSubmit();
 											}}
+											startIcon={isSubmitting && <Loader />}
 											sx={{
 												width: "80%",
 												textTransform: "none",

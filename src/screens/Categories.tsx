@@ -8,23 +8,43 @@ import {
 	CategoriaFormSteps,
 } from "../components/forms/categoria/CategoriaFormData";
 import { FormModal } from "../components/modals/FormModal";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { CONSTANTS } from "../constants/constants";
+import { getData } from "../services/RequestExecutor";
 
 export const Categories = () => {
 	const [open, setOpen] = useState<boolean>(false);
 	const handleOpen = () => setOpen(true);
 	const handleClose = () => setOpen(false);
 
-	const categorias: Categoria[] = [];
+	const [categorias, setCategorias] = useState<Categoria[]>([]);
+
+	useEffect(() => {
+		const getCategorias = async () => {
+			try {
+				const response = await getData<Categoria[]>(
+					CONSTANTS.categorias.getUrl
+				);
+				setCategorias(response);
+			} catch (error) {
+				console.error(error);
+			}
+		};
+		getCategorias();
+	}, [open]);
 
 	return (
 		<>
 			<Stack direction="column" m="3%" spacing={5}>
 				<SearchBar handleOpen={handleOpen} />
-				{categorias.map((categoria) => (
-					<CategoriaButton key={categoria.denominacion} categoria={categoria} />
-				))}
+				{categorias
+					.filter((c) => c.padreId === null)
+					.map((categoria) => (
+						<CategoriaButton
+							key={categoria.denominacion}
+							categoria={categoria}
+						/>
+					))}
 			</Stack>
 			<FormModal
 				title={"Crear Categoria"}

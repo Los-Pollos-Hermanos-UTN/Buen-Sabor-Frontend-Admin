@@ -1,7 +1,13 @@
 import { IconButton } from "@mui/material";
 import AddIcon from "@mui/icons-material/Add";
 
-export function AddButton({ handleClick }: { handleClick: () => void }) {
+interface AddButtonProps {
+	handleClick: () => void;
+	width?: string;
+	height?: string;
+}
+
+export function AddButton({ handleClick, width, height }: AddButtonProps) {
 	return (
 		<IconButton
 			type="submit"
@@ -9,8 +15,8 @@ export function AddButton({ handleClick }: { handleClick: () => void }) {
 			sx={{
 				p: "10px",
 				borderRadius: "8px",
-				height: "50px",
-				width: "50px",
+				height: width ? width : "50px",
+				width: height ? height : "50px",
 				backgroundColor: "#49111C",
 			}}
 			aria-label="search"

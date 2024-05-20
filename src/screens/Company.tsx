@@ -6,7 +6,11 @@ import { useEffect, useState } from "react";
 import { Sucursal } from "../types/Sucursal";
 import { getData } from "../services/RequestExecutor";
 import { CONSTANTS } from "../constants/constants";
-import { SucursalFormSteps, SucursalInitialValues, SucursalValidationSchemas } from "../components/forms/sucursal/SucursalFormData";
+import {
+	SucursalFormSteps,
+	SucursalInitialValues,
+	SucursalValidationSchemas,
+} from "../components/forms/sucursal/SucursalFormData";
 import { FormModal } from "../components/modals/FormModal";
 
 export const Company = () => {
@@ -44,9 +48,9 @@ export const Company = () => {
 					<EditButton />
 				</Stack>
 				<Stack direction="row" flexWrap="wrap" justifyContent="center">
-					{sucursales.map(() => (
+					{sucursales.map((s) => (
 						<Box m="1%">
-							<BranchCard />
+							<BranchCard sucursal={s} />
 						</Box>
 					))}
 				</Stack>

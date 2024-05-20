@@ -1,7 +1,31 @@
-import { Stack, TextField } from "@mui/material";
+import { Autocomplete, Stack, TextField } from "@mui/material";
+import { useState, useEffect } from "react";
+import { CONSTANTS } from "../../../../constants/constants";
+import { getData } from "../../../../services/RequestExecutor";
+import { Categoria } from "../../../../types/Categoria";
 
 export const ManufacturadoStep1 = (props: any) => {
-	const { values, errors, handleChange, handleBlur } = props;
+	const { values, errors, handleChange, handleBlur, setFieldValue } = props;
+
+	const [categorias, setCategorias] = useState<Categoria[]>([]);
+
+	useEffect(() => {
+		const fetchCategorias = async () => {
+			try {
+				const categoriasData = await getData<Categoria[]>(
+					CONSTANTS.categorias.getUrl
+				);
+				setCategorias(categoriasData);
+			} catch (error) {
+				console.error(error);
+			}
+		};
+		fetchCategorias();
+	}, []);
+
+	const handleCategoriaChange = (event: any, value: Categoria | null) => {
+		setFieldValue("categoriaId", value ? value.id : "");
+	};
 
 	return (
 		<Stack spacing={2}>
@@ -53,6 +77,22 @@ export const ManufacturadoStep1 = (props: any) => {
 				error={Boolean(errors.precioVenta)}
 				helperText={errors.precioVenta}
 				variant="outlined"
+			/>
+			<Autocomplete
+				fullWidth
+				options={categorias}
+				getOptionLabel={(option) => option.denominacion}
+				value={categorias.find((cat) => cat.id === values.categoriaId) || null}
+				onChange={handleCategoriaChange}
+				onBlur={handleBlur}
+				renderInput={(params) => (
+					<TextField
+						{...params}
+						label="Categoría"
+						error={Boolean(errors.categoriaId)}
+						helperText={errors.categoriaId}
+					/>
+				)}
 			/>
 		</Stack>
 	);

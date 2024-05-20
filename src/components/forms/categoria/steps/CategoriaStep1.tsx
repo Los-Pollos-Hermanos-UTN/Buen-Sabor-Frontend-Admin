@@ -7,17 +7,31 @@ import {
 } from "@mui/material";
 import CheckBoxOutlineBlankIcon from "@mui/icons-material/CheckBoxOutlineBlank";
 import CheckBoxIcon from "@mui/icons-material/CheckBox";
+import { useState, useEffect } from "react";
+import { CONSTANTS } from "../../../../constants/constants";
+import { getData } from "../../../../services/RequestExecutor";
+import { Sucursal } from "../../../../types/Sucursal";
 
 const icon = <CheckBoxOutlineBlankIcon fontSize="small" />;
 const checkedIcon = <CheckBoxIcon fontSize="small" />;
 
 export const CategoriaStep1 = (props: any) => {
 	const { values, errors, handleChange, handleBlur, setFieldValue } = props;
-	const sucursalesDisponibles = [
-		{ id: "1", nombre: "Sucursal 1" },
-		{ id: "2", nombre: "Sucursal 2" },
-		{ id: "3", nombre: "Sucursal 3" },
-	];
+
+	const [sucursales, setSucursales] = useState<Sucursal[]>([]);
+
+	useEffect(() => {
+		const getSucursales = async () => {
+			try {
+				const response = await getData<Sucursal[]>(CONSTANTS.sucursal.getUrl);
+				setSucursales(response);
+			} catch (error) {
+				console.error(error);
+			}
+		};
+		getSucursales();
+	}, [open]);
+
 	return (
 		<Stack spacing={2}>
 			<TextField
@@ -36,7 +50,7 @@ export const CategoriaStep1 = (props: any) => {
 			<Autocomplete
 				multiple
 				id="sucursales"
-				options={sucursalesDisponibles}
+				options={sucursales}
 				disableCloseOnSelect
 				getOptionLabel={(option) => option.nombre}
 				onChange={(_, newValue) => {

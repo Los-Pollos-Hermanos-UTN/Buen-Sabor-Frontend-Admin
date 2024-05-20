@@ -15,8 +15,8 @@ export const SucursalInitialValues: Sucursal = {
 		calle: "",
 		numero: 0,
 		cp: 0,
-		piso: undefined,
-		nroDepto: undefined,
+		piso: 0,
+		nroDepto: 0,
 		localidad: {
 			nombre: "",
 			provincia: {
@@ -28,7 +28,7 @@ export const SucursalInitialValues: Sucursal = {
 		},
 	},
 	empresa: {
-		id: "4",
+		id: "1",
 		eliminado: false,
 		nombre: "Los Pollos Hermanos",
 		razonSocial: "Solo Existo",

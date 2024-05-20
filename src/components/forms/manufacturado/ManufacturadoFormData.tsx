@@ -19,6 +19,7 @@ export const ArticuloManufacturadoInitialValues: ArticuloManufacturado = {
 	tiempoEstimadoMinutos: 0,
 	preparacion: "",
 	articuloManufacturadoDetalles: [],
+	categoriaId: "",
 };
 
 export const ArticuloManufacturadoValidationSchemas = [
@@ -33,9 +34,10 @@ export const ArticuloManufacturadoValidationSchemas = [
 		descripcion: yup
 			.string()
 			.required("La descripción del artículo manufacturado es requerida"),
-			preparacion: yup
+		preparacion: yup
 			.string()
 			.required("La preparación del artículo manufacturado es requerida"),
+		categoriaId: yup.string().required("La categoria es requerida"),
 	}),
 	// Esquema de validación para el paso 2
 	yup.object().shape({
