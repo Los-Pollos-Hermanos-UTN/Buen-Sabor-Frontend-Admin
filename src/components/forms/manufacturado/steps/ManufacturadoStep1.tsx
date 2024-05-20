@@ -3,10 +3,10 @@ import { useState, useEffect } from "react";
 import { CONSTANTS } from "../../../../constants/constants";
 import { getData } from "../../../../services/RequestExecutor";
 import { Categoria } from "../../../../types/Categoria";
+import { flattenCategorias } from "../../../../utils/CategoriaUtils";
 
 export const ManufacturadoStep1 = (props: any) => {
 	const { values, errors, handleChange, handleBlur, setFieldValue } = props;
-
 	const [categorias, setCategorias] = useState<Categoria[]>([]);
 
 	useEffect(() => {
@@ -15,13 +15,15 @@ export const ManufacturadoStep1 = (props: any) => {
 				const categoriasData = await getData<Categoria[]>(
 					CONSTANTS.categorias.getUrl
 				);
-				setCategorias(categoriasData);
+				const flatCategorias = flattenCategorias(categoriasData);
+				setCategorias(flatCategorias);
 			} catch (error) {
 				console.error(error);
 			}
 		};
 		fetchCategorias();
 	}, []);
+
 
 	const handleCategoriaChange = (event: any, value: Categoria | null) => {
 		setFieldValue("categoriaId", value ? value.id : "");
