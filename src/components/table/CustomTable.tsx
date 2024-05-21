@@ -24,7 +24,8 @@ export interface TableColumn {
 export interface TableProps<T> {
 	data: T[];
 	columns: TableColumn[];
-	handleDelete: (id: number) => void;
+	handleEdit: (entity: T) => void;
+	handleDelete: (entity: T) => void;
 }
 
 // La coma después de T es necesaria debido a una peculiaridad de JSX.
@@ -33,6 +34,7 @@ export interface TableProps<T> {
 export const CustomTable = <T,>({
 	data,
 	columns,
+	handleEdit,
 	handleDelete,
 }: TableProps<T>) => {
 	const [page, setPage] = useState(0);
@@ -111,8 +113,16 @@ export const CustomTable = <T,>({
 																spacing={2}
 																justifyContent="center"
 															>
-																<TableEditButton />
-																<TableDeleteButton />
+																<TableEditButton
+																	handleClick={() => {
+																		handleEdit(row);
+																	}}
+																/>
+																<TableDeleteButton
+																	handleClick={() => {
+																		handleDelete(row);
+																	}}
+																/>
 															</Stack>
 														) : column.isBoolean ? (
 															row[column.key] ? (

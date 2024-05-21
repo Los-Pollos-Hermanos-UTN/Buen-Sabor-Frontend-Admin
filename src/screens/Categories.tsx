@@ -10,13 +10,16 @@ import {
 import { FormModal } from "../components/modals/FormModal";
 import { useEffect, useState } from "react";
 import { CONSTANTS } from "../constants/constants";
-import { getData } from "../services/RequestExecutor";
+import { deleteData, getData } from "../services/RequestExecutor";
 
 export const Categories = () => {
 	const [open, setOpen] = useState<boolean>(false);
 	const handleOpen = () => setOpen(true);
 	const handleClose = () => setOpen(false);
 
+	const [selectedCategoria, setSelectedCategoria] = useState<Categoria | null>(
+		null
+	);
 	const [categorias, setCategorias] = useState<Categoria[]>([]);
 
 	useEffect(() => {
@@ -33,6 +36,22 @@ export const Categories = () => {
 		getCategorias();
 	}, [open]);
 
+	const handleEdit = (categoria: Categoria) => {
+		setSelectedCategoria(categoria);
+		handleOpen();
+	};
+
+	const handleDelete = async (categoria: Categoria) => {
+		try {
+			await deleteData(`${CONSTANTS.categorias.deleteURL}${categoria.id}`);
+			setCategorias((prevCategorias) =>
+				prevCategorias.filter((item) => item.id !== categoria.id)
+			);
+		} catch (error) {
+			console.error(error);
+		}
+	};
+
 	return (
 		<>
 			<Stack direction="column" m="3%" spacing={5}>
@@ -47,14 +66,21 @@ export const Categories = () => {
 					))}
 			</Stack>
 			<FormModal
-				title={"Crear Categoria"}
+				title={!!selectedCategoria ? "Editar Categoria" : "Crear Categoria"}
 				open={open}
-				handleClose={handleClose}
+				handleClose={() => {
+					setSelectedCategoria(null);
+					handleClose();
+				}}
 				width={0}
 				height={600}
-				initialValues={CategoriaInitialValues}
+				initialValues={
+					!!selectedCategoria ? selectedCategoria : CategoriaInitialValues
+				}
 				validationSchemas={CategoriaValidationSchemas}
 				postUrl={CONSTANTS.categorias.postURL}
+				putUrl={`${CONSTANTS.categorias.putURL}${selectedCategoria?.id}`}
+				isEdit={!!selectedCategoria}
 				steps={CategoriaFormSteps}
 				substepDefault={false}
 			/>

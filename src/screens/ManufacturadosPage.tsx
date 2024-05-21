@@ -8,7 +8,7 @@ import {
 	manufacturadoColumns,
 } from "../types/Manufacturado";
 import { CONSTANTS } from "../constants/constants";
-import { getData } from "../services/RequestExecutor";
+import { deleteData, getData } from "../services/RequestExecutor";
 import { FormModal } from "../components/modals/FormModal";
 import {
 	ArticuloManufacturadoFormSteps,
@@ -24,6 +24,8 @@ export const ManufacturadosPage = () => {
 	const handleOpen = () => setOpen(true);
 	const handleClose = () => setOpen(false);
 
+	const [selectedManufacturado, setSelectedManufacturado] =
+		useState<ArticuloManufacturado | null>(null);
 	const [manufacturados, setManufacturados] = useState<ArticuloManufacturado[]>(
 		[]
 	);
@@ -50,6 +52,24 @@ export const ManufacturadosPage = () => {
 		searchInObject(manufactured, searchTerm)
 	);
 
+	const handleEdit = (manufacturado: ArticuloManufacturado) => {
+		setSelectedManufacturado(manufacturado);
+		handleOpen();
+	};
+
+	const handleDelete = async (manufacturado: ArticuloManufacturado) => {
+		try {
+			await deleteData(
+				`${CONSTANTS.manufacturado.deleteURL}${manufacturado.id}`
+			);
+			setManufacturados((prevManufacturado) =>
+				prevManufacturado.filter((item) => item.id !== manufacturado.id)
+			);
+		} catch (error) {
+			console.error(error);
+		}
+	};
+
 	return (
 		<>
 			<Stack direction="column" m="3%" spacing={5}>
@@ -57,18 +77,32 @@ export const ManufacturadosPage = () => {
 				<CustomTable<ArticuloManufacturado>
 					data={filteredManufactured}
 					columns={manufacturadoColumns}
-					handleDelete={() => {}}
+					handleEdit={handleEdit}
+					handleDelete={handleDelete}
 				/>
 			</Stack>
 			<FormModal
-				title={"Agregar Producto Manufacturado"}
+				title={
+					!!selectedManufacturado
+						? "Editar Producto Manufacturado"
+						: "Agregar Producto Manufacturado"
+				}
 				open={open}
-				handleClose={handleClose}
+				handleClose={() => {
+					setSelectedManufacturado(null);
+					handleClose();
+				}}
 				width={0}
 				height={600}
-				initialValues={ArticuloManufacturadoInitialValues}
+				initialValues={
+					!!selectedManufacturado
+						? selectedManufacturado
+						: ArticuloManufacturadoInitialValues
+				}
 				validationSchemas={ArticuloManufacturadoValidationSchemas}
 				postUrl={CONSTANTS.manufacturado.postURL}
+				putUrl={`${CONSTANTS.manufacturado.putURL}${selectedManufacturado?.id}`}
+				isEdit={!!selectedManufacturado}
 				steps={ArticuloManufacturadoFormSteps}
 				substepDefault={false}
 			/>

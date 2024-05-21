@@ -1,7 +1,13 @@
 import { IconButton } from "@mui/material";
 import EditIcon from "@mui/icons-material/Edit";
 
-export function TableEditButton() {
+interface TableEditButtonProps {
+	handleClick: () => void;
+	width?: string;
+	height?: string;
+}
+
+export function TableEditButton({ handleClick }: TableEditButtonProps) {
 	return (
 		<IconButton
 			type="submit"
@@ -12,6 +18,7 @@ export function TableEditButton() {
 				backgroundColor: "#fff",
 			}}
 			aria-label="edit"
+			onClick={handleClick}
 		>
 			<EditIcon />
 		</IconButton>

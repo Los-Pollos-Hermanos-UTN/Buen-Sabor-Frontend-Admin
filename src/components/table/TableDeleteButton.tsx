@@ -1,7 +1,13 @@
 import { IconButton } from "@mui/material";
 import DeleteIcon from "@mui/icons-material/Delete";
 
-export function TableDeleteButton() {
+interface TableDeleteButtonProps {
+	handleClick: () => void;
+	width?: string;
+	height?: string;
+}
+
+export function TableDeleteButton({ handleClick }: TableDeleteButtonProps) {
 	return (
 		<IconButton
 			type="submit"
@@ -12,6 +18,7 @@ export function TableDeleteButton() {
 				backgroundColor: "#fff",
 			}}
 			aria-label="delete"
+			onClick={handleClick}
 		>
 			<DeleteIcon />
 		</IconButton>

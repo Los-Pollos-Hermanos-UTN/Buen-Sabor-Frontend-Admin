@@ -4,7 +4,7 @@ import { SearchBar } from "../components/shared/SearchBar";
 import { CustomTable } from "../components/table/CustomTable";
 import { ArticuloInsumo, insumoColumns } from "../types/Insumo";
 import { CONSTANTS } from "../constants/constants";
-import { getData } from "../services/RequestExecutor";
+import { deleteData, getData } from "../services/RequestExecutor";
 import { FormModal } from "../components/modals/FormModal";
 import {
 	InsumoFormSteps,
@@ -20,6 +20,9 @@ export const InsumosPage = () => {
 	const handleOpen = () => setOpen(true);
 	const handleClose = () => setOpen(false);
 
+	const [selectedInsumo, setSelectedInsumo] = useState<ArticuloInsumo | null>(
+		null
+	);
 	const [insumos, setInsumos] = useState<ArticuloInsumo[]>([]);
 
 	useEffect(() => {
@@ -44,6 +47,22 @@ export const InsumosPage = () => {
 		searchInObject(supply, searchTerm)
 	);
 
+	const handleEdit = (insumo: ArticuloInsumo) => {
+		setSelectedInsumo(insumo);
+		handleOpen();
+	};
+
+	const handleDelete = async (insumo: ArticuloInsumo) => {
+		try {
+			await deleteData(`${CONSTANTS.insumo.deleteURL}${insumo.id}`);
+			setInsumos((prevInsumos) =>
+				prevInsumos.filter((item) => item.id !== insumo.id)
+			);
+		} catch (error) {
+			console.error(error);
+		}
+	};
+
 	return (
 		<>
 			<Stack direction="column" m="3%" spacing={5}>
@@ -51,18 +70,24 @@ export const InsumosPage = () => {
 				<CustomTable<ArticuloInsumo>
 					data={filteredSupplies}
 					columns={insumoColumns}
-					handleDelete={() => {}}
+					handleEdit={handleEdit}
+					handleDelete={handleDelete}
 				/>
 			</Stack>
 			<FormModal
-				title={"Agregar Insumo"}
+				title={!!selectedInsumo ? "Editar Insumo" : "Agregar Insumo"}
 				open={open}
-				handleClose={handleClose}
+				handleClose={() => {
+					setSelectedInsumo(null);
+					handleClose();
+				}}
 				width={0}
 				height={600}
-				initialValues={InsumoInitialValues}
+				initialValues={!!selectedInsumo ? selectedInsumo : InsumoInitialValues}
 				validationSchemas={InsumoValidationSchemas}
 				postUrl={CONSTANTS.insumo.postURL}
+				putUrl={`${CONSTANTS.insumo.putURL}${selectedInsumo?.id}`}
+				isEdit={!!selectedInsumo}
 				steps={InsumoFormSteps}
 				substepDefault={false}
 			/>

@@ -11,7 +11,7 @@ import { BackButton } from "../buttons/BackButton";
 import { VerticalStepper } from "../stepper/VerticalStepper";
 import { FormStep } from "../forms/FormStep";
 import { Formik } from "formik";
-import { postData } from "../../services/RequestExecutor";
+import { postData, putData } from "../../services/RequestExecutor";
 import * as yup from "yup";
 import { Loader } from "../shared/Loader";
 
@@ -35,6 +35,8 @@ interface FormModalProps {
 	initialValues: any;
 	validationSchemas: yup.AnySchema[];
 	postUrl: string;
+	putUrl?: string;
+	isEdit?: boolean;
 	steps: FormStep[];
 	handleClose: () => void;
 }
@@ -48,6 +50,8 @@ export function FormModal({
 	initialValues,
 	validationSchemas,
 	postUrl,
+	putUrl,
+	isEdit,
 	steps,
 	handleClose,
 }: FormModalProps) {
@@ -72,13 +76,15 @@ export function FormModal({
 	};
 
 	const handleSubmit = async (values: any) => {
-		console.log({ values });
+		console.log(`Submiting:`, { values });
 		if (!isLastStep()) {
 			handleNext();
 			return;
 		}
 		try {
-			const response = await postData(postUrl, values);
+			const response = isEdit
+				? await putData(putUrl!, values)
+				: await postData(postUrl, values);
 			console.log({ response });
 		} catch (error) {
 			console.error(error);

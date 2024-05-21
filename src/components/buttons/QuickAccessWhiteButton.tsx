@@ -6,7 +6,7 @@ import { Action } from "../../types/enums/Enums";
 interface WhiteButtonProp {
 	icon: ReactElement;
 	text: string;
-	action: Action;
+	action?: Action;
 	handleOpen?: () => void;
 	navigateTo?: string;
 }

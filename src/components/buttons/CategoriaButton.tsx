@@ -16,6 +16,9 @@ import {
 } from "../forms/categoria/CategoriaFormData";
 import { CONSTANTS } from "../../constants/constants";
 import { AddButton } from "./AddButton";
+import { deleteData } from "../../services/RequestExecutor";
+import { EditButton } from "./EditButton";
+import { TableDeleteButton } from "../table/TableDeleteButton";
 
 interface CategoriaButtonProps {
 	categoria: Categoria;
@@ -26,12 +29,28 @@ export const CategoriaButton: FC<CategoriaButtonProps> = ({ categoria }) => {
 	const handleOpen = () => setOpen(true);
 	const handleClose = () => setOpen(false);
 
+	const [selectedCategoria, setSelectedCategoria] = useState<Categoria | null>(
+		null
+	);
 	const [expanded, setExpanded] = useState<string | false>(false);
 
 	const handleChange =
 		(panel: string) => (event: React.SyntheticEvent, isExpanded: boolean) => {
 			setExpanded(isExpanded ? panel : false);
 		};
+
+	const handleEdit = (categoria: Categoria) => {
+		setSelectedCategoria(categoria);
+		handleOpen();
+	};
+
+	const handleDelete = async (categoria: Categoria) => {
+		try {
+			await deleteData(`${CONSTANTS.categorias.deleteURL}${categoria.id}`);
+		} catch (error) {
+			console.error(error);
+		}
+	};
 
 	return (
 		<>
@@ -59,7 +78,15 @@ export const CategoriaButton: FC<CategoriaButtonProps> = ({ categoria }) => {
 						mr="1%"
 					>
 						<Typography>{categoria.denominacion}</Typography>
-						<AddButton width="30px" height="30px" handleClick={handleOpen} />
+						<Stack direction="row" spacing={1}>
+							<AddButton width="30px" height="30px" handleClick={handleOpen} />
+							<EditButton
+								width="30px"
+								height="30px"
+								handleClick={() => handleEdit(categoria)}
+							/>
+							<TableDeleteButton handleClick={() => handleDelete(categoria)} />
+						</Stack>
 					</Stack>
 				</AccordionSummary>
 				<AccordionDetails>
@@ -73,14 +100,25 @@ export const CategoriaButton: FC<CategoriaButtonProps> = ({ categoria }) => {
 			</Accordion>
 			{open && (
 				<FormModal
-					title={"Crear Subcategoria"}
+					title={
+						!!selectedCategoria ? "Editar Categoría" : "Crear Subcategoria"
+					}
 					open={open}
-					handleClose={handleClose}
+					handleClose={() => {
+						setSelectedCategoria(null);
+						handleClose();
+					}}
 					width={0}
 					height={600}
-					initialValues={{ ...CategoriaInitialValues, padreId: categoria.id }} // Asignamos padreId
+					initialValues={
+						!!selectedCategoria
+							? { ...selectedCategoria, padreId: categoria.id }
+							: { ...CategoriaInitialValues, padreId: categoria.id }
+					} // Asignamos padreId
 					validationSchemas={CategoriaValidationSchemas}
 					postUrl={CONSTANTS.categorias.postURL}
+					putUrl={`${CONSTANTS.categorias.putURL}${selectedCategoria?.id}`}
+					isEdit={!!selectedCategoria}
 					steps={CategoriaFormSteps}
 					substepDefault={false}
 				/>
