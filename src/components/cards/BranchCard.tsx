@@ -1,3 +1,4 @@
+import React from "react";
 import Card from "@mui/material/Card";
 import CardContent from "@mui/material/CardContent";
 import CardMedia from "@mui/material/CardMedia";
@@ -14,8 +15,15 @@ interface BranchCardProps {
 
 export function BranchCard({ sucursal, handleEdit }: BranchCardProps) {
 	const handleGoTo = (sucursal: Sucursal) => {
-		console.log(sucursal.domicilio);
-		console.log(`Esto deberia llevar a maps`);
+		const { calle, numero, cp, localidad } = sucursal.domicilio;
+		const { nombre: localidadNombre, provincia } = localidad;
+		const { nombre: provinciaNombre, pais } = provincia;
+		const { nombre: paisNombre } = pais;
+
+		const address = `${calle} ${numero}, ${cp}, ${localidadNombre}, ${provinciaNombre}, ${paisNombre}`;
+		const encodedAddress = encodeURIComponent(address);
+		const mapsUrl = `https://www.google.com/maps/search/?api=1&query=${encodedAddress}`;
+		window.location.href = mapsUrl;
 	};
 
 	return (
