@@ -7,15 +7,17 @@ import { Users } from "../screens/Users";
 import { Box, Stack, Toolbar } from "@mui/material";
 import { Promotions } from "../screens/Promotions";
 import { SideBar } from "../components/shared/SideBar";
-import { useState } from "react";
 import { InicioSesion } from "../screens/InicioSesion";
 import { InsumosPage } from "../screens/InsumosPage";
+import { useSelector } from "react-redux";
+import { RootState } from "../store/store";
 
 const drawerWidth: number = 240;
 
 export const AppRouter = () => {
-	// TODO: Login with redux / context
-	const [isAuthenticated, setIsAuthenticated] = useState<boolean>(true);
+	const isAuthenticated = useSelector(
+		(state: RootState) => state.auth.isAuthenticated
+	);
 
 	return (
 		<>
@@ -30,10 +32,7 @@ export const AppRouter = () => {
 						height: "auto",
 					}}
 				>
-					<SideBar
-						drawerWidth={drawerWidth}
-						setIsAuthenticated={setIsAuthenticated}
-					/>
+					<SideBar drawerWidth={drawerWidth} />
 					<Box
 						component="main"
 						sx={{
@@ -61,7 +60,7 @@ export const AppRouter = () => {
 					width="100vw"
 					height="100vh"
 				>
-					<InicioSesion setIsAuthenticated={setIsAuthenticated} />
+					<InicioSesion />
 				</Stack>
 			)}
 		</>

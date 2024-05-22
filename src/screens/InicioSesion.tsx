@@ -11,12 +11,12 @@ import {
 	EmpresaInitialValues,
 	EmpresaValidationSchemas,
 } from "../components/forms/empresa/EmpresaFormData";
+import { useDispatch } from "react-redux";
+import { login } from "../features/auth/AuthSlice";
+import { selectEmpresa } from "../features/empresa/EmpresaSlice";
 
-interface InicioSesionProps {
-	setIsAuthenticated: (value: boolean) => void;
-}
-
-export const InicioSesion = ({ setIsAuthenticated }: InicioSesionProps) => {
+export const InicioSesion = () => {
+	const dispatch = useDispatch();
 	const [open, setOpen] = useState<boolean>(false);
 	const handleOpen = () => setOpen(true);
 	const handleClose = () => setOpen(false);
@@ -35,6 +35,11 @@ export const InicioSesion = ({ setIsAuthenticated }: InicioSesionProps) => {
 		getEmpresas();
 	}, [open]);
 
+	const handleSelectEmpresa = (empresa: Empresa) => {
+		dispatch(selectEmpresa(empresa));
+		dispatch(login());
+	};
+
 	return (
 		<>
 			<Stack direction="row" m="3%" spacing={5} alignItems="center">
@@ -42,7 +47,7 @@ export const InicioSesion = ({ setIsAuthenticated }: InicioSesionProps) => {
 					<SelectorEmpresa
 						key={empresa.id}
 						empresa={empresa}
-						onInit={() => setIsAuthenticated(true)}
+						onInit={() => handleSelectEmpresa(empresa)}
 					/>
 				))}
 				<Fab

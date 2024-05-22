@@ -5,20 +5,21 @@ import Typography from "@mui/material/Typography";
 import MenuIcon from "@mui/icons-material/Menu";
 import { Box, Tooltip, Avatar, Menu, MenuItem, Stack } from "@mui/material";
 import React from "react";
+import { useDispatch } from "react-redux";
+import { logout } from "../../features/auth/AuthSlice";
 
 interface NavbarProps {
 	title: string;
 	drawerWidth?: number;
 	handleDrawerToggle: () => void;
-	setIsAuthenticated: (value: boolean) => void;
 }
 
 export function NavBar({
 	title,
 	drawerWidth,
 	handleDrawerToggle,
-	setIsAuthenticated,
 }: NavbarProps) {
+	const dispatch = useDispatch();
 	const [anchorElNav, setAnchorElNav] = React.useState<null | HTMLElement>(
 		null
 	);
@@ -39,6 +40,11 @@ export function NavBar({
 
 	const handleCloseUserMenu = () => {
 		setAnchorElUser(null);
+	};
+
+	const handleLogout = () => {
+		dispatch(logout());
+		handleCloseUserMenu();
 	};
 
 	return (
@@ -91,7 +97,7 @@ export function NavBar({
 							open={Boolean(anchorElUser)}
 							onClose={handleCloseUserMenu}
 						>
-							<MenuItem key="logout" onClick={() => setIsAuthenticated(false)}>
+							<MenuItem key="logout" onClick={handleLogout}>
 								<Typography textAlign="center">Logout</Typography>
 							</MenuItem>
 						</Menu>
