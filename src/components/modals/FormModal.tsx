@@ -42,19 +42,19 @@ interface FormModalProps {
 }
 
 export function FormModal({
-	title,
-	substepDefault,
-	open,
-	width,
-	height,
-	initialValues,
-	validationSchemas,
-	postUrl,
-	putUrl,
-	isEdit,
-	steps,
-	handleClose,
-}: FormModalProps) {
+							  title,
+							  substepDefault,
+							  open,
+							  width,
+							  height,
+							  initialValues,
+							  validationSchemas,
+							  postUrl,
+							  putUrl,
+							  isEdit,
+							  steps,
+							  handleClose,
+						  }: FormModalProps) {
 	const [activeStep, setActiveStep] = React.useState<number>(
 		substepDefault ? 1 : 0
 	);
@@ -140,6 +140,7 @@ export function FormModal({
 						<Formik
 							initialValues={initialValues}
 							validationSchema={validationSchemas[activeStep]}
+							validateOnBlur={false} // No validar al blur
 							onSubmit={async (values, _actions) => {
 								try {
 									await handleSubmit(values);
@@ -147,15 +148,16 @@ export function FormModal({
 							}}
 						>
 							{({
-								values,
-								errors,
-								touched,
-								handleChange,
-								handleBlur,
-								handleSubmit,
-								isSubmitting,
-								setFieldValue,
-							}) => (
+								  values,
+								  errors,
+								  touched,
+								  handleChange,
+								  handleBlur,
+								  handleSubmit,
+								  isSubmitting,
+								  setFieldValue,
+								  validateForm, // Función para validar el formulario
+							  }) => (
 								<Stack width="70%" height="100%" direction="column">
 									<Stack height="90%">
 										{
@@ -196,12 +198,15 @@ export function FormModal({
 										</Button>
 										<Button
 											variant="contained"
-											type="submit"
-											onClick={(event) => {
-												console.log({ errors });
-
+											type="button"
+											onClick={async (event) => {
 												event.preventDefault();
-												handleSubmit();
+												const formErrors = await validateForm();
+												if (Object.keys(formErrors).length === 0) {
+													handleSubmit();
+												} else {
+													console.log({ errors: formErrors });
+												}
 											}}
 											startIcon={isSubmitting && <Loader />}
 											sx={{
