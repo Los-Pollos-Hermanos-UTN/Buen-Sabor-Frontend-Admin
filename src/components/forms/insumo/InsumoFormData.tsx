@@ -3,13 +3,14 @@ import { FormStep } from "../FormStep";
 import { InsumoStep1 } from "./steps/InsumoStep1";
 import { InsumoStep2 } from "./steps/InsumoStep2";
 import * as yup from "yup";
+import { InsumoStep3 } from "./steps/InsumoStep3";
 
 export const InsumoInitialValues: ArticuloInsumo = {
 	id: 0,
 	eliminado: false,
 	denominacion: "",
 	precioVenta: 0,
-	imagenes: null,
+	imagenes: [],
 	unidadMedida: {
 		id: null,
 		eliminado: false,
@@ -55,5 +56,12 @@ export const InsumoFormSteps: FormStep[] = [
 		label: "Detalles Adicionales",
 		isSubstep: false,
 		fields: <InsumoStep2 />,
+	},
+	{
+		number: 3,
+		icon: 3,
+		label: "Agregar Imagen",
+		isSubstep: false,
+		fields: <InsumoStep3 />,
 	},
 ];

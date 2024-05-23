@@ -11,6 +11,77 @@ export async function getData<T>(path: string): Promise<T> {
 	}
 }
 
+
+// Función generica para enviar datos mediante una solicitud PUT (FormData)
+export async function putFormData<T>(
+	path: string,
+	data: T,
+	images: File[]
+): Promise<T> {
+	const formData = new FormData();
+
+	formData.append(
+		"data",
+		new Blob([JSON.stringify(data)], { type: "application/json" })
+	);
+	images.forEach((image, _) => {
+		formData.append("imagenes", image);
+	});
+
+	try {
+		const response = await fetch(path, {
+			method: "PUT",
+			body: formData,
+		});
+
+		if (!response.ok) {
+			throw new Error(`Error: ${response.statusText}`);
+		}
+
+		const result: T = await response.json();
+		return result;
+	} catch (error) {
+		console.error("Error putting form data:", error);
+		throw error;
+	}
+}
+
+
+// Función generica para enviar datos mediante una solicitud POST (FormData)
+export async function postFormData<T>(
+	path: string,
+	data: T,
+	images: File[]
+): Promise<T> {
+	const formData = new FormData();
+
+	formData.append(
+		"data",
+		new Blob([JSON.stringify(data)], { type: "application/json" })
+	);
+	images.forEach((image, _) => {
+		formData.append("imagenes", image);
+	});
+
+	try {
+		const response = await fetch(path, {
+			method: "POST",
+			body: formData,
+		});
+
+		if (!response.ok) {
+			throw new Error(`Error: ${response.statusText}`);
+		}
+
+		const result: T = await response.json();
+		return result;
+	} catch (error) {
+		console.error("Error posting form data:", error);
+		throw error;
+	}
+}
+
+
 // Función generica para enviar datos mediante una solicitud POST
 export async function postData<T>(path: string, data: T): Promise<T> {
 	try {

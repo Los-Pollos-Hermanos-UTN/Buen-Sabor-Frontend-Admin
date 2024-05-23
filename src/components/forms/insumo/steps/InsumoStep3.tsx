@@ -6,7 +6,7 @@ import { Carousel } from 'react-responsive-carousel';
 import 'react-responsive-carousel/lib/styles/carousel.min.css';
 import DeleteIcon from '@mui/icons-material/Delete';
 
-export const ManufacturadoStep3 = (props: any) => {
+export const InsumoStep3 = (props: any) => {
     const { values, setFieldValue } = props;
     const [currentIndex, setCurrentIndex] = useState(0);
     const hiddenFileInput = useRef<HTMLInputElement | null>(null);

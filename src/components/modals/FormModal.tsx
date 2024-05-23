@@ -11,7 +11,7 @@ import { BackButton } from "../buttons/BackButton";
 import { VerticalStepper } from "../stepper/VerticalStepper";
 import { FormStep } from "../forms/FormStep";
 import { Formik } from "formik";
-import { postData, putData } from "../../services/RequestExecutor";
+import {postData, postFormData, putData, putFormData} from "../../services/RequestExecutor";
 import * as yup from "yup";
 import { Loader } from "../shared/Loader";
 
@@ -76,15 +76,23 @@ export function FormModal({
 	};
 
 	const handleSubmit = async (values: any) => {
-		console.log(`Submiting:`, { values });
+		console.log("Submiting:", { values });
 		if (!isLastStep()) {
 			handleNext();
 			return;
 		}
 		try {
-			const response = isEdit
-				? await putData(putUrl!, values)
-				: await postData(postUrl, values);
+			let response;
+			if (values && values.imagenes) {
+				response = isEdit
+					? await putFormData(putUrl!, values, values.imagenes)
+					: await postFormData(postUrl, values, values.imagenes);
+			} else {
+				response = isEdit
+					? await putData(putUrl!, values)
+					: await postData(postUrl, values);
+			}
+
 			console.log({ response });
 		} catch (error) {
 			console.error(error);
