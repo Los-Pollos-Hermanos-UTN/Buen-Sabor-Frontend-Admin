@@ -9,10 +9,11 @@ import {
 } from "../components/forms/categoria/CategoriaFormData";
 import { FormModal } from "../components/modals/FormModal";
 import { useEffect, useState } from "react";
-import { CONSTANTS } from "../constants/constants";
+import { getConstants } from "../constants/constants";
 import { deleteData, getData } from "../services/RequestExecutor";
 
 export const Categories = () => {
+	const CONSTANTS = getConstants();
 	const [open, setOpen] = useState<boolean>(false);
 	const handleOpen = () => setOpen(true);
 	const handleClose = () => setOpen(false);
@@ -21,6 +22,7 @@ export const Categories = () => {
 		null
 	);
 	const [categorias, setCategorias] = useState<Categoria[]>([]);
+	const [refresh, setRefresh] = useState<boolean>(false); // Estado para forzar la recarga
 
 	useEffect(() => {
 		const getCategorias = async () => {
@@ -28,13 +30,25 @@ export const Categories = () => {
 				const response = await getData<Categoria[]>(
 					CONSTANTS.categorias.getUrl
 				);
-				setCategorias(response);
+				const filteredResponse = filterCategoriasEliminadas(response);
+				setCategorias(filteredResponse);
 			} catch (error) {
 				console.error(error);
 			}
 		};
 		getCategorias();
-	}, [open]);
+	}, [open, refresh]);
+
+	const filterCategoriasEliminadas = (categorias: Categoria[]): Categoria[] => {
+		return categorias
+			.filter((categoria) => !categoria.eliminado)
+			.map((categoria) => ({
+				...categoria,
+				subCategorias: filterCategoriasEliminadas(
+					categoria.subCategorias || []
+				),
+			}));
+	};
 
 	const handleEdit = (categoria: Categoria) => {
 		setSelectedCategoria(categoria);
@@ -52,6 +66,10 @@ export const Categories = () => {
 		}
 	};
 
+	const triggerRefresh = () => {
+		setRefresh((prev) => !prev);
+	};
+
 	return (
 		<>
 			<Stack direction="column" m="3%" spacing={5}>
@@ -62,6 +80,9 @@ export const Categories = () => {
 						<CategoriaButton
 							key={categoria.denominacion}
 							categoria={categoria}
+							onEdit={handleEdit}
+							onDelete={handleDelete}
+							triggerRefresh={triggerRefresh}
 						/>
 					))}
 			</Stack>
@@ -71,6 +92,7 @@ export const Categories = () => {
 				handleClose={() => {
 					setSelectedCategoria(null);
 					handleClose();
+					triggerRefresh();
 				}}
 				width={0}
 				height={600}

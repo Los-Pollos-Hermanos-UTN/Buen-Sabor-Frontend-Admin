@@ -12,12 +12,14 @@ import {
 	SucursalValidationSchemas,
 	SucursalInitialValues,
 } from "../forms/sucursal/SucursalFormData";
-import { CONSTANTS } from "../../constants/constants";
+import { getConstants } from "../../constants/constants";
 import {
 	ArticuloManufacturadoFormSteps,
 	ArticuloManufacturadoInitialValues,
 	ArticuloManufacturadoValidationSchemas,
 } from "../forms/manufacturado/ManufacturadoFormData";
+import { useSelector } from "react-redux";
+import { RootState } from "../../store/store";
 
 const CustomPaper = styled(Paper)(({ theme }) => ({
 	backgroundColor: "rgba(10, 9, 8, 0.5)",
@@ -38,9 +40,15 @@ export const QuickAccessPaper = ({
 	title,
 	navigateTo,
 }: QuickAccessPaperProps) => {
+	const CONSTANTS = getConstants();
 	const [open, setOpen] = useState<boolean>(false);
 	const handleOpen = () => setOpen(true);
 	const handleClose = () => setOpen(false);
+
+	const empresa = useSelector(
+		(state: RootState) => state.empresa.selectedEmpresa
+	);
+
 	return (
 		<>
 			<CustomPaper square={false}>
@@ -85,7 +93,7 @@ export const QuickAccessPaper = ({
 				initialValues={
 					title === "Articulos"
 						? ArticuloManufacturadoInitialValues
-						: SucursalInitialValues
+						: { ...SucursalInitialValues, empresa }
 				}
 				validationSchemas={
 					title === "Articulos"

@@ -7,7 +7,7 @@ import {
 	ArticuloManufacturado,
 	manufacturadoColumns,
 } from "../types/Manufacturado";
-import { CONSTANTS } from "../constants/constants";
+import { getConstants } from "../constants/constants";
 import { deleteData, getData } from "../services/RequestExecutor";
 import { FormModal } from "../components/modals/FormModal";
 import {
@@ -18,6 +18,7 @@ import {
 import { searchInObject } from "../utils/SearchUtils";
 
 export const ManufacturadosPage = () => {
+	const CONSTANTS = getConstants();
 	const [searchTerm, setSearchTerm] = useState("");
 
 	const [open, setOpen] = useState<boolean>(false);

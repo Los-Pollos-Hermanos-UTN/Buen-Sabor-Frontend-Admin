@@ -4,7 +4,7 @@ import { BranchCard } from "../components/cards/BranchCard";
 import { useEffect, useState } from "react";
 import { Sucursal } from "../types/Sucursal";
 import { getData } from "../services/RequestExecutor";
-import { CONSTANTS } from "../constants/constants";
+import { getConstants } from "../constants/constants";
 import {
 	SucursalFormSteps,
 	SucursalInitialValues,
@@ -14,11 +14,17 @@ import { FormModal } from "../components/modals/FormModal";
 import { AddButton } from "../components/buttons/AddButton";
 import {
 	EmpresaFormSteps,
-	EmpresaInitialValues,
 	EmpresaValidationSchemas,
 } from "../components/forms/empresa/EmpresaFormData";
+import { useSelector } from "react-redux";
+import { RootState } from "../store/store";
 
 export const Company = () => {
+	const CONSTANTS = getConstants();
+	const empresa = useSelector(
+		(state: RootState) => state.empresa.selectedEmpresa
+	);
+
 	const [open, setOpen] = useState<boolean>(false);
 	const handleOpen = () => setOpen(true);
 	const handleClose = () => setOpen(false);
@@ -67,8 +73,8 @@ export const Company = () => {
 				<Stack direction="row" spacing={3}>
 					<Stack direction="row" width="100%">
 						<Stack width="90%">
-							<Typography variant="h4" fontSize="35px" color="#49111C">
-								Pollos Hermanos
+							<Typography fontSize="38px" fontWeight="bold" color="#49111C">
+								{empresa?.nombre}
 							</Typography>
 							<Typography variant="h6" fontSize="30px" color="#5E503F">
 								Sucursales
@@ -98,7 +104,9 @@ export const Company = () => {
 				width={0}
 				height={600}
 				initialValues={
-					!!selectedSucursal ? selectedSucursal : SucursalInitialValues
+					!!selectedSucursal
+						? selectedSucursal
+						: { ...SucursalInitialValues, empresa }
 				}
 				validationSchemas={SucursalValidationSchemas}
 				postUrl={CONSTANTS.sucursal.postURL}
@@ -112,8 +120,8 @@ export const Company = () => {
 				open={openEmpresaForm}
 				handleClose={handleCloseEmpresaForm}
 				width={0}
-				height={600}
-				initialValues={EmpresaInitialValues} // TODO: Modificar con estado GLOBAL DE EMPRESA
+				height={450}
+				initialValues={empresa}
 				validationSchemas={EmpresaValidationSchemas}
 				postUrl={CONSTANTS.sucursal.postURL}
 				putUrl={CONSTANTS.empresa.putURL}

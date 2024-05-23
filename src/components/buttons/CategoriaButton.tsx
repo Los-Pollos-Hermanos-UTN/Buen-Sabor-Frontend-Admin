@@ -14,7 +14,7 @@ import {
 	CategoriaInitialValues,
 	CategoriaValidationSchemas,
 } from "../forms/categoria/CategoriaFormData";
-import { CONSTANTS } from "../../constants/constants";
+import { getConstants } from "../../constants/constants";
 import { AddButton } from "./AddButton";
 import { deleteData } from "../../services/RequestExecutor";
 import { EditButton } from "./EditButton";
@@ -22,9 +22,18 @@ import { TableDeleteButton } from "../table/TableDeleteButton";
 
 interface CategoriaButtonProps {
 	categoria: Categoria;
+	onEdit: (categoria: Categoria) => void;
+	onDelete: (categoria: Categoria) => void;
+	triggerRefresh: () => void; // Nueva prop para forzar la recarga
 }
 
-export const CategoriaButton: FC<CategoriaButtonProps> = ({ categoria }) => {
+export const CategoriaButton: FC<CategoriaButtonProps> = ({
+	categoria,
+	onEdit,
+	onDelete,
+	triggerRefresh,
+}) => {
+	const CONSTANTS = getConstants();
 	const [open, setOpen] = useState<boolean>(false);
 	const handleOpen = () => setOpen(true);
 	const handleClose = () => setOpen(false);
@@ -47,9 +56,17 @@ export const CategoriaButton: FC<CategoriaButtonProps> = ({ categoria }) => {
 	const handleDelete = async (categoria: Categoria) => {
 		try {
 			await deleteData(`${CONSTANTS.categorias.deleteURL}${categoria.id}`);
+			onDelete(categoria);
+			triggerRefresh(); // Forzar la recarga después de la eliminación
 		} catch (error) {
 			console.error(error);
 		}
+	};
+
+	const handleCloseModal = () => {
+		setSelectedCategoria(null);
+		handleClose();
+		triggerRefresh(); // Forzar la recarga después de cerrar el modal
 	};
 
 	return (
@@ -94,6 +111,9 @@ export const CategoriaButton: FC<CategoriaButtonProps> = ({ categoria }) => {
 						<CategoriaButton
 							key={subCategoria.denominacion}
 							categoria={subCategoria}
+							onEdit={onEdit}
+							onDelete={onDelete}
+							triggerRefresh={triggerRefresh} // Pasa triggerRefresh a subcategorias
 						/>
 					))}
 				</AccordionDetails>
@@ -104,20 +124,21 @@ export const CategoriaButton: FC<CategoriaButtonProps> = ({ categoria }) => {
 						!!selectedCategoria ? "Editar Categoría" : "Crear Subcategoria"
 					}
 					open={open}
-					handleClose={() => {
-						setSelectedCategoria(null);
-						handleClose();
-					}}
+					handleClose={handleCloseModal}
 					width={0}
 					height={600}
 					initialValues={
 						!!selectedCategoria
-							? { ...selectedCategoria, padreId: categoria.id }
+							? selectedCategoria
 							: { ...CategoriaInitialValues, padreId: categoria.id }
-					} // Asignamos padreId
+					} // Asignamos padreId correctamente solo al crear
 					validationSchemas={CategoriaValidationSchemas}
 					postUrl={CONSTANTS.categorias.postURL}
-					putUrl={`${CONSTANTS.categorias.putURL}${selectedCategoria?.id}`}
+					putUrl={
+						!!selectedCategoria
+							? `${CONSTANTS.categorias.putURL}${selectedCategoria.id}`
+							: undefined
+					}
 					isEdit={!!selectedCategoria}
 					steps={CategoriaFormSteps}
 					substepDefault={false}

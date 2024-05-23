@@ -5,16 +5,9 @@ import Drawer from "@mui/material/Drawer";
 import ListItem from "@mui/material/ListItem";
 import ListItemButton from "@mui/material/ListItemButton";
 import ListItemText from "@mui/material/ListItemText";
-import {
-	Accordion,
-	AccordionDetails,
-	AccordionSummary,
-	Divider,
-	Stack,
-} from "@mui/material";
+import { Accordion, AccordionSummary, Divider, Stack } from "@mui/material";
 import { Link, useLocation } from "react-router-dom";
 
-import AccountCircleOutlinedIcon from "@mui/icons-material/AccountCircleOutlined";
 import DataUsageOutlinedIcon from "@mui/icons-material/DataUsageOutlined";
 import WalletOutlinedIcon from "@mui/icons-material/WalletOutlined";
 import SellOutlinedIcon from "@mui/icons-material/SellOutlined";
@@ -26,39 +19,18 @@ import RestaurantIcon from "@mui/icons-material/Restaurant";
 import MenuBookIcon from "@mui/icons-material/MenuBook";
 
 import { NavBar } from "./NavBar";
-
-const drawerItems = [
-	{
-		name: "Pollos Hermanos",
-		style: {
-			height: "55px",
-			borderRadius: "10px",
-		},
-		route: "/empresa",
-		icon: <AccountCircleOutlinedIcon />,
-	},
-	{
-		name: "Inicio",
-		style: {
-			backgroundColor: "#E8E8E8",
-			borderRadius: "10px",
-		},
-		route: "/",
-		icon: <DataUsageOutlinedIcon />,
-	},
-	{ name: "Articulos", route: "/manufacturados", icon: <WalletOutlinedIcon /> },
-	{ name: "Promociones", route: "/promociones", icon: <SellOutlinedIcon /> },
-	{ name: "Empresa", route: "/empresa", icon: <FolderSharedOutlinedIcon /> },
-	{ name: "Usuarios", route: "/usuarios", icon: <PeopleAltOutlinedIcon /> },
-	{ name: "Categorias", route: "/categorias", icon: <StyleOutlinedIcon /> },
-];
+import { useSelector } from "react-redux";
+import { RootState } from "../../store/store";
 
 interface SidebarProps {
 	drawerWidth?: number;
-	setIsAuthenticated: (value: boolean) => void;
 }
 
-export function SideBar({ drawerWidth, setIsAuthenticated }: SidebarProps) {
+export function SideBar({ drawerWidth }: SidebarProps) {
+	const empresa = useSelector(
+		(state: RootState) => state.empresa.selectedEmpresa
+	);
+
 	const location = useLocation();
 	const currentPathname = location.pathname;
 	const currentRouteName =
@@ -82,10 +54,41 @@ export function SideBar({ drawerWidth, setIsAuthenticated }: SidebarProps) {
 		}
 	};
 
+	const drawerItems = [
+		{
+			name: empresa?.nombre,
+			style: {
+				height: "55px",
+				borderRadius: "10px",
+				justifyContent: "center",
+			},
+			route: "/empresa",
+			icon: <></>,
+		},
+		{
+			name: "Inicio",
+			style: {
+				backgroundColor: "#E8E8E8",
+				borderRadius: "10px",
+			},
+			route: "/",
+			icon: <DataUsageOutlinedIcon />,
+		},
+		{
+			name: "Articulos",
+			route: "/manufacturados",
+			icon: <WalletOutlinedIcon />,
+		},
+		{ name: "Promociones", route: "/promociones", icon: <SellOutlinedIcon /> },
+		{ name: "Empresa", route: "/empresa", icon: <FolderSharedOutlinedIcon /> },
+		{ name: "Usuarios", route: "/usuarios", icon: <PeopleAltOutlinedIcon /> },
+		{ name: "Categorias", route: "/categorias", icon: <StyleOutlinedIcon /> },
+	];
+
 	const MyDrawer = (
 		<Stack justifyContent="center" alignItems="center">
 			{drawerItems.map((item) => (
-				<>
+				<React.Fragment key={item.name}>
 					{item.name === "Articulos" ? (
 						<>
 							<Divider
@@ -157,7 +160,7 @@ export function SideBar({ drawerWidth, setIsAuthenticated }: SidebarProps) {
 							</ListItemButton>
 						</ListItem>
 					)}
-				</>
+				</React.Fragment>
 			))}
 		</Stack>
 	);
@@ -169,7 +172,6 @@ export function SideBar({ drawerWidth, setIsAuthenticated }: SidebarProps) {
 				title={currentRouteName}
 				drawerWidth={drawerWidth}
 				handleDrawerToggle={handleDrawerToggle}
-				setIsAuthenticated={setIsAuthenticated}
 			/>
 			<Box
 				component="nav"

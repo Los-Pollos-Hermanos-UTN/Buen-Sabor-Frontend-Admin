@@ -3,7 +3,7 @@ import { useEffect, useState } from "react";
 import { SearchBar } from "../components/shared/SearchBar";
 import { CustomTable } from "../components/table/CustomTable";
 import { ArticuloInsumo, insumoColumns } from "../types/Insumo";
-import { CONSTANTS } from "../constants/constants";
+import { getConstants } from "../constants/constants";
 import { deleteData, getData } from "../services/RequestExecutor";
 import { FormModal } from "../components/modals/FormModal";
 import {
@@ -14,6 +14,7 @@ import {
 import { searchInObject } from "../utils/SearchUtils";
 
 export const InsumosPage = () => {
+	const CONSTANTS = getConstants();
 	const [searchTerm, setSearchTerm] = useState("");
 
 	const [open, setOpen] = useState<boolean>(false);
