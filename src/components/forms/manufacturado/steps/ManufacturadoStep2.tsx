@@ -63,6 +63,13 @@ export const ManufacturadoStep2 = (props: any) => {
 	}, [open]);
 
 	useEffect(() => {
+		if (values.articuloManufacturadoDetalles && values.articuloManufacturadoDetalles.length > 0) {
+			const insumosFromDetalles = values.articuloManufacturadoDetalles.map((detalle: ArticuloManufacturadoDetalle) => detalle.articuloInsumo);
+			setSelectedInsumos(insumosFromDetalles);
+		}
+	}, [values.articuloManufacturadoDetalles]);
+
+	useEffect(() => {
 		if (editingInsumo !== null && inputRef.current) {
 			inputRef.current.focus();
 		}
