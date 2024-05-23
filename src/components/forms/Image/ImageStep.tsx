@@ -16,7 +16,8 @@ export const ImageStep = (props: any) => {
     const handleImageChange = async (event: React.ChangeEvent<HTMLInputElement>) => {
         const files = event.target.files ? Array.from(event.target.files) : [];
         if (values.imagenes.length + files.length > 4) {
-            return toast.warning("Solo puedes subir un máximo de 4 imágenes.");
+            toast.warning("Solo puedes subir un máximo de 4 imágenes.");
+            return;
         }
 
         const newImages: (File | { url: string })[] = [];
@@ -28,6 +29,11 @@ export const ImageStep = (props: any) => {
         const updatedImages = [...values.imagenes, ...newImages];
         setFieldValue("imagenes", updatedImages);
         setCurrentIndex(values.imagenes.length); // Set the index to the first new image
+
+        // Reset the input value to allow re-uploading the same file
+        if (hiddenFileInput.current) {
+            hiddenFileInput.current.value = '';
+        }
     };
 
     const processImage = (file: File): Promise<File> => {
