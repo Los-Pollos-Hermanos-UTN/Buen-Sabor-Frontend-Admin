@@ -1,15 +1,16 @@
+import * as yup from "yup";
 import { ArticuloManufacturado } from "../../../types/Manufacturado";
 import { FormStep } from "../FormStep";
 import { ManufacturadoStep1 } from "./steps/ManufacturadoStep1";
 import { ManufacturadoStep2 } from "./steps/ManufacturadoStep2";
-import * as yup from "yup";
+import { ManufacturadoStep3 } from "./steps/ManufacturadoStep3";
 
 export const ArticuloManufacturadoInitialValues: ArticuloManufacturado = {
 	id: null,
 	eliminado: false,
 	denominacion: "",
 	precioVenta: 0,
-	imagenes: null,
+	imagenes: [],  // Cambiado de null a []
 	unidadMedida: {
 		id: null,
 		eliminado: false,
@@ -30,7 +31,7 @@ export const ArticuloManufacturadoValidationSchemas = [
 			.string()
 			.required("La denominación del artículo manufacturado es requerida"),
 		precioVenta: yup.number().required("El precio de venta es requerido"),
-		imagenes: yup.mixed().nullable(),
+		// imagenes: yup.mixed().nullable(),  // Eliminado para el paso 1
 		descripcion: yup
 			.string()
 			.required("La descripción del artículo manufacturado es requerida"),
@@ -51,6 +52,13 @@ export const ArticuloManufacturadoValidationSchemas = [
 			.required("El tiempo estimado en minutos es requerido"),
 		articuloManufacturadoDetalles: yup.array(),
 	}),
+	// Esquema de validación para el paso 3
+	yup.object().shape({
+		imagenes: yup
+			.array()
+			.min(1, "Debes agregar al menos una imagen")
+			.required("Las imágenes son requeridas")
+	}),
 ];
 
 export const ArticuloManufacturadoFormSteps: FormStep[] = [
@@ -67,5 +75,12 @@ export const ArticuloManufacturadoFormSteps: FormStep[] = [
 		label: "Detalles del Ingrediente",
 		isSubstep: false,
 		fields: <ManufacturadoStep2 />,
+	},
+	{
+		number: 3,
+		icon: 3,
+		label: "Preview",
+		isSubstep: false,
+		fields: <ManufacturadoStep3 />,
 	},
 ];
