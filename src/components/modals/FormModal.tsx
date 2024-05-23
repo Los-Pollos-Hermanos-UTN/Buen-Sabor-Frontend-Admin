@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
 import Modal from "@mui/material/Modal";
@@ -11,7 +11,7 @@ import { BackButton } from "../buttons/BackButton";
 import { VerticalStepper } from "../stepper/VerticalStepper";
 import { FormStep } from "../forms/FormStep";
 import { Formik } from "formik";
-import {postData, postFormData, putData, putFormData} from "../../services/RequestExecutor";
+import { postData, postFormData, putData, putFormData } from "../../services/RequestExecutor";
 import * as yup from "yup";
 import { Loader } from "../shared/Loader";
 
@@ -42,22 +42,28 @@ interface FormModalProps {
 }
 
 export function FormModal({
-	title,
-	substepDefault,
-	open,
-	width,
-	height,
-	initialValues,
-	validationSchemas,
-	postUrl,
-	putUrl,
-	isEdit,
-	steps,
-	handleClose,
-}: FormModalProps) {
+							  title,
+							  substepDefault,
+							  open,
+							  width,
+							  height,
+							  initialValues,
+							  validationSchemas,
+							  postUrl,
+							  putUrl,
+							  isEdit,
+							  steps,
+							  handleClose,
+						  }: FormModalProps) {
 	const [activeStep, setActiveStep] = React.useState<number>(
 		substepDefault ? 1 : 0
 	);
+
+	useEffect(() => {
+		if (open) {
+			handleReset();
+		}
+	}, [open]);
 
 	const handleNext = () => {
 		setActiveStep((prevActiveStep) => prevActiveStep + 1);
@@ -76,7 +82,7 @@ export function FormModal({
 	};
 
 	const handleSubmit = async (values: any) => {
-		console.log("Submiting:", { values });
+		console.log("Submitting:", { values });
 		if (!isLastStep()) {
 			handleNext();
 			return;
@@ -94,6 +100,8 @@ export function FormModal({
 			}
 
 			console.log({ response });
+			handleClose();
+			handleReset();
 		} catch (error) {
 			console.error(error);
 		}
@@ -158,16 +166,16 @@ export function FormModal({
 							}}
 						>
 							{({
-								values,
-								errors,
-								touched,
-								handleChange,
-								handleBlur,
-								handleSubmit,
-								isSubmitting,
-								setFieldValue,
-								validateForm, // Función para validar el formulario
-							}) => (
+								  values,
+								  errors,
+								  touched,
+								  handleChange,
+								  handleBlur,
+								  handleSubmit,
+								  isSubmitting,
+								  setFieldValue,
+								  validateForm, // Función para validar el formulario
+							  }) => (
 								<Stack width="70%" height="100%" direction="column">
 									<Stack height="90%">
 										{
