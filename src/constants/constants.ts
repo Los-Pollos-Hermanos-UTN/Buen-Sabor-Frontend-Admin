@@ -50,7 +50,7 @@ export const getConstants = () => {
 		  }
 		: {
 				sucursal: {
-					getUrl: `http://localhost:8080/sucursal/short/listByEmpresa/${empresa?.id}`,
+					getUrl: `http://localhost:8080/sucursal/listByEmpresa/${empresa?.id}`,
 					postURL: "http://localhost:8080/sucursal/",
 					putURL: "http://localhost:8080/sucursal/",
 					deleteURL: "http://localhost:8080/sucursal/",

@@ -30,13 +30,25 @@ export const Categories = () => {
 				const response = await getData<Categoria[]>(
 					CONSTANTS.categorias.getUrl
 				);
-				setCategorias(response);
+				const filteredResponse = filterCategoriasEliminadas(response);
+				setCategorias(filteredResponse);
 			} catch (error) {
 				console.error(error);
 			}
 		};
 		getCategorias();
 	}, [open, refresh]);
+
+	const filterCategoriasEliminadas = (categorias: Categoria[]): Categoria[] => {
+		return categorias
+			.filter((categoria) => !categoria.eliminado)
+			.map((categoria) => ({
+				...categoria,
+				subCategorias: filterCategoriasEliminadas(
+					categoria.subCategorias || []
+				),
+			}));
+	};
 
 	const handleEdit = (categoria: Categoria) => {
 		setSelectedCategoria(categoria);
