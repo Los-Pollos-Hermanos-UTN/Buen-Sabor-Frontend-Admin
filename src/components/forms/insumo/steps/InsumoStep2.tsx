@@ -9,7 +9,7 @@ import {
 	Select,
 } from "@mui/material";
 import { useState, useEffect } from "react";
-import { CONSTANTS } from "../../../../constants/constants";
+import { getConstants } from "../../../../constants/constants";
 import { getData } from "../../../../services/RequestExecutor";
 import { UnidadMedida } from "../../../../types/UnidadMedida";
 import { AddButton } from "../../../buttons/AddButton";
@@ -21,6 +21,7 @@ import {
 } from "../../unidadMedida/UnidadMedidaFormData";
 
 export const InsumoStep2 = (props: any) => {
+	const CONSTANTS = getConstants();
 	const { values, errors, handleChange, handleBlur } = props;
 
 	const [open, setOpen] = useState<boolean>(false);

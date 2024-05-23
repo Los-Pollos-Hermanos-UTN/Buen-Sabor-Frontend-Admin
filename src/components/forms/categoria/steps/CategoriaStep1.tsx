@@ -8,7 +8,7 @@ import {
 import CheckBoxOutlineBlankIcon from "@mui/icons-material/CheckBoxOutlineBlank";
 import CheckBoxIcon from "@mui/icons-material/CheckBox";
 import { useState, useEffect } from "react";
-import { CONSTANTS } from "../../../../constants/constants";
+import { getConstants } from "../../../../constants/constants";
 import { getData } from "../../../../services/RequestExecutor";
 import { Sucursal } from "../../../../types/Sucursal";
 
@@ -16,6 +16,7 @@ const icon = <CheckBoxOutlineBlankIcon fontSize="small" />;
 const checkedIcon = <CheckBoxIcon fontSize="small" />;
 
 export const CategoriaStep1 = (props: any) => {
+	const CONSTANTS = getConstants();
 	const { values, errors, handleChange, handleBlur, setFieldValue } = props;
 
 	const [sucursales, setSucursales] = useState<Sucursal[]>([]);

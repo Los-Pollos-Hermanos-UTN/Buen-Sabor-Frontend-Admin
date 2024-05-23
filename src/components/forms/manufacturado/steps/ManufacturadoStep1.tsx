@@ -1,11 +1,12 @@
 import { Autocomplete, Stack, TextField } from "@mui/material";
 import { useState, useEffect } from "react";
-import { CONSTANTS } from "../../../../constants/constants";
+import { getConstants } from "../../../../constants/constants";
 import { getData } from "../../../../services/RequestExecutor";
 import { Categoria } from "../../../../types/Categoria";
 import { flattenCategorias } from "../../../../utils/CategoriaUtils";
 
 export const ManufacturadoStep1 = (props: any) => {
+	const CONSTANTS = getConstants();
 	const { values, errors, handleChange, handleBlur, setFieldValue } = props;
 	const [categorias, setCategorias] = useState<Categoria[]>([]);
 
