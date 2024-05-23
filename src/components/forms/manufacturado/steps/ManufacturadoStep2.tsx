@@ -12,7 +12,6 @@ import {
 } from "@mui/material";
 import DeleteIcon from "@mui/icons-material/Delete";
 import EditIcon from "@mui/icons-material/Edit";
-import CheckIcon from "@mui/icons-material/Check";
 import { getData } from "../../../../services/RequestExecutor";
 import { CONSTANTS } from "../../../../constants/constants";
 import { ArticuloManufacturadoDetalle } from "../../../../types/Manufacturado";
@@ -43,9 +42,7 @@ export const ManufacturadoStep2 = (props: any) => {
 	useEffect(() => {
 		const getInsumos = async () => {
 			try {
-				const response = await getData<ArticuloInsumo[]>(
-					CONSTANTS.insumo.getUrl
-				);
+				const response = await getData<ArticuloInsumo[]>(CONSTANTS.insumo.getUrl);
 				setInsumos(response);
 			} catch (error) {
 				console.error(error);
@@ -54,9 +51,7 @@ export const ManufacturadoStep2 = (props: any) => {
 
 		const getUnidadesMedida = async () => {
 			try {
-				const response = await getData<UnidadMedida[]>(
-					CONSTANTS.unidadMedida.getUrl
-				);
+				const response = await getData<UnidadMedida[]>(CONSTANTS.unidadMedida.getUrl);
 				setUnidadesMedida(response);
 			} catch (error) {
 				console.error(error);
@@ -74,10 +69,7 @@ export const ManufacturadoStep2 = (props: any) => {
 
 	useEffect(() => {
 		const handleClickOutside = (event: MouseEvent) => {
-			if (
-				inputRef.current &&
-				!inputRef.current.contains(event.target as Node)
-			) {
+			if (inputRef.current && !inputRef.current.contains(event.target as Node)) {
 				if (editingInsumo) {
 					handleSaveEdit(editingInsumo);
 				}
@@ -129,11 +121,6 @@ export const ManufacturadoStep2 = (props: any) => {
 	const handleEditClick = (denominacion: string, cantidad: number) => {
 		setEditingInsumo(denominacion);
 		setNewCantidad(cantidad);
-		setTimeout(() => {
-			if (inputRef.current) {
-				inputRef.current.focus();
-			}
-		}, 0); // Ensures that the input is focused after the state is updated
 	};
 
 	const handleSaveEdit = (denominacion: string) => {
@@ -148,13 +135,6 @@ export const ManufacturadoStep2 = (props: any) => {
 		);
 		setEditingInsumo(null);
 		setNewCantidad(0);
-		if (inputRef.current) {
-			inputRef.current.blur();
-		}
-	};
-
-	const handleIconClick = (event: React.MouseEvent) => {
-		event.currentTarget.blur();
 	};
 
 	const preventBackspacePropagation = (event) => {
@@ -212,7 +192,8 @@ export const ManufacturadoStep2 = (props: any) => {
 														value={newCantidad}
 														onChange={(e) => setNewCantidad(Number(e.target.value))}
 														onKeyDown={preventBackspacePropagation}
-														style={{ width: "60px", marginRight: "8px", MozAppearance: 'textfield', appearance: 'textfield' }}
+														onBlur={() => handleSaveEdit(detalle.articuloInsumo.denominacion)}
+														style={{ width: "60px", marginRight: "8px" }}
 														ref={inputRef}
 													/>
 												) : (
@@ -224,33 +205,23 @@ export const ManufacturadoStep2 = (props: any) => {
 										{...getTagProps({ index })}
 										deleteIcon={
 											<>
-												{editingInsumo === detalle.articuloInsumo.denominacion ? (
+												{editingInsumo !== detalle.articuloInsumo.denominacion && (
 													<IconButton
-														onClick={(event) => {
-															handleSaveEdit(detalle.articuloInsumo.denominacion);
-															handleIconClick(event);
-														}}
-														size="small"
-														onMouseLeave={() => setEditingInsumo(null)}
-													>
-														<CheckIcon fontSize="inherit" />
-													</IconButton>
-												) : (
-													<IconButton
-														onClick={(event) => {
-															handleEditClick(detalle.articuloInsumo.denominacion, detalle.cantidad);
-															handleIconClick(event);
-														}}
+														onClick={() =>
+															handleEditClick(
+																detalle.articuloInsumo.denominacion,
+																detalle.cantidad
+															)
+														}
 														size="small"
 													>
 														<EditIcon fontSize="inherit" />
 													</IconButton>
 												)}
 												<IconButton
-													onClick={(event) => {
-														handleDelete(detalle.articuloInsumo.denominacion);
-														handleIconClick(event);
-													}}
+													onClick={() =>
+														handleDelete(detalle.articuloInsumo.denominacion)
+													}
 													size="small"
 												>
 													<DeleteIcon fontSize="inherit" />
