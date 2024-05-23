@@ -1,9 +1,9 @@
+import * as yup from "yup";
 import { ArticuloInsumo } from "../../../types/Insumo";
 import { FormStep } from "../FormStep";
 import { InsumoStep1 } from "./steps/InsumoStep1";
 import { InsumoStep2 } from "./steps/InsumoStep2";
-import * as yup from "yup";
-import { InsumoStep3 } from "./steps/InsumoStep3";
+import { ImageStep } from "../Image/ImageStep.tsx";
 
 export const InsumoInitialValues: ArticuloInsumo = {
 	id: 0,
@@ -22,9 +22,10 @@ export const InsumoInitialValues: ArticuloInsumo = {
 	esParaElaborar: false,
 	categoriaId: "",
 };
+
 export const InsumoValidationSchemas = [
+	// Esquema de validación para el primer paso
 	yup.object().shape({
-		// Esquema de validación para el primer paso
 		denominacion: yup
 			.string()
 			.required("La denominación del insumo es requerida"),
@@ -34,11 +35,18 @@ export const InsumoValidationSchemas = [
 			.string()
 			.required("La categoria es requerida"),
 	}),
+	// Esquema de validación para el segundo paso
 	yup.object().shape({
-		// Esquema de validación para el segundo paso
 		stockActual: yup.number().required("El stock actual es requerido"),
 		stockMaximo: yup.number().required("El stock máximo es requerido"),
 		esParaElaborar: yup.boolean().required(),
+	}),
+	// Esquema de validación para el tercer paso (imágenes)
+	yup.object().shape({
+		imagenes: yup
+			.array()
+			.min(1, "Debes agregar al menos una imagen")
+			.required("Las imágenes son requeridas")
 	}),
 ];
 
@@ -62,6 +70,6 @@ export const InsumoFormSteps: FormStep[] = [
 		icon: 3,
 		label: "Agregar Imagen",
 		isSubstep: false,
-		fields: <InsumoStep3 />,
+		fields: <ImageStep />,
 	},
 ];

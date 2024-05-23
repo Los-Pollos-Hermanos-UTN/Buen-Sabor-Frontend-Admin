@@ -1,13 +1,15 @@
 import React, { useState, useRef } from "react";
-import { Stack, Button, IconButton } from "@mui/material";
+import { Stack, Button, IconButton, Typography } from "@mui/material";
+import { useField } from "formik";
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { Carousel } from 'react-responsive-carousel';
 import 'react-responsive-carousel/lib/styles/carousel.min.css';
 import DeleteIcon from '@mui/icons-material/Delete';
 
-export const InsumoStep3 = (props: any) => {
+export const ImageStep = (props: any) => {
     const { values, setFieldValue } = props;
+    const [field, meta, helpers] = useField("imagenes");
     const [currentIndex, setCurrentIndex] = useState(0);
     const hiddenFileInput = useRef<HTMLInputElement | null>(null);
 
@@ -107,6 +109,9 @@ export const InsumoStep3 = (props: any) => {
                 multiple
                 onChange={handleImageChange}
             />
+            {meta.touched && meta.error && (
+                <Typography color="error">{meta.error}</Typography>
+            )}
             {values.imagenes.length > 0 && (
                 <div style={{ width: "80%", height: "90%", position: 'relative' }}>
                     <Carousel

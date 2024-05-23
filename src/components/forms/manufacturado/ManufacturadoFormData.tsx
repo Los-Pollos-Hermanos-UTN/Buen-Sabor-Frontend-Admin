@@ -3,7 +3,7 @@ import { ArticuloManufacturado } from "../../../types/Manufacturado";
 import { FormStep } from "../FormStep";
 import { ManufacturadoStep1 } from "./steps/ManufacturadoStep1";
 import { ManufacturadoStep2 } from "./steps/ManufacturadoStep2";
-import { ManufacturadoStep3 } from "./steps/ManufacturadoStep3";
+import { ImageStep } from "../Image/ImageStep.tsx"
 
 export const ArticuloManufacturadoInitialValues: ArticuloManufacturado = {
 	id: null,
@@ -31,7 +31,6 @@ export const ArticuloManufacturadoValidationSchemas = [
 			.string()
 			.required("La denominación del artículo manufacturado es requerida"),
 		precioVenta: yup.number().required("El precio de venta es requerido"),
-		// imagenes: yup.mixed().nullable(),  // Eliminado para el paso 1
 		descripcion: yup
 			.string()
 			.required("La descripción del artículo manufacturado es requerida"),
@@ -79,8 +78,8 @@ export const ArticuloManufacturadoFormSteps: FormStep[] = [
 	{
 		number: 3,
 		icon: 3,
-		label: "Preview",
+		label: "Agregar Imagen",
 		isSubstep: false,
-		fields: <ManufacturadoStep3 />,
+		fields: <ImageStep />,
 	},
 ];
