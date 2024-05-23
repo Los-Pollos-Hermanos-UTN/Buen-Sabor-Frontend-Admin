@@ -22,6 +22,7 @@ export const Categories = () => {
 		null
 	);
 	const [categorias, setCategorias] = useState<Categoria[]>([]);
+	const [refresh, setRefresh] = useState<boolean>(false); // Estado para forzar la recarga
 
 	useEffect(() => {
 		const getCategorias = async () => {
@@ -35,7 +36,7 @@ export const Categories = () => {
 			}
 		};
 		getCategorias();
-	}, [open]);
+	}, [open, refresh]);
 
 	const handleEdit = (categoria: Categoria) => {
 		setSelectedCategoria(categoria);
@@ -53,6 +54,10 @@ export const Categories = () => {
 		}
 	};
 
+	const triggerRefresh = () => {
+		setRefresh((prev) => !prev);
+	};
+
 	return (
 		<>
 			<Stack direction="column" m="3%" spacing={5}>
@@ -65,6 +70,7 @@ export const Categories = () => {
 							categoria={categoria}
 							onEdit={handleEdit}
 							onDelete={handleDelete}
+							triggerRefresh={triggerRefresh}
 						/>
 					))}
 			</Stack>
@@ -74,6 +80,7 @@ export const Categories = () => {
 				handleClose={() => {
 					setSelectedCategoria(null);
 					handleClose();
+					triggerRefresh();
 				}}
 				width={0}
 				height={600}
