@@ -22,9 +22,11 @@ import { TableDeleteButton } from "../table/TableDeleteButton";
 
 interface CategoriaButtonProps {
 	categoria: Categoria;
+	onEdit: (categoria: Categoria) => void;
+	onDelete: (categoria: Categoria) => void;
 }
 
-export const CategoriaButton: FC<CategoriaButtonProps> = ({ categoria }) => {
+export const CategoriaButton: FC<CategoriaButtonProps> = ({ categoria, onEdit, onDelete }) => {
 	const CONSTANTS = getConstants();
 	const [open, setOpen] = useState<boolean>(false);
 	const handleOpen = () => setOpen(true);
@@ -48,6 +50,7 @@ export const CategoriaButton: FC<CategoriaButtonProps> = ({ categoria }) => {
 	const handleDelete = async (categoria: Categoria) => {
 		try {
 			await deleteData(`${CONSTANTS.categorias.deleteURL}${categoria.id}`);
+			onDelete(categoria);
 		} catch (error) {
 			console.error(error);
 		}
@@ -95,6 +98,8 @@ export const CategoriaButton: FC<CategoriaButtonProps> = ({ categoria }) => {
 						<CategoriaButton
 							key={subCategoria.denominacion}
 							categoria={subCategoria}
+							onEdit={onEdit}
+							onDelete={onDelete}
 						/>
 					))}
 				</AccordionDetails>
@@ -113,12 +118,12 @@ export const CategoriaButton: FC<CategoriaButtonProps> = ({ categoria }) => {
 					height={600}
 					initialValues={
 						!!selectedCategoria
-							? { ...selectedCategoria, padreId: categoria.id }
+							? selectedCategoria
 							: { ...CategoriaInitialValues, padreId: categoria.id }
-					} // Asignamos padreId
+					} // Asignamos padreId correctamente solo al crear
 					validationSchemas={CategoriaValidationSchemas}
 					postUrl={CONSTANTS.categorias.postURL}
-					putUrl={`${CONSTANTS.categorias.putURL}${selectedCategoria?.id}`}
+					putUrl={!!selectedCategoria ? `${CONSTANTS.categorias.putURL}${selectedCategoria.id}` : undefined}
 					isEdit={!!selectedCategoria}
 					steps={CategoriaFormSteps}
 					substepDefault={false}

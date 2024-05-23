@@ -63,6 +63,8 @@ export const Categories = () => {
 						<CategoriaButton
 							key={categoria.denominacion}
 							categoria={categoria}
+							onEdit={handleEdit}
+							onDelete={handleDelete}
 						/>
 					))}
 			</Stack>
