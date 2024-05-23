@@ -22,7 +22,7 @@ import {
 
 export const InsumoStep2 = (props: any) => {
 	const CONSTANTS = getConstants();
-	const { values, errors, handleChange, handleBlur } = props;
+	const { values, errors, handleChange, handleBlur, setFieldValue } = props;
 
 	const [open, setOpen] = useState<boolean>(false);
 	const handleOpen = () => setOpen(true);
@@ -44,6 +44,13 @@ export const InsumoStep2 = (props: any) => {
 		getUnidadesMedida();
 	}, [open]);
 
+	const handleUnidadMedidaChange = (event: any) => {
+		const selectedUnidad = unidadesMedida.find(
+			(unidad) => unidad.id === event.target.value
+		);
+		setFieldValue("unidadMedida", selectedUnidad || { id: null, eliminado: false, denominacion: "" });
+	};
+
 	return (
 		<>
 			<Stack spacing={2}>
@@ -53,14 +60,12 @@ export const InsumoStep2 = (props: any) => {
 						<Select
 							labelId="unidad-medida-label"
 							id="unidad-medida-select"
-							value={values.unidadMedida}
+							value={values.unidadMedida.id || ""}
 							label="Unidad de Medida"
-							onChange={handleChange("unidadMedida")}
+							onChange={handleUnidadMedidaChange}
 						>
 							{unidadesMedida.map((unidad) => (
-								<MenuItem key={unidad.id} value={unidad as any}>
-									{/* Uso el "as any" porque sino da warning por no cumplir con
-									los tipos preestablecidos */}
+								<MenuItem key={unidad.id} value={unidad.id}>
 									{unidad.denominacion}
 								</MenuItem>
 							))}
