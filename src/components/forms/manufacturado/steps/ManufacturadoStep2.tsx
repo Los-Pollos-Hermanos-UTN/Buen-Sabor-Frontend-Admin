@@ -157,12 +157,17 @@ export const ManufacturadoStep2 = (props: any) => {
 						<Select
 							labelId="unidad-medida-label"
 							id="unidad-medida-select"
-							value={values.unidadMedida}
+							value={values.unidadMedida.id || ""}
 							label="Unidad de Medida"
-							onChange={handleChange("unidadMedida")}
+							onChange={(event) => {
+								const selectedUnidad = unidadesMedida.find(
+									(unidad) => unidad.id === event.target.value
+								);
+								setFieldValue("unidadMedida", selectedUnidad || { id: null, eliminado: false, denominacion: "" });
+							}}
 						>
 							{unidadesMedida.map((unidad) => (
-								<MenuItem key={unidad.id} value={unidad as any}>
+								<MenuItem key={unidad.id} value={unidad.id}>
 									{unidad.denominacion}
 								</MenuItem>
 							))}
