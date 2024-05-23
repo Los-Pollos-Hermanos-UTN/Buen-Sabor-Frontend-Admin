@@ -27,6 +27,7 @@ export const ImageStep = (props: any) => {
 
         const updatedImages = [...values.imagenes, ...newImages];
         setFieldValue("imagenes", updatedImages);
+        setCurrentIndex(values.imagenes.length); // Set the index to the first new image
     };
 
     const processImage = (file: File): Promise<File> => {
