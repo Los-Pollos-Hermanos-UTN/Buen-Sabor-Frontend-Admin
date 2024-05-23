@@ -4,7 +4,7 @@ import { BranchCard } from "../components/cards/BranchCard";
 import { useEffect, useState } from "react";
 import { Sucursal } from "../types/Sucursal";
 import { getData } from "../services/RequestExecutor";
-import { CONSTANTS } from "../constants/constants";
+import { getConstants } from "../constants/constants";
 import {
 	SucursalFormSteps,
 	SucursalInitialValues,
@@ -20,6 +20,7 @@ import { useSelector } from "react-redux";
 import { RootState } from "../store/store";
 
 export const Company = () => {
+	const CONSTANTS = getConstants();
 	const empresa = useSelector(
 		(state: RootState) => state.empresa.selectedEmpresa
 	);

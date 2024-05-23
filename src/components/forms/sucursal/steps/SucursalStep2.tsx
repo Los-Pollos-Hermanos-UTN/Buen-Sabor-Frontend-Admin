@@ -1,12 +1,13 @@
 import { Autocomplete, Stack, TextField } from "@mui/material";
 import { useEffect, useState } from "react";
-import { CONSTANTS } from "../../../../constants/constants";
+import { getConstants } from "../../../../constants/constants";
 import { getData } from "../../../../services/RequestExecutor";
 import { Pais } from "../../../../types/Pais";
 import { Provincia } from "../../../../types/Provincia";
 import { Localidad } from "../../../../types/Localidad";
 
 export const SucursalStep2 = (props: any) => {
+	const CONSTANTS = getConstants();
 	const { values, errors, handleChange, handleBlur, setFieldValue } = props;
 
 	const [paises, setPaises] = useState<Pais[]>([]);

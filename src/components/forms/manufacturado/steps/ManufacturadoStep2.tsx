@@ -14,7 +14,7 @@ import DeleteIcon from "@mui/icons-material/Delete";
 import EditIcon from "@mui/icons-material/Edit";
 import CheckIcon from "@mui/icons-material/Check";
 import { getData } from "../../../../services/RequestExecutor";
-import { CONSTANTS } from "../../../../constants/constants";
+import { getConstants } from "../../../../constants/constants";
 import { ArticuloManufacturadoDetalle } from "../../../../types/Manufacturado";
 import { ArticuloInsumo } from "../../../../types/Insumo";
 import { UnidadMedida } from "../../../../types/UnidadMedida";
@@ -27,6 +27,7 @@ import {
 } from "../../unidadMedida/UnidadMedidaFormData";
 
 export const ManufacturadoStep2 = (props: any) => {
+	const CONSTANTS = getConstants();
 	const { values, errors, handleChange, setFieldValue } = props;
 
 	const [open, setOpen] = useState<boolean>(false);

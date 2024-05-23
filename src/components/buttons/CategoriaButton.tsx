@@ -14,7 +14,7 @@ import {
 	CategoriaInitialValues,
 	CategoriaValidationSchemas,
 } from "../forms/categoria/CategoriaFormData";
-import { CONSTANTS } from "../../constants/constants";
+import { getConstants } from "../../constants/constants";
 import { AddButton } from "./AddButton";
 import { deleteData } from "../../services/RequestExecutor";
 import { EditButton } from "./EditButton";
@@ -25,6 +25,7 @@ interface CategoriaButtonProps {
 }
 
 export const CategoriaButton: FC<CategoriaButtonProps> = ({ categoria }) => {
+	const CONSTANTS = getConstants();
 	const [open, setOpen] = useState<boolean>(false);
 	const handleOpen = () => setOpen(true);
 	const handleClose = () => setOpen(false);

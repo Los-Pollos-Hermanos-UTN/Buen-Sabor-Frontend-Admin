@@ -9,10 +9,11 @@ import {
 } from "../components/forms/categoria/CategoriaFormData";
 import { FormModal } from "../components/modals/FormModal";
 import { useEffect, useState } from "react";
-import { CONSTANTS } from "../constants/constants";
+import { getConstants } from "../constants/constants";
 import { deleteData, getData } from "../services/RequestExecutor";
 
 export const Categories = () => {
+	const CONSTANTS = getConstants();
 	const [open, setOpen] = useState<boolean>(false);
 	const handleOpen = () => setOpen(true);
 	const handleClose = () => setOpen(false);

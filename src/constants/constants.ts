@@ -1,7 +1,14 @@
+import { useSelector } from "react-redux";
+import { RootState } from "../store/store";
+
 const env = "local";
 
-export const CONSTANTS =
-	env !== "local"
+export const getConstants = () => {
+	const empresa = useSelector(
+		(state: RootState) => state.empresa.selectedEmpresa
+	);
+
+	return env !== "local"
 		? {
 				sucursal: {
 					getUrl: "https://buensaborfix.onrender.com/sucursal/short",
@@ -43,7 +50,7 @@ export const CONSTANTS =
 		  }
 		: {
 				sucursal: {
-					getUrl: "http://localhost:8080/sucursal/short",
+					getUrl: `http://localhost:8080/sucursal/short/listByEmpresa/${empresa?.id}`,
 					postURL: "http://localhost:8080/sucursal/",
 					putURL: "http://localhost:8080/sucursal/",
 					deleteURL: "http://localhost:8080/sucursal/",
@@ -55,13 +62,13 @@ export const CONSTANTS =
 					deleteURL: "http://localhost:8080/sucursal/",
 				},
 				manufacturado: {
-					getUrl: "http://localhost:8080/articuloManufacturado",
+					getUrl: `http://localhost:8080/articuloManufacturado/listByEmpresa/${empresa.id}`,
 					postURL: "http://localhost:8080/articuloManufacturado/save",
 					putURL: "http://localhost:8080/articuloManufacturado/edit/",
 					deleteURL: "http://localhost:8080/articuloManufacturado/",
 				},
 				insumo: {
-					getUrl: "http://localhost:8080/articuloInsumo",
+					getUrl: `http://localhost:8080/articuloInsumo/listByEmpresa/${empresa.id}`,
 					postURL: "http://localhost:8080/articuloInsumo/save",
 					putURL: "http://localhost:8080/articuloInsumo/edit/",
 					deleteURL: "http://localhost:8080/articuloInsumo/",
@@ -73,7 +80,7 @@ export const CONSTANTS =
 					deleteURL: "http://localhost:8080/unidadMedida/",
 				},
 				categorias: {
-					getUrl: "http://localhost:8080/categoria/getAll",
+					getUrl: `http://localhost:8080/categoria/listByEmpresa/${empresa?.id}`,
 					postURL: "http://localhost:8080/categoria/save",
 					putURL: "http://localhost:8080/categoria/",
 					deleteURL: "http://localhost:8080/categoria/",
@@ -97,3 +104,4 @@ export const CONSTANTS =
 					deleteURL: "http://localhost:8080/localidad/",
 				},
 		  };
+};

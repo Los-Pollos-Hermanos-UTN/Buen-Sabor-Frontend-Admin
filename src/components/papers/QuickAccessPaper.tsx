@@ -12,7 +12,7 @@ import {
 	SucursalValidationSchemas,
 	SucursalInitialValues,
 } from "../forms/sucursal/SucursalFormData";
-import { CONSTANTS } from "../../constants/constants";
+import { getConstants } from "../../constants/constants";
 import {
 	ArticuloManufacturadoFormSteps,
 	ArticuloManufacturadoInitialValues,
@@ -40,6 +40,7 @@ export const QuickAccessPaper = ({
 	title,
 	navigateTo,
 }: QuickAccessPaperProps) => {
+	const CONSTANTS = getConstants();
 	const [open, setOpen] = useState<boolean>(false);
 	const handleOpen = () => setOpen(true);
 	const handleClose = () => setOpen(false);

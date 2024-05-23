@@ -1,6 +1,6 @@
 import { Fab, Stack } from "@mui/material";
 import { useState, useEffect } from "react";
-import { CONSTANTS } from "../constants/constants";
+import { getConstants } from "../constants/constants";
 import { getData } from "../services/RequestExecutor";
 import { Empresa } from "../types/Empresa";
 import { SelectorEmpresa } from "../components/buttons/SelectorEmpresa";
@@ -16,6 +16,7 @@ import { login } from "../features/auth/AuthSlice";
 import { selectEmpresa } from "../features/empresa/EmpresaSlice";
 
 export const InicioSesion = () => {
+	const CONSTANTS = getConstants();
 	const dispatch = useDispatch();
 	const [open, setOpen] = useState<boolean>(false);
 	const handleOpen = () => setOpen(true);
