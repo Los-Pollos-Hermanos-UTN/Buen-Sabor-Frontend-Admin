@@ -27,7 +27,6 @@ export const manufacturadoColumns: TableColumn[] = [
     { label: "Denominación", key: "denominacion" },
     { label: "Precio de Venta", key: "precioVenta" },
     { label: "Descripción", key: "descripcion" },
-    { label: "Tiempo Estimado (minutos)", key: "tiempoEstimadoMinutos" },
     { label: "Preparación", key: "preparacion" },
     { label: "Unidad de Medida", key: "unidadMedida.denominacion" }, // Anidado
     { label: "Acciones", key: "acciones" }

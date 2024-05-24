@@ -17,7 +17,7 @@ export const UnidadMedidaStep1 = (props: any) => {
 				helperText={errors.denominacion}
 				variant="outlined"
 			/>
-			<FormControlLabel
+			{/* <FormControlLabel
 				control={
 					<Checkbox
 						onChange={handleChange}
@@ -28,7 +28,7 @@ export const UnidadMedidaStep1 = (props: any) => {
 				}
 				label="Eliminado"
 				name="eliminado"
-			/>
+			/> */}
 		</Stack>
 	);
 };

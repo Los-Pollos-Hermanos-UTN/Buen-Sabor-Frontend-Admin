@@ -6,7 +6,7 @@ import { ManufacturadosPage } from "../screens/ManufacturadosPage";
 import { Users } from "../screens/Users";
 import { Box, Stack, Toolbar } from "@mui/material";
 import { Promotions } from "../screens/Promotions";
-import { SideBar } from "../components/shared/SideBar";
+import { SideBar } from "../components/shared/Sidebar";
 import { InicioSesion } from "../screens/InicioSesion";
 import { InsumosPage } from "../screens/InsumosPage";
 import { useSelector } from "react-redux";

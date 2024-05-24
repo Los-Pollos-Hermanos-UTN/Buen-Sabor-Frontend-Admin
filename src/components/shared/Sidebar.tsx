@@ -18,7 +18,7 @@ import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import RestaurantIcon from "@mui/icons-material/Restaurant";
 import MenuBookIcon from "@mui/icons-material/MenuBook";
 
-import { NavBar } from "./NavBar";
+import { NavBar } from "./Navbar";
 import { useSelector } from "react-redux";
 import { RootState } from "../../store/store";
 

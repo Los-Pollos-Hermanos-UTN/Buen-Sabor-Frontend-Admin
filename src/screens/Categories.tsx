@@ -11,9 +11,13 @@ import { FormModal } from "../components/modals/FormModal";
 import { useEffect, useState } from "react";
 import { getConstants } from "../constants/constants";
 import { deleteData, getData } from "../services/RequestExecutor";
+import { searchInObject } from "../utils/SearchUtils";
 
 export const Categories = () => {
 	const CONSTANTS = getConstants();
+
+	const [searchTerm, setSearchTerm] = useState("");
+
 	const [open, setOpen] = useState<boolean>(false);
 	const handleOpen = () => setOpen(true);
 	const handleClose = () => setOpen(false);
@@ -50,6 +54,14 @@ export const Categories = () => {
 			}));
 	};
 
+	const handleSearch = (newSearchTerm: string) => {
+		setSearchTerm(newSearchTerm);
+	};
+
+	const filteredCategories = categorias.filter((category) =>
+		searchInObject(category, searchTerm)
+	);
+
 	const handleEdit = (categoria: Categoria) => {
 		setSelectedCategoria(categoria);
 		handleOpen();
@@ -73,8 +85,8 @@ export const Categories = () => {
 	return (
 		<>
 			<Stack direction="column" m="3%" spacing={5}>
-				<SearchBar handleOpen={handleOpen} />
-				{categorias
+				<SearchBar handleOpen={handleOpen} onSearch={handleSearch}/>
+				{filteredCategories
 					.filter((c) => c.padreId === null)
 					.map((categoria) => (
 						<CategoriaButton
