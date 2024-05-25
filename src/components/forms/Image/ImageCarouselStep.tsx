@@ -7,7 +7,7 @@ import { Carousel } from 'react-responsive-carousel';
 import 'react-responsive-carousel/lib/styles/carousel.min.css';
 import DeleteIcon from '@mui/icons-material/Delete';
 
-export const ImageStep = (props: any) => {
+export const ImageCarouselStep = (props: any) => {
     const { values, setFieldValue } = props;
     const [field, meta, helpers] = useField("imagenes");
     const [currentIndex, setCurrentIndex] = useState(0);

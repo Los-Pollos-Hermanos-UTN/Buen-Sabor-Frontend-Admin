@@ -3,7 +3,7 @@ import { ArticuloManufacturado } from "../../../types/Manufacturado";
 import { FormStep } from "../FormStep";
 import { ManufacturadoStep1 } from "./steps/ManufacturadoStep1";
 import { ManufacturadoStep2 } from "./steps/ManufacturadoStep2";
-import { ImageStep } from "../Image/ImageStep.tsx"
+import { ImageCarouselStep } from "../Image/ImageCarouselStep.tsx"
 
 export const ArticuloManufacturadoInitialValues: ArticuloManufacturado = {
 	id: null,
@@ -80,6 +80,6 @@ export const ArticuloManufacturadoFormSteps: FormStep[] = [
 		icon: 3,
 		label: "Agregar Imagen",
 		isSubstep: false,
-		fields: <ImageStep />,
+		fields: <ImageCarouselStep />,
 	},
 ];

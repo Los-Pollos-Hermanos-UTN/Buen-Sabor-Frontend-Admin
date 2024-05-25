@@ -47,6 +47,12 @@ export const getConstants = () => {
 					getUrl: "https://buensaborfix.onrender.com/localidades",
 					postURL: "https://buensaborfix.onrender.com/localidades/",
 				},
+				promociones: {
+					getUrl: "http://localhost:8080/promociones",
+					postURL: "http://localhost:8080/promociones/",
+					putURL: "http://localhost:8080/promociones/",
+					deleteURL: "http://localhost:8080/promociones/",
+				},
 		  }
 		: {
 				sucursal: {
@@ -102,6 +108,12 @@ export const getConstants = () => {
 					postURL: "http://localhost:8080/localidad/",
 					putURL: "http://localhost:8080/localidad/",
 					deleteURL: "http://localhost:8080/localidad/",
+				},
+				promociones: {
+					getUrl: "http://localhost:8080/promociones",
+					postURL: "http://localhost:8080/promociones/",
+					putURL: "http://localhost:8080/promociones/",
+					deleteURL: "http://localhost:8080/promociones/",
 				},
 		  };
 };

@@ -32,7 +32,7 @@ export const ManufacturadosPage = () => {
 	);
 
 	useEffect(() => {
-		const getmanufacturados = async () => {
+		const getManufacturados = async () => {
 			try {
 				const response = await getData<ArticuloManufacturado[]>(
 					CONSTANTS.manufacturado.getUrl
@@ -42,7 +42,7 @@ export const ManufacturadosPage = () => {
 				console.error(error);
 			}
 		};
-		getmanufacturados();
+		getManufacturados();
 	}, [open]);
 
 	const handleSearch = (newSearchTerm: string) => {
