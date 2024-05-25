@@ -11,8 +11,9 @@ import { InicioSesion } from "../screens/InicioSesion";
 import { InsumosPage } from "../screens/InsumosPage";
 import { useSelector } from "react-redux";
 import { RootState } from "../store/store";
+import { UnidadMedidaPage } from "../screens/UnidadMedidaPage";
 
-const drawerWidth: number = 240;
+const drawerWidth: number = 280;
 
 export const AppRouter = () => {
 	const isAuthenticated = useSelector(
@@ -49,6 +50,7 @@ export const AppRouter = () => {
 							<Route path="/empresa" element={<Company />} />
 							<Route path="/usuarios" element={<Users />} />
 							<Route path="/categorias" element={<Categories />} />
+							<Route path="/unidades" element={<UnidadMedidaPage />} />
 						</Routes>
 					</Box>
 				</Box>

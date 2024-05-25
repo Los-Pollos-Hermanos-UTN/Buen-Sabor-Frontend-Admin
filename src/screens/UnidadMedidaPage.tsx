@@ -13,7 +13,7 @@ import {
 	UnidadMedidaValidationSchemas,
 } from "../components/forms/unidadMedida/UnidadMedidaFormData";
 
-export const UnidadMedidaSection = () => {
+export const UnidadMedidaPage = () => {
 	const CONSTANTS = getConstants();
 	const [searchTerm, setSearchTerm] = useState("");
 
@@ -64,7 +64,7 @@ export const UnidadMedidaSection = () => {
 	};
 
 	return (
-		<>
+		<Stack m="3%" spacing={5}>
 			<Stack spacing={5}>
 				<SearchBar onSearch={handleSearch} handleOpen={handleOpen} />
 				<CustomTable<UnidadMedida>
@@ -99,6 +99,6 @@ export const UnidadMedidaSection = () => {
 				steps={UnidadMedidaFormSteps}
 				substepDefault={false}
 			/>
-		</>
+		</Stack>
 	);
 };

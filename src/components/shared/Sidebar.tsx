@@ -17,8 +17,9 @@ import StyleOutlinedIcon from "@mui/icons-material/StyleOutlined";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import RestaurantIcon from "@mui/icons-material/Restaurant";
 import MenuBookIcon from "@mui/icons-material/MenuBook";
+import StraightenIcon from '@mui/icons-material/Straighten';
 
-import { NavBar } from "./Navbar";
+import { NavBar } from "./NavBar";
 import { useSelector } from "react-redux";
 import { RootState } from "../../store/store";
 
@@ -83,6 +84,7 @@ export function SideBar({ drawerWidth }: SidebarProps) {
 		{ name: "Empresa", route: "/empresa", icon: <FolderSharedOutlinedIcon /> },
 		{ name: "Usuarios", route: "/usuarios", icon: <PeopleAltOutlinedIcon /> },
 		{ name: "Categorias", route: "/categorias", icon: <StyleOutlinedIcon /> },
+		{ name: "Unidades de Medida", route: "/unidades", icon: <StraightenIcon /> },
 	];
 
 	const MyDrawer = (
