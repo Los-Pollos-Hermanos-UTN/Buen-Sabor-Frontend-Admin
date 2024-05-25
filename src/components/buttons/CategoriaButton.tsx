@@ -24,7 +24,7 @@ interface CategoriaButtonProps {
 	categoria: Categoria;
 	onEdit: (categoria: Categoria) => void;
 	onDelete: (categoria: Categoria) => void;
-	triggerRefresh: () => void; // Nueva prop para forzar la recarga
+	triggerRefresh: () => void; // Prop para forzar la recarga
 }
 
 export const CategoriaButton: FC<CategoriaButtonProps> = ({
@@ -74,16 +74,23 @@ export const CategoriaButton: FC<CategoriaButtonProps> = ({
 			<Accordion
 				expanded={expanded === categoria.denominacion}
 				onChange={handleChange(categoria.denominacion)}
+				disableGutters
 				sx={{
 					boxShadow: "none",
+					border: "1px solid rgba(224, 224, 224, 0.5)", // Gris más ligero y difuminado
+					borderRadius: "8px",
+					marginBottom: "8px",
 					"&:before": {
 						display: "none",
 					},
-					"&$expanded": {
-						margin: "auto",
+					"&:first-of-type": {
+						borderTopLeftRadius: "8px",
+						borderTopRightRadius: "8px",
 					},
-					borderRadius: "10px",
-					border: "none",
+					"&:last-of-type": {
+						borderBottomLeftRadius: "8px",
+						borderBottomRightRadius: "8px",
+					},
 				}}
 			>
 				<AccordionSummary expandIcon={<ExpandMoreIcon />}>

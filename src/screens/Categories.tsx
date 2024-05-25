@@ -1,4 +1,4 @@
-import { Stack } from "@mui/material";
+import { Divider, Stack } from "@mui/material";
 import { SearchBar } from "../components/shared/SearchBar";
 import { Categoria } from "../types/Categoria";
 import { CategoriaButton } from "../components/buttons/CategoriaButton";
@@ -12,6 +12,7 @@ import { useEffect, useState } from "react";
 import { getConstants } from "../constants/constants";
 import { deleteData, getData } from "../services/RequestExecutor";
 import { searchInObject } from "../utils/SearchUtils";
+import { UnidadMedidaSection } from "./UnidadMedidaSection";
 
 export const Categories = () => {
 	const CONSTANTS = getConstants();
@@ -83,9 +84,9 @@ export const Categories = () => {
 	};
 
 	return (
-		<>
-			<Stack direction="column" m="3%" spacing={5}>
-				<SearchBar handleOpen={handleOpen} onSearch={handleSearch}/>
+		<Stack m="3%" direction="row" spacing={5} height="80vh">
+			<Stack direction="column" spacing={5} width="65%">
+				<SearchBar handleOpen={handleOpen} onSearch={handleSearch} />
 				{filteredCategories
 					.filter((c) => c.padreId === null)
 					.map((categoria) => (
@@ -97,6 +98,13 @@ export const Categories = () => {
 							triggerRefresh={triggerRefresh}
 						/>
 					))}
+			</Stack>
+			<Divider
+				orientation="vertical"
+				flexItem
+			/>
+			<Stack width="35%">
+				<UnidadMedidaSection />
 			</Stack>
 			<FormModal
 				title={!!selectedCategoria ? "Editar Categoria" : "Crear Categoria"}
@@ -118,6 +126,6 @@ export const Categories = () => {
 				steps={CategoriaFormSteps}
 				substepDefault={false}
 			/>
-		</>
+		</Stack>
 	);
 };
