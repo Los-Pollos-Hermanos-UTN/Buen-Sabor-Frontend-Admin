@@ -19,6 +19,8 @@ import {
 } from "../../services/RequestExecutor";
 import * as yup from "yup";
 import { Loader } from "../shared/Loader";
+import { NotificationContainer } from "../shared/NotificationContainer";
+import { toast } from "react-toastify";
 
 const style = {
 	position: "absolute" as "absolute",
@@ -108,6 +110,7 @@ export function FormModal({
 			handleClose();
 			handleReset();
 		} catch (error) {
+			toast.error("Operacion Fallida");
 			console.error(error);
 		}
 	};
@@ -259,6 +262,7 @@ export function FormModal({
 					</Stack>
 				</Box>
 			</Modal>
+			<NotificationContainer />
 		</div>
 	);
 }

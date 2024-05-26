@@ -1,4 +1,9 @@
-import { Autocomplete, Stack, TextField } from "@mui/material";
+import {
+	Autocomplete,
+	Stack,
+	TextField,
+	createFilterOptions,
+} from "@mui/material";
 import { useState, useEffect } from "react";
 import { getConstants } from "../../../../constants/constants";
 import { getData } from "../../../../services/RequestExecutor";
@@ -25,7 +30,6 @@ export const ManufacturadoStep1 = (props: any) => {
 		fetchCategorias();
 	}, []);
 
-
 	const handleCategoriaChange = (event: any, value: Categoria | null) => {
 		setFieldValue("categoriaId", value ? value.id : "");
 	};
@@ -46,6 +50,8 @@ export const ManufacturadoStep1 = (props: any) => {
 			/>
 			<TextField
 				fullWidth
+				multiline
+				rows={4}
 				id="descripcion"
 				name="descripcion"
 				label="Descripción"
@@ -56,47 +62,40 @@ export const ManufacturadoStep1 = (props: any) => {
 				helperText={errors.descripcion}
 				variant="outlined"
 			/>
-			<TextField
-				fullWidth
-				id="preparacion"
-				name="preparacion"
-				label="Preparacion"
-				value={values.preparacion}
-				onChange={handleChange}
-				onBlur={handleBlur}
-				error={Boolean(errors.preparacion)}
-				helperText={errors.preparacion}
-				variant="outlined"
-			/>
-			<TextField
-				fullWidth
-				id="precioVenta"
-				name="precioVenta"
-				label="Precio de Venta"
-				type="number"
-				value={values.precioVenta}
-				onChange={handleChange}
-				onBlur={handleBlur}
-				error={Boolean(errors.precioVenta)}
-				helperText={errors.precioVenta}
-				variant="outlined"
-			/>
-			<Autocomplete
-				fullWidth
-				options={categorias}
-				getOptionLabel={(option) => option.denominacion}
-				value={categorias.find((cat) => cat.id === values.categoriaId) || null}
-				onChange={handleCategoriaChange}
-				onBlur={handleBlur}
-				renderInput={(params) => (
-					<TextField
-						{...params}
-						label="Categoría"
-						error={Boolean(errors.categoriaId)}
-						helperText={errors.categoriaId}
-					/>
-				)}
-			/>
+			<Stack direction="row" spacing={3} justifyContent="space-between">
+				<TextField
+					fullWidth
+					id="precioVenta"
+					name="precioVenta"
+					label="Precio de Venta"
+					type="number"
+					value={values.precioVenta}
+					onChange={handleChange}
+					onBlur={handleBlur}
+					error={Boolean(errors.precioVenta)}
+					helperText={errors.precioVenta}
+					variant="outlined"
+				/>
+				<Autocomplete
+					fullWidth
+					filterOptions={createFilterOptions({ limit: 4 })}
+					options={categorias}
+					getOptionLabel={(option) => option.denominacion}
+					value={
+						categorias.find((cat) => cat.id === values.categoriaId) || null
+					}
+					onChange={handleCategoriaChange}
+					onBlur={handleBlur}
+					renderInput={(params) => (
+						<TextField
+							{...params}
+							label="Categoría"
+							error={Boolean(errors.categoriaId)}
+							helperText={errors.categoriaId}
+						/>
+					)}
+				/>
+			</Stack>
 		</Stack>
 	);
 };

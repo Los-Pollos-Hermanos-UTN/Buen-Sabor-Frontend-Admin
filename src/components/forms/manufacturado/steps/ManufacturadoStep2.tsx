@@ -1,12 +1,8 @@
-import React, { useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import {
 	Autocomplete,
 	Chip,
-	FormControl,
 	IconButton,
-	InputLabel,
-	MenuItem,
-	Select,
 	Stack,
 	TextField,
 } from "@mui/material";
@@ -17,7 +13,6 @@ import { getConstants } from "../../../../constants/constants";
 import { ArticuloManufacturadoDetalle } from "../../../../types/Manufacturado";
 import { ArticuloInsumo } from "../../../../types/Insumo";
 import { UnidadMedida } from "../../../../types/UnidadMedida";
-import { AddButton } from "../../../buttons/AddButton";
 import { FormModal } from "../../../modals/FormModal";
 import {
 	UnidadMedidaInitialValues,
@@ -27,7 +22,7 @@ import {
 
 export const ManufacturadoStep2 = (props: any) => {
 	const CONSTANTS = getConstants();
-	const { values, errors, handleChange, setFieldValue } = props;
+	const { values, errors, handleChange, handleBlur, setFieldValue } = props;
 
 	const [open, setOpen] = useState<boolean>(false);
 	const handleOpen = () => setOpen(true);
@@ -43,7 +38,9 @@ export const ManufacturadoStep2 = (props: any) => {
 	useEffect(() => {
 		const getInsumos = async () => {
 			try {
-				const response = await getData<ArticuloInsumo[]>(CONSTANTS.insumo.getUrl);
+				const response = await getData<ArticuloInsumo[]>(
+					CONSTANTS.insumo.getUrl
+				);
 				setInsumos(response);
 			} catch (error) {
 				console.error(error);
@@ -52,7 +49,9 @@ export const ManufacturadoStep2 = (props: any) => {
 
 		const getUnidadesMedida = async () => {
 			try {
-				const response = await getData<UnidadMedida[]>(CONSTANTS.unidadMedida.getUrl);
+				const response = await getData<UnidadMedida[]>(
+					CONSTANTS.unidadMedida.getUrl
+				);
 				setUnidadesMedida(response);
 			} catch (error) {
 				console.error(error);
@@ -63,8 +62,13 @@ export const ManufacturadoStep2 = (props: any) => {
 	}, [open]);
 
 	useEffect(() => {
-		if (values.articuloManufacturadoDetalles && values.articuloManufacturadoDetalles.length > 0) {
-			const insumosFromDetalles = values.articuloManufacturadoDetalles.map((detalle: ArticuloManufacturadoDetalle) => detalle.articuloInsumo);
+		if (
+			values.articuloManufacturadoDetalles &&
+			values.articuloManufacturadoDetalles.length > 0
+		) {
+			const insumosFromDetalles = values.articuloManufacturadoDetalles.map(
+				(detalle: ArticuloManufacturadoDetalle) => detalle.articuloInsumo
+			);
 			setSelectedInsumos(insumosFromDetalles);
 		}
 	}, [values.articuloManufacturadoDetalles]);
@@ -77,7 +81,10 @@ export const ManufacturadoStep2 = (props: any) => {
 
 	useEffect(() => {
 		const handleClickOutside = (event: MouseEvent) => {
-			if (inputRef.current && !inputRef.current.contains(event.target as Node)) {
+			if (
+				inputRef.current &&
+				!inputRef.current.contains(event.target as Node)
+			) {
 				if (editingInsumo) {
 					handleSaveEdit(editingInsumo);
 				}
@@ -96,9 +103,7 @@ export const ManufacturadoStep2 = (props: any) => {
 				detalle.articuloInsumo.denominacion !== denominacion
 		);
 		setSelectedInsumos(
-			selectedInsumos.filter(
-				(insumo) => insumo.denominacion !== denominacion
-			)
+			selectedInsumos.filter((insumo) => insumo.denominacion !== denominacion)
 		);
 		setFieldValue("articuloManufacturadoDetalles", updatedDetalles);
 	};
@@ -106,14 +111,21 @@ export const ManufacturadoStep2 = (props: any) => {
 	const handleAutocompleteChange = (_, newValue) => {
 		setSelectedInsumos(newValue);
 
-		const updatedDetalles = values.articuloManufacturadoDetalles.filter((detalle: ArticuloManufacturadoDetalle) =>
-			newValue.some((insumo) => insumo.denominacion === detalle.articuloInsumo.denominacion)
+		const updatedDetalles = values.articuloManufacturadoDetalles.filter(
+			(detalle: ArticuloManufacturadoDetalle) =>
+				newValue.some(
+					(insumo) =>
+						insumo.denominacion === detalle.articuloInsumo.denominacion
+				)
 		);
 
 		newValue.forEach((newInsumo) => {
-			if (!values.articuloManufacturadoDetalles.some(
-				(detalle: ArticuloManufacturadoDetalle) => detalle.articuloInsumo.denominacion === newInsumo.denominacion
-			)) {
+			if (
+				!values.articuloManufacturadoDetalles.some(
+					(detalle: ArticuloManufacturadoDetalle) =>
+						detalle.articuloInsumo.denominacion === newInsumo.denominacion
+				)
+			) {
 				updatedDetalles.push({
 					id: null,
 					eliminado: false,
@@ -146,9 +158,9 @@ export const ManufacturadoStep2 = (props: any) => {
 	};
 
 	const preventBackspacePropagation = (event) => {
-		if (event.key === 'Backspace') {
+		if (event.key === "Backspace") {
 			event.stopPropagation();
-		} else if (event.key === 'Enter') {
+		} else if (event.key === "Enter") {
 			if (editingInsumo) {
 				handleSaveEdit(editingInsumo);
 			}
@@ -158,30 +170,66 @@ export const ManufacturadoStep2 = (props: any) => {
 	return (
 		<>
 			<Stack spacing={2}>
-				<Stack direction="row" spacing={3} alignItems="center">
-					<FormControl fullWidth>
-						<InputLabel id="unidad-medida-label">Unidad de Medida</InputLabel>
-						<Select
-							labelId="unidad-medida-label"
-							id="unidad-medida-select"
-							value={values.unidadMedida.id || ""}
-							label="Unidad de Medida"
-							onChange={(event) => {
-								const selectedUnidad = unidadesMedida.find(
-									(unidad) => unidad.id === event.target.value
-								);
-								setFieldValue("unidadMedida", selectedUnidad || { id: null, eliminado: false, denominacion: "" });
-							}}
-						>
-							{unidadesMedida.map((unidad) => (
-								<MenuItem key={unidad.id} value={unidad.id}>
-									{unidad.denominacion}
-								</MenuItem>
-							))}
-						</Select>
-					</FormControl>
-					<AddButton handleClick={handleOpen} />
-				</Stack>
+				{/* TODO: Verificar si unidad de medida es necesaria en articulo manufacturado (siempre seria "Unidad") */}
+				{/* <Stack direction="row" spacing={3} alignItems="center">
+						<FormControl fullWidth>
+							<InputLabel id="unidad-medida-label">Unidad de Medida</InputLabel>
+							<Select
+								labelId="unidad-medida-label"
+								id="unidad-medida-select"
+								value={values.unidadMedida.id || ""}
+								label="Unidad de Medida"
+								onChange={(event) => {
+									const selectedUnidad = unidadesMedida.find(
+										(unidad) => unidad.id === event.target.value
+									);
+									setFieldValue(
+										"unidadMedida",
+										selectedUnidad || {
+											id: null,
+											eliminado: false,
+											denominacion: "",
+										}
+									);
+								}}
+							>
+								{unidadesMedida.map((unidad) => (
+									<MenuItem key={unidad.id} value={unidad.id}>
+										{unidad.denominacion}
+									</MenuItem>
+								))}
+							</Select>
+						</FormControl>
+						<AddButton handleClick={handleOpen} />
+					</Stack> */}
+				<TextField
+					fullWidth
+					id="tiempoEstimadoMinutos"
+					name="tiempoEstimadoMinutos"
+					label="Tiempo Estimado (Minutos)"
+					type="number"
+					value={values.tiempoEstimadoMinutos}
+					onChange={handleChange}
+					onBlur={handleBlur}
+					error={Boolean(errors.tiempoEstimadoMinutos)}
+					helperText={errors.tiempoEstimadoMinutos}
+					variant="outlined"
+				/>
+				<TextField
+					fullWidth
+					multiline
+					rows={3}
+					maxRows={3}
+					id="preparacion"
+					name="preparacion"
+					label="Preparacion"
+					value={values.preparacion}
+					onChange={handleChange}
+					onBlur={handleBlur}
+					error={Boolean(errors.preparacion)}
+					helperText={errors.preparacion}
+					variant="outlined"
+				/>
 				<Autocomplete
 					multiple
 					id="articuloInsumo"
@@ -195,30 +243,37 @@ export const ManufacturadoStep2 = (props: any) => {
 							{values.articuloManufacturadoDetalles.map(
 								(detalle: ArticuloManufacturadoDetalle, index: number) => (
 									<Chip
-										key={detalle.articuloInsumo.denominacion}
 										label={
 											<div style={{ display: "flex", alignItems: "center" }}>
 												{detalle.articuloInsumo.denominacion} x{" "}
-												{editingInsumo === detalle.articuloInsumo.denominacion ? (
+												{editingInsumo ===
+												detalle.articuloInsumo.denominacion ? (
 													<input
 														type="number"
 														value={newCantidad}
-														onChange={(e) => setNewCantidad(Number(e.target.value))}
+														onChange={(e) =>
+															setNewCantidad(Number(e.target.value))
+														}
 														onKeyDown={preventBackspacePropagation}
-														onBlur={() => handleSaveEdit(detalle.articuloInsumo.denominacion)}
+														onBlur={() =>
+															handleSaveEdit(
+																detalle.articuloInsumo.denominacion
+															)
+														}
 														style={{ width: "60px", marginRight: "8px" }}
 														ref={inputRef}
 													/>
 												) : (
 													`${detalle.cantidad}`
-												)}
-												{" "}{detalle.articuloInsumo.unidadMedida.denominacion}
+												)}{" "}
+												{detalle.articuloInsumo.unidadMedida.denominacion}
 											</div>
 										}
 										{...getTagProps({ index })}
 										deleteIcon={
 											<>
-												{editingInsumo !== detalle.articuloInsumo.denominacion && (
+												{editingInsumo !==
+													detalle.articuloInsumo.denominacion && (
 													<IconButton
 														onClick={() =>
 															handleEditClick(

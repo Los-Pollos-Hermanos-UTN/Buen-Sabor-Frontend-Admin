@@ -15,7 +15,7 @@ export interface ArticuloManufacturado {
 	denominacion: string;
 	precioVenta: number;
 	imagenes: string[] | null;
-	unidadMedida: UnidadMedida;
+	unidadMedida: UnidadMedida | null;
 	categoriaId: string;
 	descripcion: string;
 	tiempoEstimadoMinutos: number;
@@ -24,10 +24,11 @@ export interface ArticuloManufacturado {
 }
 
 export const manufacturadoColumns: TableColumn[] = [
-    { label: "Denominación", key: "denominacion" },
-    { label: "Precio de Venta", key: "precioVenta" },
-    { label: "Descripción", key: "descripcion" },
-    { label: "Preparación", key: "preparacion" },
-    { label: "Unidad de Medida", key: "unidadMedida.denominacion" }, // Anidado
-    { label: "Acciones", key: "acciones" }
+	{ label: "Denominación", key: "denominacion" },
+	{ label: "Precio de Venta", key: "precioVenta" },
+	{ label: "Descripción", key: "descripcion" },
+	{ label: "Tiempo de Preparación (minutos)", key: "tiempoEstimadoMinutos" },
+	// TODO: Verificar si unidad de medida es necesaria en articulo manufacturado (siempre seria "Unidad")
+	// { label: "Unidad de Medida", key: "unidadMedida.denominacion" }, // Anidado
+	{ label: "Acciones", key: "acciones" },
 ];

@@ -3,19 +3,16 @@ import { ArticuloManufacturado } from "../../../types/Manufacturado";
 import { FormStep } from "../FormStep";
 import { ManufacturadoStep1 } from "./steps/ManufacturadoStep1";
 import { ManufacturadoStep2 } from "./steps/ManufacturadoStep2";
-import { ImageCarouselStep } from "../Image/ImageCarouselStep.tsx"
+import { ImageCarouselStep } from "../Image/ImageCarouselStep.tsx";
 
 export const ArticuloManufacturadoInitialValues: ArticuloManufacturado = {
 	id: null,
 	eliminado: false,
 	denominacion: "",
 	precioVenta: 0,
-	imagenes: [],  // Cambiado de null a []
-	unidadMedida: {
-		id: null,
-		eliminado: false,
-		denominacion: "",
-	},
+	imagenes: [], // Cambiado de null a []
+	// TODO: Verificar si unidad de medida es necesaria en articulo manufacturado (siempre seria "Unidad")
+	unidadMedida: null,
 	descripcion: "",
 	tiempoEstimadoMinutos: 0,
 	preparacion: "",
@@ -30,22 +27,30 @@ export const ArticuloManufacturadoValidationSchemas = [
 		denominacion: yup
 			.string()
 			.required("La denominación del artículo manufacturado es requerida"),
-		precioVenta: yup.number().required("El precio de venta es requerido"),
+		precioVenta: yup
+			.number()
+			.positive("El precio no puede ser negativo")
+			.notOneOf([0], "El precio no puede ser 0")
+			.required("El precio es requerido"),
 		descripcion: yup
 			.string()
 			.required("La descripción del artículo manufacturado es requerida"),
-		preparacion: yup
-			.string()
-			.required("La preparación del artículo manufacturado es requerida"),
 		categoriaId: yup.string().required("La categoria es requerida"),
 	}),
 	// Esquema de validación para el paso 2
 	yup.object().shape({
-		unidadMedida: yup.object().shape({
-			id: yup.number().nullable(),
-			eliminado: yup.boolean().required(),
-			denominacion: yup.string().required(),
-		}),
+		// TODO: Verificar si unidad de medida es necesaria en articulo manufacturado (siempre seria "Unidad")
+		unidadMedida: yup
+			.object()
+			.shape({
+				id: yup.number().nullable(),
+				eliminado: yup.boolean().nullable(),
+				denominacion: yup.string().nullable(),
+			})
+			.nullable(),
+		preparacion: yup
+			.string()
+			.required("La preparación del artículo manufacturado es requerida"),
 		tiempoEstimadoMinutos: yup
 			.number()
 			.required("El tiempo estimado en minutos es requerido"),
@@ -56,7 +61,7 @@ export const ArticuloManufacturadoValidationSchemas = [
 		imagenes: yup
 			.array()
 			.min(1, "Debes agregar al menos una imagen")
-			.required("Las imágenes son requeridas")
+			.required("Las imágenes son requeridas"),
 	}),
 ];
 
@@ -71,7 +76,7 @@ export const ArticuloManufacturadoFormSteps: FormStep[] = [
 	{
 		number: 2,
 		icon: 2,
-		label: "Detalles del Ingrediente",
+		label: "Ingredientes",
 		isSubstep: false,
 		fields: <ManufacturadoStep2 />,
 	},
