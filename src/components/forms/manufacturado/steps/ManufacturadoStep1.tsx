@@ -47,6 +47,7 @@ export const ManufacturadoStep1 = (props: any) => {
 				error={Boolean(errors.denominacion)}
 				helperText={errors.denominacion}
 				variant="outlined"
+				autoComplete={"off"}
 			/>
 			<TextField
 				fullWidth
@@ -61,6 +62,7 @@ export const ManufacturadoStep1 = (props: any) => {
 				error={Boolean(errors.descripcion)}
 				helperText={errors.descripcion}
 				variant="outlined"
+				autoComplete={"off"}
 			/>
 			<Stack direction="row" spacing={3} justifyContent="space-between">
 				<TextField
@@ -75,6 +77,7 @@ export const ManufacturadoStep1 = (props: any) => {
 					error={Boolean(errors.precioVenta)}
 					helperText={errors.precioVenta}
 					variant="outlined"
+					autoComplete={"off"}
 				/>
 				<Autocomplete
 					fullWidth

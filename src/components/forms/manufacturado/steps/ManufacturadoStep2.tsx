@@ -214,6 +214,7 @@ export const ManufacturadoStep2 = (props: any) => {
 					error={Boolean(errors.tiempoEstimadoMinutos)}
 					helperText={errors.tiempoEstimadoMinutos}
 					variant="outlined"
+					autoComplete={"off"}
 				/>
 				<TextField
 					fullWidth
@@ -229,6 +230,7 @@ export const ManufacturadoStep2 = (props: any) => {
 					error={Boolean(errors.preparacion)}
 					helperText={errors.preparacion}
 					variant="outlined"
+					autoComplete={"off"}
 				/>
 				<Autocomplete
 					multiple
