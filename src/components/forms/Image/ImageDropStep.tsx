@@ -2,7 +2,7 @@ import { useState } from "react";
 import { Stack, Button, Box } from "@mui/material";
 import { useField, useFormikContext } from "formik";
 import { useDropzone } from "react-dropzone";
-import DeleteIcon from "@mui/icons-material/Delete";
+import DeleteIcon from "@mui/icons-material/Delete";	
 
 export const ImageStep = () => {
 	const [field, , helpers] = useField("imagenes");

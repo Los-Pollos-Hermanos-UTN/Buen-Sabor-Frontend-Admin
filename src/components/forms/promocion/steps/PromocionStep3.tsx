@@ -1,21 +1,21 @@
 import {
 	Autocomplete,
-	Checkbox,
 	Stack,
 	TextField,
-	Typography,
+    Typography,
+    Checkbox,
 } from "@mui/material";
-import CheckBoxOutlineBlankIcon from "@mui/icons-material/CheckBoxOutlineBlank";
-import CheckBoxIcon from "@mui/icons-material/CheckBox";
 import { useState, useEffect } from "react";
 import { getConstants } from "../../../../constants/constants";
 import { getData } from "../../../../services/RequestExecutor";
 import { Sucursal } from "../../../../types/Sucursal";
+import CheckBoxOutlineBlankIcon from "@mui/icons-material/CheckBoxOutlineBlank";
+import CheckBoxIcon from "@mui/icons-material/CheckBox";
 
 const icon = <CheckBoxOutlineBlankIcon fontSize="small" />;
 const checkedIcon = <CheckBoxIcon fontSize="small" />;
 
-export const CategoriaStep1 = (props: any) => {
+export const PromocionStep3 = (props: any) => {
 	const CONSTANTS = getConstants();
 	const { values, errors, handleChange, handleBlur, setFieldValue } = props;
 
@@ -35,18 +35,6 @@ export const CategoriaStep1 = (props: any) => {
 
 	return (
 		<Stack spacing={2}>
-			<TextField
-				fullWidth
-				id="denominacion"
-				name="denominacion"
-				label="Denominación de la Categoría"
-				value={values.denominacion}
-				onChange={handleChange}
-				onBlur={handleBlur}
-				error={Boolean(errors.denominacion)}
-				helperText={errors.denominacion}
-				variant="outlined"
-			/>
 			<Typography variant="h6">¿A qué Sucursales Aplica?</Typography>
 			<Autocomplete
 				multiple

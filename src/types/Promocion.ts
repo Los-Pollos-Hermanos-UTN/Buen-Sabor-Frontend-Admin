@@ -10,7 +10,7 @@ export interface Promocion {
 	fechaHasta: Date;
 	horaDesde: string;
 	horaHasta: string;
-	descripcion: string;
+	descripcionDescuento: string;
 	precioPromocional: number;
 	tipoPromocion: "HAPPY_HOUR" | "PROMOCION" | "";
 	imagenes: string[] | null;
@@ -27,9 +27,11 @@ export interface PromocionDetalle {
 
 // Usado para mappear las columnas de la tabla
 export const promotionColumns: TableColumn[] = [
-	{ label: "Nombre", key: "name" },
-	{ label: "Tipo de Descuento", key: "type" },
-	{ label: "Aplicar a:", key: "aplyTo" },
-	{ label: "Vigencia", key: "validity" },
+	{ label: "Nombre", key: "denominacion" },
+	{ label: "Tipo de Descuento", key: "tipoPromocion" },
+	{ label: "Aplicar a:", key: "sucursales" },
+	{ label: "Desde", key: "fechaDesde" },
+	{ label: "Hasta", key: "fechaHasta" },
+	{ label: "Tipo", key: "tipoPromocion" },
 	{ label: "Acciones", key: "Acciones" },
 ];

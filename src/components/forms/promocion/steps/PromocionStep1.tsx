@@ -1,5 +1,4 @@
 import {
-	Autocomplete,
 	Stack,
 	TextField,
 	FormControl,
@@ -7,33 +6,9 @@ import {
 	Select,
 	MenuItem,
 } from "@mui/material";
-import { useState, useEffect } from "react";
-import { getConstants } from "../../../../constants/constants";
-import { getData } from "../../../../services/RequestExecutor";
-import { Sucursal } from "../../../../types/Sucursal";
 
 export const PromocionStep1 = (props: any) => {
-	const CONSTANTS = getConstants();
-	const { values, errors, handleChange, handleBlur, setFieldValue } = props;
-	const [sucursales, setSucursales] = useState<Sucursal[]>([]);
-
-	useEffect(() => {
-		const fetchSucursales = async () => {
-			try {
-				const sucursalesData = await getData<Sucursal[]>(
-					CONSTANTS.sucursal.getUrl
-				);
-				setSucursales(sucursalesData);
-			} catch (error) {
-				console.error(error);
-			}
-		};
-		fetchSucursales();
-	}, []);
-
-	const handleSucursalChange = (event: any, value: Sucursal | null) => {
-		setFieldValue("sucursales", value ? [value] : []);
-	};
+	const { values, errors, handleChange, handleBlur } = props;
 
 	return (
 		<Stack spacing={2}>
@@ -50,6 +25,8 @@ export const PromocionStep1 = (props: any) => {
 				variant="outlined"
 			/>
 			<TextField
+				multiline
+				maxRows={3}
 				fullWidth
 				id="descripcion"
 				name="descripcion"
@@ -61,6 +38,7 @@ export const PromocionStep1 = (props: any) => {
 				helperText={errors.descripcion}
 				variant="outlined"
 			/>
+
 			<TextField
 				fullWidth
 				id="precioPromocional"
@@ -89,24 +67,6 @@ export const PromocionStep1 = (props: any) => {
 					<MenuItem value="PROMOCION">Promoción</MenuItem>
 				</Select>
 			</FormControl>
-			<Autocomplete
-				fullWidth
-				options={sucursales}
-				getOptionLabel={(option) => option.nombre}
-				value={
-					sucursales.find((suc) => values.sucursales.includes(suc)) || null
-				}
-				onChange={handleSucursalChange}
-				onBlur={handleBlur}
-				renderInput={(params) => (
-					<TextField
-						{...params}
-						label="Sucursal"
-						error={Boolean(errors.sucursales)}
-						helperText={errors.sucursales}
-					/>
-				)}
-			/>
 		</Stack>
 	);
 };
