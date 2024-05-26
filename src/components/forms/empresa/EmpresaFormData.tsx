@@ -19,7 +19,11 @@ export const EmpresaValidationSchemas = [
 		razonSocial: yup
 			.string()
 			.required("La razón social de la empresa es requerida"),
-		cuil: yup.string().required("El CUIL de la empresa es requerido"),
+		cuil: yup
+			.string()
+			.length(13, "El CUIL debe tener 13 caracteres")
+			.matches(/^\d{2}-\d{8}-\d$/, "El formato del CUIL no es válido")
+			.required("El CUIL de la empresa es requerido"),
 		sucursales: yup.array(),
 	}),
 ];
