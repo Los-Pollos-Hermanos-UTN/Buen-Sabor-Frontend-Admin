@@ -1,3 +1,4 @@
+import { Dayjs } from "dayjs";
 import { TableColumn } from "../components/table/CustomTable";
 import { ArticuloInsumo } from "./Insumo";
 import { ArticuloManufacturado } from "./Manufacturado";
@@ -6,10 +7,10 @@ import { Sucursal } from "./Sucursal";
 export interface Promocion {
 	id: number | null;
 	denominacion: string;
-	fechaDesde: Date;
-	fechaHasta: Date;
-	horaDesde: string;
-	horaHasta: string;
+	fechaDesde: Date | Dayjs;
+	fechaHasta: Date | Dayjs;
+	horaDesde: string | Dayjs;
+	horaHasta: string | Dayjs;
 	descripcionDescuento: string;
 	precioPromocional: number;
 	tipoPromocion: "HAPPY_HOUR" | "PROMOCION" | "";

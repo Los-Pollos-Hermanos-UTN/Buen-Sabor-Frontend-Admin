@@ -87,7 +87,7 @@ export function FormModal({
 	};
 
 	const handleSubmit = async (values: any) => {
-		console.log("Submitting:", { values });
+		console.log("Submitting:", { values });		
 		if (!isLastStep()) {
 			handleNext();
 			return;
@@ -161,7 +161,8 @@ export function FormModal({
 						<Formik
 							initialValues={initialValues}
 							validationSchema={validationSchemas[activeStep]}
-							validateOnBlur={false} // No validar al blur
+							validateOnBlur={false} // No validar por cada blur
+							validateOnChange={false} // No validar por cada cambio
 							onSubmit={async (values, _actions) => {
 								try {
 									await handleSubmit(values);

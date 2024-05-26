@@ -4,16 +4,13 @@ import {
 	Autocomplete,
 	Chip,
 	IconButton,
-    Typography,
+	Typography,
 } from "@mui/material";
 import { useState, useEffect, useRef } from "react";
 import { getConstants } from "../../../../constants/constants";
 import { getData } from "../../../../services/RequestExecutor";
 import { ArticuloInsumo } from "../../../../types/Insumo";
-import {
-	ArticuloManufacturado,
-	ArticuloManufacturadoDetalle,
-} from "../../../../types/Manufacturado";
+import { ArticuloManufacturado } from "../../../../types/Manufacturado";
 
 import DeleteIcon from "@mui/icons-material/Delete";
 import EditIcon from "@mui/icons-material/Edit";
@@ -40,7 +37,7 @@ export const PromocionStep4 = (props: any) => {
 				const response = await getData<ArticuloInsumo[]>(
 					CONSTANTS.insumo.getUrl
 				);
-				setInsumos(response);
+				setInsumos(response.filter((insumo) => !insumo.esParaElaborar));
 			} catch (error) {
 				console.error(error);
 			}

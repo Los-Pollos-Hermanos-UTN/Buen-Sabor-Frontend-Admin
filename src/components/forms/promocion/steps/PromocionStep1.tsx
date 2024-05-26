@@ -1,14 +1,26 @@
-import {
-	Stack,
-	TextField,
-	FormControl,
-	InputLabel,
-	Select,
-	MenuItem,
-} from "@mui/material";
+import { Stack, TextField, Autocomplete } from "@mui/material";
 
 export const PromocionStep1 = (props: any) => {
-	const { values, errors, handleChange, handleBlur } = props;
+	const {
+		values,
+		errors,
+		handleChange,
+		handleBlur,
+		setFieldValue,
+		touched,
+	} = props;
+
+	const tipoPromocion = [
+		{ id: 1, value: "HAPPY_HOUR", denominacion: "Happy Hour" },
+		{ id: 2, value: "COMBO", denominacion: "Combo" },
+		{ id: 3, value: "PROMOCION", denominacion: "Promoción" },
+	];
+
+	const handleTipoPromocionChange = (_: any, value: any | null) => {
+		console.log(touched);
+
+		setFieldValue("tipoPromocion", value ? value.value : "");
+	};
 
 	return (
 		<Stack spacing={2}>
@@ -28,45 +40,53 @@ export const PromocionStep1 = (props: any) => {
 				multiline
 				maxRows={3}
 				fullWidth
-				id="descripcion"
-				name="descripcion"
+				id="descripcionDescuento"
+				name="descripcionDescuento"
 				label="Descripción"
-				value={values.descripcion}
+				value={values.descripcionDescuento}
 				onChange={handleChange}
 				onBlur={handleBlur}
-				error={Boolean(errors.descripcion)}
-				helperText={errors.descripcion}
+				error={Boolean(errors.descripcionDescuento)}
+				helperText={errors.descripcionDescuento}
 				variant="outlined"
 			/>
-
-			<TextField
-				fullWidth
-				id="precioPromocional"
-				name="precioPromocional"
-				label="Precio Promocional"
-				type="number"
-				value={values.precioPromocional}
-				onChange={handleChange}
-				onBlur={handleBlur}
-				error={Boolean(errors.precioPromocional)}
-				helperText={errors.precioPromocional}
-				variant="outlined"
-			/>
-			<FormControl fullWidth variant="outlined">
-				<InputLabel id="tipoPromocion-label">Tipo de Promoción</InputLabel>
-				<Select
-					labelId="tipoPromocion-label"
-					id="tipoPromocion"
-					name="tipoPromocion"
-					value={values.tipoPromocion}
+			<Stack direction="row" spacing={3} justifyContent="space-between">
+				<TextField
+					id="precioPromocional"
+					name="precioPromocional"
+					label="Precio"
+					type="number"
+					value={values.precioPromocional}
 					onChange={handleChange}
-					label="Tipo de Promoción"
-					error={Boolean(errors.tipoPromocion)}
-				>
-					<MenuItem value="HAPPY_HOUR">Happy Hour</MenuItem>
-					<MenuItem value="PROMOCION">Promoción</MenuItem>
-				</Select>
-			</FormControl>
+					error={Boolean(errors.precioPromocional)}
+					helperText={errors.precioPromocional}
+					variant="outlined"
+					sx={{
+						width: "45%",
+					}}
+				/>
+				<Autocomplete
+					sx={{
+						width: "55%",
+					}}
+					options={tipoPromocion}
+					getOptionLabel={(option) => option.denominacion}
+					value={
+						tipoPromocion.find((tipo) => tipo.value === values.tipoPromocion) ||
+						null
+					}
+					onChange={handleTipoPromocionChange}
+					onBlur={handleBlur}
+					renderInput={(params) => (
+						<TextField
+							{...params}
+							label="Tipo de Promoción"
+							error={touched.tipoPromocion && Boolean(errors.tipoPromocion)}
+							helperText={touched.tipoPromocion && errors.tipoPromocion}
+						/>
+					)}
+				/>
+			</Stack>
 		</Stack>
 	);
 };

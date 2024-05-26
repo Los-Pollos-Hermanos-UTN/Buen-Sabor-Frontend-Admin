@@ -6,14 +6,15 @@ import { PromocionStep1 } from "./steps/PromocionStep1.tsx";
 import { PromocionStep2 } from "./steps/PromocionStep2.tsx";
 import { PromocionStep3 } from "./steps/PromocionStep3.tsx";
 import { PromocionStep4 } from "./steps/PromocionStep4.tsx";
+import dayjs from "dayjs";
 
 export const PromocionInitialValues: Promocion = {
 	id: null,
 	denominacion: "",
-	fechaDesde: new Date(),
-	fechaHasta: new Date(),
-	horaDesde: "",
-	horaHasta: "",
+	fechaDesde: dayjs(),
+	fechaHasta: dayjs(),
+	horaDesde: dayjs(),
+	horaHasta: dayjs(),
 	descripcionDescuento: "",
 	precioPromocional: 0,
 	tipoPromocion: "",
@@ -26,10 +27,12 @@ export const PromocionValidationSchemas = [
 	// Esquema de validación para el paso 1
 	yup.object().shape({
 		denominacion: yup.string().required("La denominación es requerida"),
-		descripcion: yup.string().required("La descripción es requerida"),
+		descripcionDescuento: yup.string().required("La descripción es requerida"),
 		precioPromocional: yup
 			.number()
-			.required("El precio promocional es requerido"),
+			.positive("El precio no puede ser negativo")
+			.notOneOf([0], "El precio no puede ser 0")
+			.required("El precio es requerido"),
 		tipoPromocion: yup.string().required("El tipo de promoción es requerido"),
 	}),
 	// Esquema de validación para el paso 2

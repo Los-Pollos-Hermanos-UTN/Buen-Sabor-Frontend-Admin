@@ -1,4 +1,4 @@
-import { Stack, TextField, FormControlLabel, Checkbox } from "@mui/material";
+import { Stack, TextField } from "@mui/material";
 
 export const UnidadMedidaStep1 = (props: any) => {
 	const { values, errors, handleChange, handleBlur } = props;
@@ -17,18 +17,6 @@ export const UnidadMedidaStep1 = (props: any) => {
 				helperText={errors.denominacion}
 				variant="outlined"
 			/>
-			{/* <FormControlLabel
-				control={
-					<Checkbox
-						onChange={handleChange}
-						name="eliminado"
-						color="primary"
-						checked={values.eliminado}
-					/>
-				}
-				label="Eliminado"
-				name="eliminado"
-			/> */}
 		</Stack>
 	);
 };
