@@ -96,15 +96,15 @@ export function FormModal({
 		}
 		try {
 			let response;
-			if (values && values.imagenes) {
-				response = isEdit
-					? await putFormData(putUrl!, values, values.imagenes)
-					: await postFormData(postUrl, values, values.imagenes);
-			} else {
+			// if (values && values.imagenes) {
+			// 	response = isEdit
+			// 		? await putFormData(putUrl!, values, values.imagenes)
+			// 		: await postFormData(postUrl, values, values.imagenes);
+			// } else {
 				response = isEdit
 					? await putData(putUrl!, values)
 					: await postData(postUrl, values);
-			}
+			//}
 
 			console.log({ response });
 			handleClose();

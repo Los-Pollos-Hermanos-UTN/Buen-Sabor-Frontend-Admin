@@ -17,7 +17,6 @@ export const InsumoInitialValues: ArticuloInsumo = {
 	stockMaximo: 0,
 	esParaElaborar: false,
 	categoriaId: "",
-	type: "insumo",
 };
 
 export const InsumoValidationSchemas = [

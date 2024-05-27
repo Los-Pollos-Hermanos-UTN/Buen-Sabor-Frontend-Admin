@@ -110,10 +110,10 @@ export const getConstants = () => {
 					deleteURL: "http://localhost:8080/localidad/",
 				},
 				promociones: {
-					getUrl: "http://localhost:8080/promociones",
-					postURL: "http://localhost:8080/promociones/",
-					putURL: "http://localhost:8080/promociones/",
-					deleteURL: "http://localhost:8080/promociones/",
+					getUrl: "http://localhost:8080/promocion",
+					postURL: "http://localhost:8080/promocion/save",
+					putURL: "http://localhost:8080/promocion/edit/",
+					deleteURL: "http://localhost:8080/promocion/",
 				},
 		  };
 };

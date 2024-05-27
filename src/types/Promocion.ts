@@ -29,10 +29,8 @@ export interface PromocionDetalle {
 // Usado para mappear las columnas de la tabla
 export const promotionColumns: TableColumn[] = [
 	{ label: "Nombre", key: "denominacion" },
-	{ label: "Tipo de Descuento", key: "tipoPromocion" },
-	{ label: "Aplicar a:", key: "sucursales" },
 	{ label: "Desde", key: "fechaDesde" },
 	{ label: "Hasta", key: "fechaHasta" },
-	{ label: "Tipo", key: "tipoPromocion" },
+	{ label: "Tipo de Descuento", key: "tipoPromocion" },
 	{ label: "Acciones", key: "Acciones" },
 ];
