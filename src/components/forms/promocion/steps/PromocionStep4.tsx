@@ -198,7 +198,7 @@ export const PromocionStep4 = (props: any) => {
 											) : (
 												`${detalle.cantidad}`
 											)}{" "}
-											{detalle.articulo.unidadMedida.denominacion}
+											{detalle.articulo.unidadMedida?.denominacion}
 										</div>
 									}
 									{...getTagProps({ index })}
