@@ -1,4 +1,4 @@
-import { Box, Stack, Typography } from "@mui/material";
+import { Box, Stack, Tooltip, Typography } from "@mui/material";
 import { EditButton } from "../components/buttons/EditButton";
 import { BranchCard } from "../components/cards/BranchCard";
 import { useEffect, useState } from "react";
@@ -81,8 +81,16 @@ export const Company = () => {
 							</Typography>
 						</Stack>
 						<Stack width="10%" spacing={1} justifyContent="flex-end">
-							<EditButton handleClick={handleOpenEmpresaForm} />
-							<AddButton handleClick={handleOpen} />
+							<EditButton
+								handleClick={handleOpenEmpresaForm}
+								tooltipPlacement="left"
+								tooltipText="Editar Empresa"
+							/>
+							<AddButton
+								handleClick={handleOpen}
+								tooltipPlacement="left"
+								tooltipText="Agregar Sucursal"
+							/>
 						</Stack>
 					</Stack>
 				</Stack>

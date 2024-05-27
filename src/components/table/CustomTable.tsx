@@ -9,11 +9,12 @@ import TableRow from "@mui/material/TableRow";
 import { useState } from "react";
 import { TableEditButton } from "./TableEditButton";
 import { TableDeleteButton } from "./TableDeleteButton";
-import { Stack } from "@mui/material";
+import { Stack, Tooltip } from "@mui/material";
 import "./CustomTableStyles.css";
 
 import CheckIcon from "@mui/icons-material/Check";
 import CloseIcon from "@mui/icons-material/Close";
+import { TableShowInfoButton } from "./TableShowInfoButton";
 
 export interface TableColumn {
 	label: string;
@@ -113,6 +114,7 @@ export const CustomTable = <T,>({
 																spacing={2}
 																justifyContent="center"
 															>
+																<TableShowInfoButton handleClick={() => {}} />
 																<TableEditButton
 																	handleClick={() => {
 																		handleEdit(row);

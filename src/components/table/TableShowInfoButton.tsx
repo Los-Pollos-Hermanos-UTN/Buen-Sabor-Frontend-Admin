@@ -1,15 +1,15 @@
 import { IconButton, Tooltip } from "@mui/material";
-import EditIcon from "@mui/icons-material/Edit";
+import InfoOutlinedIcon from "@mui/icons-material/InfoOutlined";
 
-interface TableEditButtonProps {
+interface TableShowInfoButtonProps {
 	handleClick: () => void;
 	width?: string;
 	height?: string;
 }
 
-export function TableEditButton({ handleClick }: TableEditButtonProps) {
+export function TableShowInfoButton({ handleClick }: TableShowInfoButtonProps) {
 	return (
-		<Tooltip title="Editar" placement="bottom" arrow>
+		<Tooltip title="Ver Detalles" placement="bottom" arrow>
 			<IconButton
 				type="submit"
 				sx={{
@@ -21,7 +21,7 @@ export function TableEditButton({ handleClick }: TableEditButtonProps) {
 				aria-label="edit"
 				onClick={handleClick}
 			>
-				<EditIcon />
+				<InfoOutlinedIcon />
 			</IconButton>
 		</Tooltip>
 	);
