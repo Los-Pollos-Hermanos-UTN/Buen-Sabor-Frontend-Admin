@@ -11,10 +11,10 @@ import dayjs from "dayjs";
 export const PromocionInitialValues: Promocion = {
 	id: null,
 	denominacion: "",
-	fechaDesde: dayjs(),
-	fechaHasta: dayjs(),
-	horaDesde: dayjs(),
-	horaHasta: dayjs(),
+	fechaDesde: dayjs().format("YYYY-MM-DD"),
+	fechaHasta: dayjs().format("YYYY-MM-DD"),
+	horaDesde: dayjs().format("HH:mm:ss"),
+	horaHasta: dayjs().format("HH:mm:ss"),
 	descripcionDescuento: "",
 	precioPromocional: 0,
 	tipoPromocion: "",
@@ -22,6 +22,7 @@ export const PromocionInitialValues: Promocion = {
 	sucursales: [],
 	promocionDetalles: [],
 };
+
 
 export const PromocionValidationSchemas = [
 	// Esquema de validación para el paso 1

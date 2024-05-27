@@ -3,7 +3,7 @@ import { ArticuloInsumo } from "../../../types/Insumo";
 import { FormStep } from "../FormStep";
 import { InsumoStep1 } from "./steps/InsumoStep1";
 import { InsumoStep2 } from "./steps/InsumoStep2";
-import { ImageCarouselStep } from "../Image/ImageCarouselStep.tsx";
+import { ImageStep } from "../Image/ImageCarouselStep.tsx";
 
 export const InsumoInitialValues: ArticuloInsumo = {
 	id: 0,
@@ -77,6 +77,6 @@ export const InsumoFormSteps: FormStep[] = [
 		icon: 3,
 		label: "Agregar Imagen",
 		isSubstep: false,
-		fields: <ImageCarouselStep />,
+		fields: <ImageStep />,
 	},
 ];

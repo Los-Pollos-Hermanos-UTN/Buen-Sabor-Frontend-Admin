@@ -7,8 +7,8 @@ import { Sucursal } from "./Sucursal";
 export interface Promocion {
 	id: number | null;
 	denominacion: string;
-	fechaDesde: Date | Dayjs;
-	fechaHasta: Date | Dayjs;
+	fechaDesde: string | Date | Dayjs;
+	fechaHasta: string | Date | Dayjs;
 	horaDesde: string | Dayjs;
 	horaHasta: string | Dayjs;
 	descripcionDescuento: string;
