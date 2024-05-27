@@ -14,7 +14,7 @@ export interface Promocion {
 	descripcionDescuento: string;
 	precioPromocional: number;
 	tipoPromocion: "HAPPY_HOUR" | "PROMOCION" | "";
-	imagenes: string[] | null;
+	imagenes?: string[] | null;
 	sucursales: Sucursal[];
 	promocionDetalles: PromocionDetalle[];
 }

@@ -18,7 +18,8 @@ export const PromocionInitialValues: Promocion = {
 	descripcionDescuento: "",
 	precioPromocional: 0,
 	tipoPromocion: "",
-	imagenes: [],
+	// TODO: Imagenes
+	//imagenes: [],
 	sucursales: [],
 	promocionDetalles: [],
 };
@@ -64,12 +65,12 @@ export const PromocionValidationSchemas = [
 			.required("Debe seleccionar al menos una sucursal"),
 	}),
 	// Esquema de validación para el paso 5
-	yup.object().shape({
-		imagenes: yup
-			.array()
-			.min(1, "Debes agregar al menos una imagen")
-			.required("Las imágenes son requeridas"),
-	}),
+	// yup.object().shape({
+	// 	imagenes: yup
+	// 		.array()
+	// 		.min(1, "Debes agregar al menos una imagen")
+	// 		.required("Las imágenes son requeridas"),
+	// }),
 ];
 
 export const PromocionFormSteps: FormStep[] = [
@@ -100,11 +101,11 @@ export const PromocionFormSteps: FormStep[] = [
 		isSubstep: false,
 		fields: <PromocionStep4 />,
 	},
-	{
-		number: 5,
-		icon: 5,
-		label: "Agregar Imagen",
-		isSubstep: false,
-		fields: <ImageStep />,
-	},
+	// {
+	// 	number: 5,
+	// 	icon: 5,
+	// 	label: "Agregar Imagen",
+	// 	isSubstep: false,
+	// 	fields: <ImageStep />,
+	// },
 ];
