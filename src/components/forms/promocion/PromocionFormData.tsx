@@ -1,7 +1,7 @@
 import * as yup from "yup";
 import { Promocion } from "../../../types/Promocion";
 import { FormStep } from "../FormStep";
-import { ImageStep } from "../Image/ImageDropStep.tsx";
+import { ImageStep } from "../Image/ImageCarouselStep.tsx";
 import { PromocionStep1 } from "./steps/PromocionStep1.tsx";
 import { PromocionStep2 } from "./steps/PromocionStep2.tsx";
 import { PromocionStep3 } from "./steps/PromocionStep3.tsx";

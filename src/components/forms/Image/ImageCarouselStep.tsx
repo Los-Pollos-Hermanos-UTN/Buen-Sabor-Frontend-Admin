@@ -1,169 +1,134 @@
-import React, { useState, useRef } from "react";
-import { Stack, Button, IconButton, Typography } from "@mui/material";
-import { useField } from "formik";
-import { ToastContainer, toast } from "react-toastify";
+import React, {useRef} from "react";
+import {Box, Button, IconButton, Stack, Typography} from "@mui/material";
+import {useField, useFormikContext} from "formik";
+import {toast} from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import { Carousel } from "react-responsive-carousel";
-import "react-responsive-carousel/lib/styles/carousel.min.css";
 import DeleteIcon from "@mui/icons-material/Delete";
-import { NotificationContainer } from "../../shared/NotificationContainer";
+import {NotificationContainer} from "../../shared/NotificationContainer";
 
-export const ImageCarouselStep = (props: any) => {
-	const { values, setFieldValue } = props;
-	const [field, meta, helpers] = useField("imagenes");
-	const [currentIndex, setCurrentIndex] = useState(0);
-	const hiddenFileInput = useRef<HTMLInputElement | null>(null);
+export const ImageStep = (props: any) => {
+    const {values, setFieldValue, setTouched} = useFormikContext();
+    const [field, meta] = useField("imagenes");
+    const hiddenFileInput = useRef<HTMLInputElement | null>(null);
 
-	const handleImageChange = async (
-		event: React.ChangeEvent<HTMLInputElement>
-	) => {
-		const files = event.target.files ? Array.from(event.target.files) : [];
-		if (values.imagenes.length + files.length > 4) {
-			toast.warning("Solo puedes subir un máximo de 4 imágenes.");
-			return;
-		}
+    const handleImageChange = async (event: React.ChangeEvent<HTMLInputElement>) => {
+        const files = event.target.files ? Array.from(event.target.files) : [];
+        if (values.imagenes.length + files.length > 4) {
+            toast.warning("Solo puedes subir un máximo de 4 imágenes.");
+            return;
+        }
 
-		const newImages: (File | { url: string })[] = [];
-		for (const file of files) {
-			const processedFile = await processImage(file);
-			newImages.push(processedFile);
-		}
+        const newImages: (File | { url: string })[] = [];
+        for (const file of files) {
+            const processedFile = await processImage(file);
+            newImages.push(processedFile);
+        }
 
-		const updatedImages = [...values.imagenes, ...newImages];
-		setFieldValue("imagenes", updatedImages);
-		setCurrentIndex(values.imagenes.length); // Set the index to the first new image
+        const updatedImages = [...values.imagenes, ...newImages];
+        setFieldValue("imagenes", updatedImages);
 
-		// Reset the input value to allow re-uploading the same file
-		if (hiddenFileInput.current) {
-			hiddenFileInput.current.value = "";
-		}
-	};
+        // Quitar el error de validación al agregar imágenes
+        setTouched({imagenes: false});
 
-	const processImage = (file: File): Promise<File> => {
-		return new Promise((resolve) => {
-			const img = new Image();
-			img.src = URL.createObjectURL(file);
+        // Reset the input value to allow re-uploading the same file
+        if (hiddenFileInput.current) {
+            hiddenFileInput.current.value = "";
+        }
+    };
 
-			img.onload = () => {
-				const canvas = document.createElement("canvas");
-				const size = Math.max(img.width, img.height);
-				canvas.width = size;
-				canvas.height = size;
+    const processImage = (file: File): Promise<File> => {
+        return new Promise((resolve) => {
+            const img = new Image();
+            img.src = URL.createObjectURL(file);
 
-				const ctx = canvas.getContext("2d");
-				if (ctx) {
-					ctx.fillStyle = "white"; // Background color for the padding
-					ctx.fillRect(0, 0, size, size);
-					ctx.drawImage(img, (size - img.width) / 2, (size - img.height) / 2);
-				}
+            img.onload = () => {
+                const canvas = document.createElement("canvas");
+                const size = Math.max(img.width, img.height);
+                canvas.width = size;
+                canvas.height = size;
 
-				canvas.toBlob((blob) => {
-					if (blob) {
-						const processedFile = new File([blob], file.name, {
-							type: "image/png",
-						});
-						resolve(processedFile);
-					}
-				}, "image/png");
-			};
-		});
-	};
+                const ctx = canvas.getContext("2d");
+                if (ctx) {
+                    ctx.fillStyle = "white"; // Background color for the padding
+                    ctx.fillRect(0, 0, size, size);
+                    ctx.drawImage(img, (size - img.width) / 2, (size - img.height) / 2);
+                }
 
-	const handleClick = () => {
-		hiddenFileInput.current?.click();
-	};
+                canvas.toBlob((blob) => {
+                    if (blob) {
+                        const processedFile = new File([blob], file.name, {
+                            type: "image/png",
+                        });
+                        resolve(processedFile);
+                    }
+                }, "image/png");
+            };
+        });
+    };
 
-	const handleDeleteImage = () => {
-		if (values.imagenes.length === 0) return;
+    const handleClick = () => {
+        hiddenFileInput.current?.click();
+    };
 
-		const newImages = values.imagenes.filter(
-			(_, index) => index !== currentIndex
-		);
-		setFieldValue("imagenes", newImages);
-		if (currentIndex >= newImages.length) {
-			setCurrentIndex(newImages.length - 1);
-		}
-	};
+    const handleRemoveImage = (index: number) => {
+        const newImages = values.imagenes.filter((_, i) => i !== index);
+        setFieldValue("imagenes", newImages);
+        // Marcar el campo como "touched" si no hay imágenes
+        if (newImages.length === 0) {
+            setTouched({imagenes: true});
+        }
+    };
 
-	const handleCarouselChange = (index: number) => {
-		setCurrentIndex(index);
-	};
+    const getImageSrc = (image: any) => {
+        if (typeof image === "string") {
+            return image;
+        } else if (image.url) {
+            return image.url;
+        } else {
+            return URL.createObjectURL(image);
+        }
+    };
 
-	const getImageSrc = (image: any) => {
-		if (typeof image === "string") {
-			return image;
-		} else if (image.url) {
-			return image.url;
-		} else {
-			return URL.createObjectURL(image);
-		}
-	};
-
-	return (
-		<Stack spacing={2} alignItems="center">
-			<Button
-				onClick={handleClick}
-				variant="contained"
-				type="button"
-				sx={{
-					width: "50%",
-					textTransform: "none",
-					backgroundColor: "#49111C",
-					"&:hover": {
-						backgroundColor: "#49111C",
-					},
-				}}
-			>
-				{values.imagenes.length > 0
-					? `${values.imagenes.length} imagen(es) seleccionada(s)`
-					: "Elige imágenes"}
-			</Button>
-			<input
-				type="file"
-				ref={hiddenFileInput}
-				style={{ display: "none" }}
-				multiple
-				onChange={handleImageChange}
-			/>
-			{meta.touched && meta.error && (
-				<Typography color="error">{meta.error}</Typography>
-			)}
-			{values.imagenes.length > 0 && (
-				<div style={{ width: "80%", height: "90%", position: "relative" }}>
-					<Carousel
-						showThumbs={false}
-						showArrows={false}
-						showIndicators={true}
-						selectedItem={currentIndex}
-						autoPlay={true}
-						infiniteLoop={true}
-						stopOnHover={false}
-						onChange={handleCarouselChange}
-					>
-						{values.imagenes.map((image, index) => (
-							<div key={index}>
-								<img
-									src={getImageSrc(image)}
-									alt={`Imagen ${index + 1}`}
-									style={{ width: "50%", height: "50%" }}
-								/>
-							</div>
-						))}
-					</Carousel>
-					<IconButton
-						style={{
-							position: "absolute",
-							top: "87%",
-							right: "13%",
-							backgroundColor: "rgba(255, 255, 255, 0.0)",
-						}}
-						onClick={handleDeleteImage}
-					>
-						<DeleteIcon />
-					</IconButton>
-				</div>
-			)}
-			<NotificationContainer />
-		</Stack>
-	);
+    return (<Stack spacing={2} alignItems="center">
+            <Button
+                onClick={handleClick}
+                variant="contained"
+                type="button"
+                sx={{
+                    width: "50%", textTransform: "none", backgroundColor: "#49111C", "&:hover": {
+                        backgroundColor: "#49111C",
+                    },
+                }}
+            >
+                {values.imagenes.length > 0 ? `${values.imagenes.length} imagen(es) seleccionada(s)` : "Elige imágenes"}
+            </Button>
+            <input
+                type="file"
+                ref={hiddenFileInput}
+                style={{display: "none"}}
+                multiple
+                onChange={handleImageChange}
+            />
+            {meta.touched && meta.error && (<Typography color="error">{meta.error}</Typography>)}
+            {values.imagenes.length > 0 && (<Box display="flex" flexWrap="wrap" justifyContent="center">
+                    {values.imagenes.map((image, index) => (<Box key={index} position="relative" m={1}>
+                            <img
+                                src={getImageSrc(image)}
+                                alt={`Imagen ${index + 1}`}
+                                width={150}
+                                height={150}
+                                style={{objectFit: "cover"}}
+                            />
+                            <IconButton
+                                style={{
+                                    position: 'absolute', top: 0, right: 0, backgroundColor: 'rgba(255, 255, 255, 0.0)'
+                                }}
+                                onClick={() => handleRemoveImage(index)}
+                            >
+                                <DeleteIcon/>
+                            </IconButton>
+                        </Box>))}
+                </Box>)}
+            <NotificationContainer/>
+        </Stack>);
 };
