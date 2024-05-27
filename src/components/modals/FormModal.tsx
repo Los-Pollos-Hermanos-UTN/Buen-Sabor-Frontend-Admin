@@ -49,19 +49,19 @@ interface FormModalProps {
 }
 
 export function FormModal({
-	title,
-	substepDefault,
-	open,
-	width,
-	height,
-	initialValues,
-	validationSchemas,
-	postUrl,
-	putUrl,
-	isEdit,
-	steps,
-	handleClose,
-}: FormModalProps) {
+							  title,
+							  substepDefault,
+							  open,
+							  width,
+							  height,
+							  initialValues,
+							  validationSchemas,
+							  postUrl,
+							  putUrl,
+							  isEdit,
+							  steps,
+							  handleClose,
+						  }: FormModalProps) {
 	const [activeStep, setActiveStep] = React.useState<number>(
 		substepDefault ? 1 : 0
 	);
@@ -176,17 +176,17 @@ export function FormModal({
 							}}
 						>
 							{({
-								values,
-								errors,
-								touched,
-								handleChange,
-								handleBlur,
-								handleSubmit,
-								isSubmitting,
-								setFieldValue,
-								validateField,
-								validateForm,
-							}) => (
+								  values,
+								  errors,
+								  touched,
+								  handleChange,
+								  handleBlur,
+								  handleSubmit,
+								  isSubmitting,
+								  setFieldValue,
+								  validateField,
+								  validateForm,
+							  }) => (
 								<Stack width="70%" height="100%" direction="column">
 									<Stack height="90%">
 										{steps[activeStep] && steps[activeStep].fields ? (
@@ -196,11 +196,11 @@ export function FormModal({
 												touched,
 												handleChange: async (e: React.ChangeEvent<any>) => {
 													handleChange(e);
-													await validateField(e.target.name);
+													setTimeout(() => validateField(e.target.name), 0);
 												},
 												handleBlur: async (e: React.FocusEvent<any>) => {
 													handleBlur(e);
-													await validateField(e.target.name);
+													setTimeout(() => validateField(e.target.name), 0);
 												},
 												handleSubmit,
 												isSubmitting,
