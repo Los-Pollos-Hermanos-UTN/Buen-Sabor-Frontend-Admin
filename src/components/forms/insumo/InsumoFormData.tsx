@@ -17,6 +17,7 @@ export const InsumoInitialValues: ArticuloInsumo = {
 	stockMaximo: 0,
 	esParaElaborar: false,
 	categoriaId: "",
+	type: "insumo",
 };
 
 export const InsumoValidationSchemas = [
@@ -25,9 +26,7 @@ export const InsumoValidationSchemas = [
 		denominacion: yup
 			.string()
 			.required("La denominación del insumo es requerida"),
-		precioVenta: yup
-			.number()
-			.required("Este campo es requerido"),
+		precioVenta: yup.number().required("Este campo es requerido"),
 		precioCompra: yup
 			.number()
 			.positive("El precio de compra no puede ser negativo")

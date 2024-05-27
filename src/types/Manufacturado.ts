@@ -21,6 +21,7 @@ export interface ArticuloManufacturado {
 	tiempoEstimadoMinutos: number;
 	preparacion: string;
 	articuloManufacturadoDetalles: ArticuloManufacturadoDetalle[];
+	type: "manufacturado";
 }
 
 export const manufacturadoColumns: TableColumn[] = [

@@ -1,3 +1,4 @@
+import dayjs from "dayjs";
 import { Sucursal } from "../../../types/Sucursal";
 import { FormStep } from "../FormStep";
 import { SucursalStep1 } from "./steps/SucursalStep1";
@@ -8,8 +9,8 @@ export const SucursalInitialValues: Sucursal = {
 	id: undefined,
 	eliminado: false,
 	nombre: "",
-	horarioApertura: "",
-	horarioCierre: "",
+	horarioApertura: dayjs(`2024-01-01T09:00:00`).format("HH:mm:ss"),
+	horarioCierre: dayjs(`2024-01-01T18:00:00`).format("HH:mm:ss"),
 	casaMatriz: false,
 	domicilio: {
 		calle: "",

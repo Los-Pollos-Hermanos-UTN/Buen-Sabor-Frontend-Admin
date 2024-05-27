@@ -13,8 +13,8 @@ export const PromocionInitialValues: Promocion = {
 	denominacion: "",
 	fechaDesde: dayjs().format("YYYY-MM-DD"),
 	fechaHasta: dayjs().format("YYYY-MM-DD"),
-	horaDesde: dayjs().format("HH:mm:ss"),
-	horaHasta: dayjs().format("HH:mm:ss"),
+	horaDesde: dayjs(`2024-01-01T09:00:00`).format("HH:mm:ss"),
+	horaHasta: dayjs(`2024-01-01T18:00:00`).format("HH:mm:ss"),
 	descripcionDescuento: "",
 	precioPromocional: 0,
 	tipoPromocion: "",
@@ -22,7 +22,6 @@ export const PromocionInitialValues: Promocion = {
 	sucursales: [],
 	promocionDetalles: [],
 };
-
 
 export const PromocionValidationSchemas = [
 	// Esquema de validación para el paso 1

@@ -5,9 +5,17 @@ import {
 	Stack,
 	TextField,
 } from "@mui/material";
+import { TimePicker } from "@mui/x-date-pickers";
+import dayjs, { Dayjs } from "dayjs";
+import { formatHora } from "../../../../utils/DateTimeUtils";
 
 export const SucursalStep1 = (props: any) => {
-	const { values, errors, handleChange, handleBlur } = props;
+	const { values, errors, handleChange, handleBlur, setFieldValue } = props;
+
+	const handleHoraChange = (field: string, time: Dayjs | null) => {
+		const formattedTime = formatHora(time);
+		setFieldValue(field, formattedTime);
+	};
 
 	return (
 		<Stack spacing={2}>
@@ -23,27 +31,25 @@ export const SucursalStep1 = (props: any) => {
 				helperText={errors.nombre}
 				variant="outlined"
 			/>
-			<Stack direction="row" spacing={1} justifyContent="space-between">
-				<TextField
+			<Stack direction="row" spacing={3} justifyContent="space-between">
+				<TimePicker
 					label="Horario de Apertura"
-					name="horarioApertura"
-					type="text"
-					value={values.horarioApertura}
-					onChange={handleChange}
-					onBlur={handleBlur}
-					error={Boolean(errors.horarioApertura)}
-					helperText={errors.horarioApertura}
+					value={
+						values.horarioApertura
+							? dayjs(values.horarioApertura, "HH:mm:ss")
+							: null
+					}
+					onChange={(time) => handleHoraChange("horarioApertura", time)}
 				/>
 				<Divider orientation="vertical" />
-				<TextField
+				<TimePicker
 					label="Horario de Cierre"
-					name="horarioCierre"
-					type="text"
-					value={values.horarioCierre}
-					onChange={handleChange}
-					onBlur={handleBlur}
-					error={Boolean(errors.horarioCierre)}
-					helperText={errors.horarioCierre}
+					value={
+						values.horarioCierre
+							? dayjs(values.horarioCierre, "HH:mm:ss")
+							: null
+					}
+					onChange={(time) => handleHoraChange("horarioCierre", time)}
 				/>
 			</Stack>
 			<FormControlLabel

@@ -38,7 +38,8 @@ export const PromocionStep1 = (props: any) => {
 			/>
 			<TextField
 				multiline
-				maxRows={3}
+				rows={4}
+				maxRows={4}
 				fullWidth
 				id="descripcionDescuento"
 				name="descripcionDescuento"

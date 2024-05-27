@@ -13,6 +13,7 @@ export interface ArticuloInsumo {
 	stockActual: number;
 	stockMaximo: number;
 	esParaElaborar: boolean;
+	type: "insumo";
 }
 
 export const insumoColumns: TableColumn[] = [

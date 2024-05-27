@@ -18,6 +18,7 @@ export const ArticuloManufacturadoInitialValues: ArticuloManufacturado = {
 	preparacion: "",
 	articuloManufacturadoDetalles: [],
 	categoriaId: "",
+	type: "manufacturado"
 };
 
 export const ArticuloManufacturadoValidationSchemas = [
