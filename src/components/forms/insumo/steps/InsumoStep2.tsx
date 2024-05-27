@@ -7,6 +7,8 @@ import {
 	InputLabel,
 	MenuItem,
 	Select,
+	createFilterOptions,
+	Autocomplete,
 } from "@mui/material";
 import { useState, useEffect } from "react";
 import { getConstants } from "../../../../constants/constants";
@@ -44,35 +46,41 @@ export const InsumoStep2 = (props: any) => {
 		getUnidadesMedida();
 	}, [open]);
 
-	const handleUnidadMedidaChange = (event: any) => {
-		const selectedUnidad = unidadesMedida.find(
-			(unidad) => unidad.id === event.target.value
+	const handleUnidadMedidaChange = (_: any, value: UnidadMedida | null) => {
+		setFieldValue(
+			"unidadMedida",
+			value || { id: null, eliminado: false, denominacion: "" }
 		);
-		setFieldValue("unidadMedida", selectedUnidad || { id: null, eliminado: false, denominacion: "" });
 	};
 
 	return (
 		<>
 			<Stack spacing={2}>
-				<Stack direction="row" spacing={3} alignItems="center">
-					<FormControl fullWidth>
-						<InputLabel id="unidad-medida-label">Unidad de Medida</InputLabel>
-						<Select
-							labelId="unidad-medida-label"
-							id="unidad-medida-select"
-							value={values.unidadMedida.id || ""}
-							label="Unidad de Medida"
+				{values.esParaElaborar ? (
+					<Stack direction="row" spacing={3} alignItems="center">
+						<Autocomplete
+							options={unidadesMedida}
+							getOptionLabel={(option) => option.denominacion}
+							value={values.unidadMedida || null}
 							onChange={handleUnidadMedidaChange}
-						>
-							{unidadesMedida.map((unidad) => (
-								<MenuItem key={unidad.id} value={unidad.id}>
-									{unidad.denominacion}
-								</MenuItem>
-							))}
-						</Select>
-					</FormControl>
-					<AddButton handleClick={handleOpen} />
-				</Stack>
+							renderInput={(params) => (
+								<TextField
+									{...params}
+									label="Unidad de Medida"
+									variant="outlined"
+									error={Boolean(errors.unidadMedida)}
+									helperText={
+										errors.unidadMedida && "Seleccione una unidad de medida"
+									}
+								/>
+							)}
+							sx={{ width: "calc(100% - 48px)" }}
+						/>
+						<AddButton handleClick={handleOpen} />
+					</Stack>
+				) : (
+					<></>
+				)}
 
 				<TextField
 					fullWidth
@@ -99,18 +107,6 @@ export const InsumoStep2 = (props: any) => {
 					error={Boolean(errors.stockMaximo)}
 					helperText={errors.stockMaximo}
 					variant="outlined"
-				/>
-				<FormControlLabel
-					control={
-						<Checkbox
-							onChange={handleChange}
-							name="esParaElaborar"
-							color="primary"
-							checked={values.esParaElaborar}
-						/>
-					}
-					label="Es Para Elaborar?"
-					name="esParaElaborar"
 				/>
 			</Stack>
 			<FormModal
