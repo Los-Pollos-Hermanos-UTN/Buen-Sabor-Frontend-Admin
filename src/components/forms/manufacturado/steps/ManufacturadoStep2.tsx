@@ -41,7 +41,7 @@ export const ManufacturadoStep2 = (props: any) => {
 				const response = await getData<ArticuloInsumo[]>(
 					CONSTANTS.insumo.getUrl
 				);
-				setInsumos(response);
+				setInsumos(response.filter((insumo) => insumo.esParaElaborar));
 			} catch (error) {
 				console.error(error);
 			}
