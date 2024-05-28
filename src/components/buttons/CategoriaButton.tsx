@@ -1,3 +1,4 @@
+import React, { FC, useState } from "react";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import { Categoria } from "../../types/Categoria";
 import {
@@ -7,7 +8,6 @@ import {
 	AccordionDetails,
 	Stack,
 } from "@mui/material";
-import { FC, useState } from "react";
 import { FormModal } from "../modals/FormModal";
 import {
 	CategoriaFormSteps,
@@ -19,6 +19,8 @@ import { AddButton } from "./AddButton";
 import { deleteData } from "../../services/RequestExecutor";
 import { EditButton } from "./EditButton";
 import { TableDeleteButton } from "../table/TableDeleteButton";
+import { TableShowInfoButton } from "../table/TableShowInfoButton";
+import { CategoriaDetailModal } from "../modals/details/CategoriaDetailModal"; // Importa el modal de detalles
 
 interface CategoriaButtonProps {
 	categoria: Categoria;
@@ -42,6 +44,12 @@ export const CategoriaButton: FC<CategoriaButtonProps> = ({
 		null
 	);
 	const [expanded, setExpanded] = useState<string | false>(false);
+
+	// Estado para el modal de detalles
+	const [detailOpen, setDetailOpen] = useState<boolean>(false);
+	const [detailCategoria, setDetailCategoria] = useState<Categoria | null>(
+		null
+	);
 
 	const handleChange =
 		(panel: string) => (event: React.SyntheticEvent, isExpanded: boolean) => {
@@ -67,6 +75,17 @@ export const CategoriaButton: FC<CategoriaButtonProps> = ({
 		setSelectedCategoria(null);
 		handleClose();
 		triggerRefresh(); // Forzar la recarga después de cerrar el modal
+	};
+
+	// Función para abrir el modal de detalles
+	const handleShowInfo = (categoria: Categoria) => {
+		setDetailCategoria(categoria);
+		setDetailOpen(true);
+	};
+
+	const handleDetailClose = () => {
+		setDetailOpen(false);
+		setDetailCategoria(null);
 	};
 
 	return (
@@ -103,6 +122,9 @@ export const CategoriaButton: FC<CategoriaButtonProps> = ({
 					>
 						<Typography>{categoria.denominacion}</Typography>
 						<Stack direction="row" spacing={1}>
+							<TableShowInfoButton
+								handleClick={() => handleShowInfo(categoria)}
+							/>
 							<AddButton width="30px" height="30px" handleClick={handleOpen} />
 							<EditButton
 								width="30px"
@@ -149,6 +171,13 @@ export const CategoriaButton: FC<CategoriaButtonProps> = ({
 					isEdit={!!selectedCategoria}
 					steps={CategoriaFormSteps}
 					substepDefault={false}
+				/>
+			)}
+			{detailOpen && detailCategoria && (
+				<CategoriaDetailModal
+					categoria={detailCategoria}
+					open={detailOpen}
+					handleClose={handleDetailClose}
 				/>
 			)}
 		</>

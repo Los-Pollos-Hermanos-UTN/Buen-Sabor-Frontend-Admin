@@ -12,6 +12,7 @@ import { useEffect, useState } from "react";
 import { getConstants } from "../constants/constants";
 import { deleteData, getData } from "../services/RequestExecutor";
 import { searchInObject } from "../utils/SearchUtils";
+import { CategoriaDetailModal } from "../components/modals/details/CategoriaDetailModal";
 
 export const Categories = () => {
 	const CONSTANTS = getConstants();
@@ -84,7 +85,7 @@ export const Categories = () => {
 
 	return (
 		<>
-			<Stack direction="column" m='3%' spacing={5}>
+			<Stack direction="column" m="3%" spacing={5}>
 				<SearchBar handleOpen={handleOpen} onSearch={handleSearch} />
 				{filteredCategories
 					.filter((c) => c.padreId === null)
