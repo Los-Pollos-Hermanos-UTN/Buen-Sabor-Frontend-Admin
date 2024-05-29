@@ -49,19 +49,19 @@ interface FormModalProps {
 }
 
 export function FormModal({
-							  title,
-							  substepDefault,
-							  open,
-							  width,
-							  height,
-							  initialValues,
-							  validationSchemas,
-							  postUrl,
-							  putUrl,
-							  isEdit,
-							  steps,
-							  handleClose,
-						  }: FormModalProps) {
+	title,
+	substepDefault,
+	open,
+	width,
+	height,
+	initialValues,
+	validationSchemas,
+	postUrl,
+	putUrl,
+	isEdit,
+	steps,
+	handleClose,
+}: FormModalProps) {
 	const [activeStep, setActiveStep] = React.useState<number>(
 		substepDefault ? 1 : 0
 	);
@@ -97,13 +97,28 @@ export function FormModal({
 		try {
 			let response;
 			if (values && values.imagenes) {
-				response = isEdit
-					? await putFormData(putUrl!, values, values.imagenes)
-					: await postFormData(postUrl, values, values.imagenes);
+				// Filtrar imágenes que son instancias de File y aquellas que tienen una URL
+				const imagenesTipoFile = values.imagenes.filter(
+					(img: any) => img instanceof File
+				);
+				const imagenesConUrl = values.imagenes.filter(
+					(img: { url?: any }) => img.url
+				);
+
+				// Asignar solo las imágenes con URL a values.imagenes
+				values.imagenes = imagenesConUrl;
+
+				if (isEdit) {
+					response = await putFormData(putUrl!, values, imagenesTipoFile);
+				} else {
+					response = await postFormData(postUrl, values, imagenesTipoFile);
+				}
 			} else {
-				response = isEdit
-					? await putData(putUrl!, values)
-					: await postData(postUrl, values);
+				if (isEdit) {
+					response = await putData(putUrl!, values);
+				} else {
+					response = await postData(postUrl, values);
+				}
 			}
 
 			console.log({ response });
@@ -176,17 +191,17 @@ export function FormModal({
 							}}
 						>
 							{({
-								  values,
-								  errors,
-								  touched,
-								  handleChange,
-								  handleBlur,
-								  handleSubmit,
-								  isSubmitting,
-								  setFieldValue,
-								  validateField,
-								  validateForm,
-							  }) => (
+								values,
+								errors,
+								touched,
+								handleChange,
+								handleBlur,
+								handleSubmit,
+								isSubmitting,
+								setFieldValue,
+								validateField,
+								validateForm,
+							}) => (
 								<Stack width="70%" height="100%" direction="column">
 									<Stack height="90%">
 										{steps[activeStep] && steps[activeStep].fields ? (

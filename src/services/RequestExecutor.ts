@@ -11,7 +11,6 @@ export async function getData<T>(path: string): Promise<T> {
 	}
 }
 
-
 // Función generica para enviar datos mediante una solicitud PUT (FormData)
 export async function putFormData<T>(
 	path: string,
@@ -24,8 +23,13 @@ export async function putFormData<T>(
 		"data",
 		new Blob([JSON.stringify(data)], { type: "application/json" })
 	);
-	images.forEach((image, _) => {
-		formData.append("imagenes", image);
+
+	images.forEach((image, index) => {
+		if (image instanceof File) {
+			formData.append("imagenes", image);
+		} else {
+			console.warn(`Skipping non-file item at index ${index}`);
+		}
 	});
 
 	try {
@@ -45,7 +49,6 @@ export async function putFormData<T>(
 		throw error;
 	}
 }
-
 
 // Función generica para enviar datos mediante una solicitud POST (FormData)
 export async function postFormData<T>(
@@ -80,7 +83,6 @@ export async function postFormData<T>(
 		throw error;
 	}
 }
-
 
 // Función generica para enviar datos mediante una solicitud POST
 export async function postData<T>(path: string, data: T): Promise<T> {
