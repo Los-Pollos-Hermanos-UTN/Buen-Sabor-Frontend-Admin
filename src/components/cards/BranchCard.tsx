@@ -1,7 +1,6 @@
 import React from "react";
 import Card from "@mui/material/Card";
 import CardContent from "@mui/material/CardContent";
-import CardMedia from "@mui/material/CardMedia";
 import Typography from "@mui/material/Typography";
 import { Button, Rating, Stack } from "@mui/material";
 import EditIcon from "@mui/icons-material/Edit";
@@ -24,6 +23,17 @@ export function BranchCard({ sucursal, handleEdit }: BranchCardProps) {
 		const encodedAddress = encodeURIComponent(address);
 		const mapsUrl = `https://www.google.com/maps/search/?api=1&query=${encodedAddress}`;
 		window.location.href = mapsUrl;
+	};
+
+	const getGoogleMapsEmbedUrl = (sucursal: Sucursal) => {
+		const { calle, numero, cp, localidad } = sucursal.domicilio;
+		const { nombre: localidadNombre, provincia } = localidad;
+		const { nombre: provinciaNombre, pais } = provincia;
+		const { nombre: paisNombre } = pais;
+
+		const address = `${calle} ${numero}, ${cp}, ${localidadNombre}, ${provinciaNombre}, ${paisNombre}`;
+		const encodedAddress = encodeURIComponent(address);
+		return `https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d0!2d0!3d0!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0:0x0!2z${encodedAddress}!5e0!3m2!1ses!2s!4v0`;
 	};
 
 	return (
@@ -72,12 +82,14 @@ export function BranchCard({ sucursal, handleEdit }: BranchCardProps) {
 					</Stack>
 				</CardContent>
 
-				<CardMedia
-					component="img"
+				<iframe
+					src={`https://www.google.com/maps?q=${encodeURIComponent(`${sucursal.domicilio.calle} ${sucursal.domicilio.numero}, ${sucursal.domicilio.cp}, ${sucursal.domicilio.localidad.nombre}, ${sucursal.domicilio.localidad.provincia.nombre}, ${sucursal.domicilio.localidad.provincia.pais.nombre}`)}&output=embed`}
+					width="450"
 					height="320"
-					image="https://hips.hearstapps.com/hmg-prod/images/bosco-verticale-designed-by-stefano-boeri-2014-royalty-free-image-1676998427.jpg?crop=0.669xw:1.00xh;0.166xw,0&resize=640:*"
-					alt="Mansa Sucursal"
-				/>
+					style={{ border: 0 }}
+					loading="lazy"
+					allowFullScreen
+				></iframe>
 			</Stack>
 		</Card>
 	);

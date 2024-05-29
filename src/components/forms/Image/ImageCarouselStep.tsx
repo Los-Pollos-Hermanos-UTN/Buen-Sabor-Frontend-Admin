@@ -15,8 +15,8 @@ export const ImageStep = (props: any) => {
 		event: React.ChangeEvent<HTMLInputElement>
 	) => {
 		const files = event.target.files ? Array.from(event.target.files) : [];
-		if (values.imagenes.length + files.length > 4) {
-			toast.warning("Solo puedes subir un máximo de 4 imágenes.");
+		if (values.imagenes.length + files.length > 3) {
+			toast.warning("Solo puedes subir un máximo de 3 imágenes.");
 			return;
 		}
 
