@@ -1,41 +1,22 @@
-import React from "react";
 import Card from "@mui/material/Card";
 import CardContent from "@mui/material/CardContent";
 import Typography from "@mui/material/Typography";
 import { Button, Rating, Stack } from "@mui/material";
 import EditIcon from "@mui/icons-material/Edit";
-import RoomIcon from "@mui/icons-material/Room";
+import InfoIcon from "@mui/icons-material/Info";
 import { Sucursal } from "../../types/Sucursal";
 
 interface BranchCardProps {
 	sucursal: Sucursal;
 	handleEdit: (sucursal: Sucursal) => void;
+	handleShowInfo: (sucursal: Sucursal) => void;
 }
 
-export function BranchCard({ sucursal, handleEdit }: BranchCardProps) {
-	const handleGoTo = (sucursal: Sucursal) => {
-		const { calle, numero, cp, localidad } = sucursal.domicilio;
-		const { nombre: localidadNombre, provincia } = localidad;
-		const { nombre: provinciaNombre, pais } = provincia;
-		const { nombre: paisNombre } = pais;
-
-		const address = `${calle} ${numero}, ${cp}, ${localidadNombre}, ${provinciaNombre}, ${paisNombre}`;
-		const encodedAddress = encodeURIComponent(address);
-		const mapsUrl = `https://www.google.com/maps/search/?api=1&query=${encodedAddress}`;
-		window.location.href = mapsUrl;
-	};
-
-	const getGoogleMapsEmbedUrl = (sucursal: Sucursal) => {
-		const { calle, numero, cp, localidad } = sucursal.domicilio;
-		const { nombre: localidadNombre, provincia } = localidad;
-		const { nombre: provinciaNombre, pais } = provincia;
-		const { nombre: paisNombre } = pais;
-
-		const address = `${calle} ${numero}, ${cp}, ${localidadNombre}, ${provinciaNombre}, ${paisNombre}`;
-		const encodedAddress = encodeURIComponent(address);
-		return `https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d0!2d0!3d0!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0:0x0!2z${encodedAddress}!5e0!3m2!1ses!2s!4v0`;
-	};
-
+export function BranchCard({
+	sucursal,
+	handleEdit,
+	handleShowInfo,
+}: BranchCardProps) {
 	return (
 		<Card
 			sx={{
@@ -71,10 +52,10 @@ export function BranchCard({ sucursal, handleEdit }: BranchCardProps) {
 										width: "100%",
 										justifyContent: "flex-start",
 									}}
-									startIcon={<RoomIcon />}
-									onClick={() => handleGoTo(sucursal)}
+									startIcon={<InfoIcon />}
+									onClick={() => handleShowInfo(sucursal)}
 								>
-									<Typography>Ubicación</Typography>
+									<Typography>Información</Typography>
 								</Button>
 							</Stack>
 							<Rating name="half-rating" defaultValue={2.5} precision={0.5} />
@@ -83,7 +64,9 @@ export function BranchCard({ sucursal, handleEdit }: BranchCardProps) {
 				</CardContent>
 
 				<iframe
-					src={`https://www.google.com/maps?q=${encodeURIComponent(`${sucursal.domicilio.calle} ${sucursal.domicilio.numero}, ${sucursal.domicilio.cp}, ${sucursal.domicilio.localidad.nombre}, ${sucursal.domicilio.localidad.provincia.nombre}, ${sucursal.domicilio.localidad.provincia.pais.nombre}`)}&output=embed`}
+					src={`https://www.google.com/maps?q=${encodeURIComponent(
+						`${sucursal.domicilio.calle} ${sucursal.domicilio.numero}, ${sucursal.domicilio.cp}, ${sucursal.domicilio.localidad.nombre}, ${sucursal.domicilio.localidad.provincia.nombre}, ${sucursal.domicilio.localidad.provincia.pais.nombre}`
+					)}&output=embed`}
 					width="450"
 					height="320"
 					style={{ border: 0 }}

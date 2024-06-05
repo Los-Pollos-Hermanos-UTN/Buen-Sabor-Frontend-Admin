@@ -18,6 +18,7 @@ import {
 } from "../components/forms/empresa/EmpresaFormData";
 import { useSelector } from "react-redux";
 import { RootState } from "../store/store";
+import { SucursalDetailModal } from "../components/modals/details/SucursalDetailModal";
 
 export const Company = () => {
 	const CONSTANTS = getConstants();
@@ -38,6 +39,9 @@ export const Company = () => {
 	);
 	const [sucursales, setSucursales] = useState<Sucursal[]>([]);
 
+	const [detailOpen, setDetailOpen] = useState<boolean>(false);
+	const [detailSucursal, setDetailSucursal] = useState<Sucursal | null>(null);
+
 	useEffect(() => {
 		const getSucursales = async () => {
 			try {
@@ -55,17 +59,10 @@ export const Company = () => {
 		handleOpen();
 	};
 
-	// Dejo la funcionalidad de eliminación por si se necesita
-	// const handleDelete = async (sucursal: Sucursal) => {
-	// 	try {
-	// 		await deleteData(`${CONSTANTS.sucursal.deleteURL}${sucursal.id}`);
-	// 		setSucursales((prevSucursales) =>
-	// 			prevSucursales.filter((item) => item.id !== sucursal.id)
-	// 		);
-	// 	} catch (error) {
-	// 		console.error(error);
-	// 	}
-	// };
+	const handleShowInfo = (sucursal: Sucursal) => {
+		setDetailSucursal(sucursal);
+		setDetailOpen(true);
+	};
 
 	return (
 		<>
@@ -97,7 +94,11 @@ export const Company = () => {
 				<Stack direction="row" flexWrap="wrap" justifyContent="center">
 					{sucursales.map((s) => (
 						<Box m="1%">
-							<BranchCard sucursal={s} handleEdit={handleEdit} />
+							<BranchCard
+								sucursal={s}
+								handleEdit={handleEdit}
+								handleShowInfo={handleShowInfo}
+							/>
 						</Box>
 					))}
 				</Stack>
@@ -137,6 +138,14 @@ export const Company = () => {
 				steps={EmpresaFormSteps}
 				substepDefault={false}
 			/>
+			{detailOpen && detailSucursal && (
+				<SucursalDetailModal
+					sucursal={detailSucursal}
+					width={800}
+					open={detailOpen}
+					handleClose={() => setDetailOpen(false)}
+				/>
+			)}
 		</>
 	);
 };
