@@ -16,6 +16,7 @@ import {
 	ArticuloManufacturadoValidationSchemas,
 } from "../components/forms/manufacturado/ManufacturadoFormData";
 import { searchInObject } from "../utils/SearchUtils";
+import { ManufacturadoDetailModal } from "../components/modals/details/ManufacturadoDetailModal.";
 
 export const ManufacturadosPage = () => {
 	const CONSTANTS = getConstants();
@@ -30,6 +31,10 @@ export const ManufacturadosPage = () => {
 	const [manufacturados, setManufacturados] = useState<ArticuloManufacturado[]>(
 		[]
 	);
+
+	const [detailOpen, setDetailOpen] = useState<boolean>(false);
+	const [detailManufacturado, setDetailManufacturado] =
+		useState<ArticuloManufacturado | null>(null);
 
 	useEffect(() => {
 		const getManufacturados = async () => {
@@ -71,6 +76,11 @@ export const ManufacturadosPage = () => {
 		}
 	};
 
+	const handleShowInfo = (manufacturado: ArticuloManufacturado) => {
+		setDetailManufacturado(manufacturado);
+		setDetailOpen(true);
+	};
+
 	return (
 		<>
 			<Stack direction="column" m="3%" spacing={5}>
@@ -80,6 +90,7 @@ export const ManufacturadosPage = () => {
 					columns={manufacturadoColumns}
 					handleEdit={handleEdit}
 					handleDelete={handleDelete}
+					handleShowInfo={handleShowInfo}
 				/>
 			</Stack>
 			<FormModal
@@ -107,6 +118,14 @@ export const ManufacturadosPage = () => {
 				steps={ArticuloManufacturadoFormSteps}
 				substepDefault={false}
 			/>
+			{detailOpen && detailManufacturado && (
+				<ManufacturadoDetailModal
+					manufacturado={detailManufacturado}
+					width={800}
+					open={detailOpen}
+					handleClose={() => setDetailOpen(false)}
+				/>
+			)}
 		</>
 	);
 };
