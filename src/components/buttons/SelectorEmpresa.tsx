@@ -25,7 +25,7 @@ export function SelectorEmpresa({ empresa, onInit }: SelectorEmpresaProps) {
 				justifyContent="space-between"
 			>
 				<img
-					src="https://avatars.githubusercontent.com/u/163006705?s=200&v=4"
+					src={empresa.imagenes[0].url}
 					alt="Manso Logo"
 					style={{
 						marginTop: "15%",
