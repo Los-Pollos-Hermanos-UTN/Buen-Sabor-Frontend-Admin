@@ -19,9 +19,9 @@ import RestaurantIcon from "@mui/icons-material/Restaurant";
 import MenuBookIcon from "@mui/icons-material/MenuBook";
 import StraightenIcon from '@mui/icons-material/Straighten';
 
-import { NavBar } from "./Navbar";
 import { useSelector } from "react-redux";
 import { RootState } from "../../store/store";
+import { NavBar } from "./NavBar";
 
 interface SidebarProps {
 	drawerWidth?: number;

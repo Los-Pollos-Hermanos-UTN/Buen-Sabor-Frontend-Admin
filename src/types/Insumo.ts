@@ -1,4 +1,5 @@
 import { TableColumn } from "../components/table/CustomTable";
+import { Sucursal } from "./Sucursal";
 import { UnidadMedida } from "./UnidadMedida";
 
 export interface ArticuloInsumo {
@@ -13,6 +14,7 @@ export interface ArticuloInsumo {
 	stockActual: number;
 	stockMaximo: number;
 	esParaElaborar: boolean;
+	sucursales?: Sucursal[];
 }
 
 export const insumoColumns: TableColumn[] = [
