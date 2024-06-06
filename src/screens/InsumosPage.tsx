@@ -12,6 +12,7 @@ import {
 	InsumoValidationSchemas,
 } from "../components/forms/insumo/InsumoFormData";
 import { searchInObject } from "../utils/SearchUtils";
+import { InsumoDetailModal } from "../components/modals/details/InsumoDetailModal";
 
 export const InsumosPage = () => {
 	const CONSTANTS = getConstants();
@@ -25,6 +26,9 @@ export const InsumosPage = () => {
 		null
 	);
 	const [insumos, setInsumos] = useState<ArticuloInsumo[]>([]);
+
+	const [detailOpen, setDetailOpen] = useState<boolean>(false);
+	const [detailInsumo, setDetailInsumo] = useState<ArticuloInsumo | null>(null);
 
 	useEffect(() => {
 		const getInsumos = async () => {
@@ -64,6 +68,11 @@ export const InsumosPage = () => {
 		}
 	};
 
+	const handleShowInfo = (insumo: ArticuloInsumo) => {
+		setDetailInsumo(insumo);
+		setDetailOpen(true);
+	};
+
 	return (
 		<>
 			<Stack direction="column" m="3%" spacing={5}>
@@ -73,6 +82,7 @@ export const InsumosPage = () => {
 					columns={insumoColumns}
 					handleEdit={handleEdit}
 					handleDelete={handleDelete}
+					handleShowInfo={handleShowInfo}
 				/>
 			</Stack>
 			<FormModal
@@ -92,6 +102,14 @@ export const InsumosPage = () => {
 				steps={InsumoFormSteps}
 				substepDefault={false}
 			/>
+			{detailOpen && detailInsumo && (
+				<InsumoDetailModal
+					insumo={detailInsumo}
+					width={800}
+					open={detailOpen}
+					handleClose={() => setDetailOpen(false)}
+				/>
+			)}
 		</>
 	);
 };
