@@ -1,5 +1,6 @@
 import { Empresa } from "../../../types/Empresa";
 import { FormStep } from "../FormStep";
+import { ImageStep } from "../Image/ImageCarouselStep";
 import { EmpresaStep1 } from "./steps/EmpresaStep1";
 import * as yup from "yup";
 
@@ -9,7 +10,7 @@ export const EmpresaInitialValues: Empresa = {
 	nombre: "",
 	razonSocial: "",
 	cuil: "",
-	sucursales: [],
+	imagenes: ""
 };
 
 export const EmpresaValidationSchemas = [
@@ -34,5 +35,12 @@ export const EmpresaFormSteps: FormStep[] = [
 		label: "Detalles de la Empresa",
 		isSubstep: false,
 		fields: <EmpresaStep1 />,
+	},
+	{
+		number: 2,
+		icon: 2,
+		label: "Logo",
+		isSubstep: false,
+		fields: <ImageStep maxImages={1} />,
 	},
 ];

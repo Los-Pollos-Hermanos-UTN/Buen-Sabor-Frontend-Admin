@@ -63,7 +63,7 @@ export const getConstants = () => {
 				},
 				empresa: {
 					getUrl: "http://localhost:8080/empresa/short",
-					postURL: "http://localhost:8080/empresa/",
+					postURL: "http://localhost:8080/empresa/save",
 					putURL: "http://localhost:8080/empresa/",
 					deleteURL: "http://localhost:8080/sucursal/",
 				},
@@ -87,6 +87,7 @@ export const getConstants = () => {
 				},
 				categorias: {
 					getUrl: `http://localhost:8080/categoria/listByEmpresa/${empresa?.id}`,
+					getByIdUrl: `http://localhost:8080/categoria/`,
 					postURL: "http://localhost:8080/categoria/save",
 					putURL: "http://localhost:8080/categoria/edit/",
 					deleteURL: "http://localhost:8080/categoria/",

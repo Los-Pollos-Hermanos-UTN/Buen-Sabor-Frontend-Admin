@@ -7,4 +7,5 @@ export interface Empresa {
     razonSocial: string;
     cuil: string;
     sucursales?: Sucursal[];
+    imagenes?: string | null;
 }

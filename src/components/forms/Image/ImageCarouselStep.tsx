@@ -6,7 +6,11 @@ import "react-toastify/dist/ReactToastify.css";
 import DeleteIcon from "@mui/icons-material/Delete";
 import { NotificationContainer } from "../../shared/NotificationContainer";
 
-export const ImageStep = (props: any) => {
+interface ImageStepProps {
+	maxImages?: number;
+}
+
+export const ImageStep = ({ maxImages }: ImageStepProps) => {
 	const { values, setFieldValue, setTouched } = useFormikContext();
 	const [field, meta] = useField("imagenes");
 	const hiddenFileInput = useRef<HTMLInputElement | null>(null);
@@ -15,8 +19,9 @@ export const ImageStep = (props: any) => {
 		event: React.ChangeEvent<HTMLInputElement>
 	) => {
 		const files = event.target.files ? Array.from(event.target.files) : [];
-		if (values.imagenes.length + files.length > 3) {
-			toast.warning("Solo puedes subir un máximo de 3 imágenes.");
+		const max = maxImages || 3;
+		if (values.imagenes.length + files.length > max) {
+			toast.warning(`Solo puedes subir un máximo de ${max} imágenes.`);
 			return;
 		}
 
@@ -107,7 +112,13 @@ export const ImageStep = (props: any) => {
 				}}
 			>
 				{values.imagenes.length > 0
-					? `${values.imagenes.length} imagen(es) seleccionada(s)`
+					? `${values.imagenes.length} ${
+							values.imagenes.length === 1
+								? "imagen seleccionada"
+								: "imágenes seleccionadas"
+					  }`
+					: maxImages && maxImages === 1
+					? "Elige una imagen"
 					: "Elige imágenes"}
 			</Button>
 			<input
