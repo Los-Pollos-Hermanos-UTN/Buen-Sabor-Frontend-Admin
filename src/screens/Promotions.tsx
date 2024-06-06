@@ -1,17 +1,19 @@
 import { Stack } from "@mui/material";
 import { useEffect, useState } from "react";
+
 import { SearchBar } from "../components/shared/SearchBar";
 import { CustomTable } from "../components/table/CustomTable";
 import { Promocion, promotionColumns } from "../types/Promocion";
-import { searchInObject } from "../utils/SearchUtils";
-import { FormModal } from "../components/modals/FormModal";
 import { getConstants } from "../constants/constants";
-import { getData, deleteData } from "../services/RequestExecutor";
+import { deleteData, getData } from "../services/RequestExecutor";
+import { FormModal } from "../components/modals/FormModal";
 import {
 	PromocionFormSteps,
 	PromocionInitialValues,
 	PromocionValidationSchemas,
 } from "../components/forms/promocion/PromocionFormData";
+import { searchInObject } from "../utils/SearchUtils";
+import { PromocionDetailModal } from "../components/modals/details/PromocionDetailModal";
 
 export const Promotions = () => {
 	const CONSTANTS = getConstants();
@@ -25,6 +27,11 @@ export const Promotions = () => {
 		null
 	);
 	const [promociones, setPromociones] = useState<Promocion[]>([]);
+
+	const [detailOpen, setDetailOpen] = useState<boolean>(false);
+	const [detailPromocion, setDetailPromocion] = useState<Promocion | null>(
+		null
+	);
 
 	useEffect(() => {
 		const getPromociones = async () => {
@@ -64,6 +71,11 @@ export const Promotions = () => {
 		}
 	};
 
+	const handleShowInfo = (promocion: Promocion) => {
+		setDetailPromocion(promocion);
+		setDetailOpen(true);
+	};
+
 	return (
 		<>
 			<Stack direction="column" m="3%" spacing={5}>
@@ -73,6 +85,7 @@ export const Promotions = () => {
 					columns={promotionColumns}
 					handleEdit={handleEdit}
 					handleDelete={handleDelete}
+					handleShowInfo={handleShowInfo}
 				/>
 			</Stack>
 			<FormModal
@@ -94,6 +107,14 @@ export const Promotions = () => {
 				steps={PromocionFormSteps}
 				substepDefault={false}
 			/>
+			{detailOpen && detailPromocion && (
+				<PromocionDetailModal
+					promocion={detailPromocion}
+					width={800}
+					open={detailOpen}
+					handleClose={() => setDetailOpen(false)}
+				/>
+			)}
 		</>
 	);
 };
