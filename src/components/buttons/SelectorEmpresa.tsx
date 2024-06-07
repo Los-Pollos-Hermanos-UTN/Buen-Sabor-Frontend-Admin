@@ -7,6 +7,7 @@ interface SelectorEmpresaProps {
 }
 
 export function SelectorEmpresa({ empresa, onInit }: SelectorEmpresaProps) {
+	const imageUrl = empresa.imagenes && empresa.imagenes[0] ? empresa.imagenes[0].url : "";
 	return (
 		<Card
 			sx={{
@@ -25,7 +26,7 @@ export function SelectorEmpresa({ empresa, onInit }: SelectorEmpresaProps) {
 				justifyContent="space-between"
 			>
 				<img
-					src={empresa.imagenes[0].url}
+					src={imageUrl}
 					alt="Manso Logo"
 					style={{
 						marginTop: "15%",
