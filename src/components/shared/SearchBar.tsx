@@ -5,12 +5,14 @@ import { useState } from "react";
 
 interface SearchBarProps {
 	extraButtons?: JSX.Element[];
+	showAddButton?: boolean;
 	onSearch?: (searchTerm: string) => void;
 	handleOpen?: () => void;
 }
 
 export function SearchBar({
 	extraButtons,
+	showAddButton = true,
 	onSearch,
 	handleOpen,
 }: SearchBarProps) {
@@ -57,7 +59,7 @@ export function SearchBar({
 					<Search />
 				</IconButton>
 			</Box>
-			<AddButton handleClick={handleOpen!} />
+			{showAddButton && <AddButton handleClick={handleOpen!} />}
 			{extraButtons}
 		</Stack>
 	);

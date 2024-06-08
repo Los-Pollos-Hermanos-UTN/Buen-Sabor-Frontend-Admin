@@ -53,6 +53,12 @@ export const getConstants = () => {
 					putURL: "http://localhost:8080/promociones/",
 					deleteURL: "http://localhost:8080/promociones/",
 				},
+				pedidos: {
+					getUrl: `http://localhost:8080/pedido/listByEmpresa/${empresa?.id}`,
+					postURL: "http://localhost:8080/pedido/save",
+					putURL: "http://localhost:8080/pedido/edit/",
+					deleteURL: "http://localhost:8080/pedido/",
+				}
 		  }
 		: {
 				sucursal: {
@@ -116,5 +122,11 @@ export const getConstants = () => {
 					putURL: "http://localhost:8080/promocion/edit/",
 					deleteURL: "http://localhost:8080/promocion/",
 				},
+				pedidos: {
+					getUrl: `http://localhost:8080/pedido/listByEmpresa/${empresa?.id}`,
+					postURL: "http://localhost:8080/pedido/save",
+					putURL: "http://localhost:8080/pedido/edit/",
+					deleteURL: "http://localhost:8080/pedido/",
+				}
 		  };
 };

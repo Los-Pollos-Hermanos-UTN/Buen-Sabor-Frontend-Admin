@@ -79,7 +79,17 @@ export const InsumoStep2 = (props: any) => {
 						<AddButton handleClick={handleOpen} />
 					</Stack>
 				) : (
-					<></>
+					<>
+						{() => {
+							setFieldValue(
+								"unidadMedida",
+								unidadesMedida.find(
+									(unidad) => unidad.denominacion === "Unidad"
+								) || null
+							);
+							return <></>;
+						}}
+					</>
 				)}
 
 				<TextField

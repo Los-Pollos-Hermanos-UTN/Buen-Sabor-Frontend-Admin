@@ -12,6 +12,7 @@ import { InsumosPage } from "../screens/InsumosPage";
 import { useSelector } from "react-redux";
 import { RootState } from "../store/store";
 import { UnidadMedidaPage } from "../screens/UnidadMedidaPage";
+import { PedidosPage } from "../screens/PedidosPage";
 
 const drawerWidth: number = 280;
 
@@ -44,6 +45,7 @@ export const AppRouter = () => {
 						<Toolbar />
 						<Routes>
 							<Route path="/" element={<Home />} />
+							<Route path="/pedidos" element={<PedidosPage />} />
 							<Route path="/manufacturados" element={<ManufacturadosPage />} />
 							<Route path="/insumos" element={<InsumosPage />} />
 							<Route path="/promociones" element={<Promotions />} />

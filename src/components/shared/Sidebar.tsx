@@ -17,11 +17,12 @@ import StyleOutlinedIcon from "@mui/icons-material/StyleOutlined";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import RestaurantIcon from "@mui/icons-material/Restaurant";
 import MenuBookIcon from "@mui/icons-material/MenuBook";
-import StraightenIcon from '@mui/icons-material/Straighten';
+import StraightenIcon from "@mui/icons-material/Straighten";
+import RequestPageOutlinedIcon from "@mui/icons-material/RequestPageOutlined";
 
-import { NavBar } from "./Navbar";
 import { useSelector } from "react-redux";
 import { RootState } from "../../store/store";
+import { NavBar } from "./NavBar";
 
 interface SidebarProps {
 	drawerWidth?: number;
@@ -76,6 +77,15 @@ export function SideBar({ drawerWidth }: SidebarProps) {
 			icon: <DataUsageOutlinedIcon />,
 		},
 		{
+			name: "Pedidos",
+			style: {
+				backgroundColor: "#E8E8E8",
+				borderRadius: "10px",
+			},
+			route: "/pedidos",
+			icon: <RequestPageOutlinedIcon />,
+		},
+		{
 			name: "Articulos",
 			route: "/manufacturados",
 			icon: <WalletOutlinedIcon />,
@@ -84,7 +94,11 @@ export function SideBar({ drawerWidth }: SidebarProps) {
 		{ name: "Empresa", route: "/empresa", icon: <FolderSharedOutlinedIcon /> },
 		{ name: "Usuarios", route: "/usuarios", icon: <PeopleAltOutlinedIcon /> },
 		{ name: "Categorias", route: "/categorias", icon: <StyleOutlinedIcon /> },
-		{ name: "Unidades de Medida", route: "/unidades", icon: <StraightenIcon /> },
+		{
+			name: "Unidades de Medida",
+			route: "/unidades",
+			icon: <StraightenIcon />,
+		},
 	];
 
 	const MyDrawer = (
