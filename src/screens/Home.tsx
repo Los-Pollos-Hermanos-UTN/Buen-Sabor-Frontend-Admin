@@ -4,6 +4,7 @@ import { useWindowResize } from "../hooks/useWindowResize";
 import { ChartPaper } from "../components/papers/ChartPaper";
 import { MyBarChart } from "../components/charts/BarChart";
 import { MyPieChart } from "../components/charts/PieChart";
+import { useAuth0 } from "@auth0/auth0-react";
 
 const quickAccess = [
 	{
@@ -27,7 +28,7 @@ export const Home = () => {
 				<>
 					<Stack direction="row" height="30%" width="100%" spacing={2}>
 						{quickAccess.map((access) => (
-							<QuickAccessPaper key={access.title} title={access.title} navigateTo={access.route}/>
+							<QuickAccessPaper key={access.title} title={access.title} navigateTo={access.route} />
 						))}
 					</Stack>
 				</>

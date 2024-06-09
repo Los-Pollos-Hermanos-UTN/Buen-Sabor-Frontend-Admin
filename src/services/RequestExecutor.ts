@@ -1,15 +1,28 @@
 // Función generica para obtener datos mediante una solicitud GET
-export async function getData<T>(path: string): Promise<T> {
+export async function getData<T>(path: string, token?: string): Promise<T> {
 	try {
-		const response = await fetch(`${path}`);
-		if (!response.ok) {
-			throw Error(response.statusText);
-		}
-		return await response.json();
+	  const headers: HeadersInit = {
+		'Content-Type': 'application/json',
+	  };
+  
+	  if (token) {
+		headers['Authorization'] = `Bearer ${token}`;
+	  }
+  
+	  const response = await fetch(`${path}`, {
+		method: 'GET',
+		headers: headers,
+	  });
+  
+	  if (!response.ok) {
+		throw new Error(response.statusText);
+	  }
+  
+	  return await response.json();
 	} catch (error) {
-		return Promise.reject(error);
+	  return Promise.reject(error);
 	}
-}
+  }  
 
 // Función generica para enviar datos mediante una solicitud PUT (FormData)
 export async function putFormData<T>(

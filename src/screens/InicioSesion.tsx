@@ -14,6 +14,7 @@ import {
 import { useDispatch } from "react-redux";
 import { login } from "../features/auth/AuthSlice";
 import { selectEmpresa } from "../features/empresa/EmpresaSlice";
+import { useAuth0 } from "@auth0/auth0-react";
 
 export const InicioSesion = () => {
 	const CONSTANTS = getConstants();
@@ -22,13 +23,26 @@ export const InicioSesion = () => {
 	const handleOpen = () => setOpen(true);
 	const handleClose = () => setOpen(false);
 
+	console.log(localStorage);
+
 	const [empresas, setEmpresas] = useState<Empresa[]>([]);
+	const { getAccessTokenSilently } = useAuth0();
 
 	useEffect(() => {
 		const getEmpresas = async () => {
 			try {
-				const response = await getData<Empresa[]>(CONSTANTS.empresa.getUrl);
-				setEmpresas(response);
+				const token = await getAccessTokenSilently({
+					authorizationParams: {
+						audience: import.meta.env.VITE_AUTH0_AUDIENCE,
+					},
+				});
+
+				console.log("Token obtenido:", token);
+
+				if (token) {
+					const response = await getData<Empresa[]>(CONSTANTS.empresa.getUrl, token);
+					setEmpresas(response);
+				}
 			} catch (error) {
 				console.error(error);
 			}
