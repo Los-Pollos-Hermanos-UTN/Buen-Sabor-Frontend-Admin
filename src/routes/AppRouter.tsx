@@ -9,17 +9,33 @@ import { Promotions } from "../screens/Promotions";
 import { SideBar } from "../components/shared/Sidebar";
 import { InicioSesion } from "../screens/InicioSesion";
 import { InsumosPage } from "../screens/InsumosPage";
+import { UnidadMedidaPage } from "../screens/UnidadMedidaPage";
 import { useSelector } from "react-redux";
 import { RootState } from "../store/store";
-import { UnidadMedidaPage } from "../screens/UnidadMedidaPage";
+import { useAuth0 } from "@auth0/auth0-react";
 import { PedidosPage } from "../screens/PedidosPage";
 
 const drawerWidth: number = 280;
 
 export const AppRouter = () => {
-	const isAuthenticated = useSelector(
-		(state: RootState) => state.auth.isAuthenticated
-	);
+  const { isAuthenticated: isAuth0Authenticated, isLoading, loginWithRedirect } = useAuth0();
+  const isAuthenticated = useSelector((state: RootState) => state.auth.isAuthenticated);
+
+  if (isLoading) {
+    return <div>Loading...</div>;
+  }
+
+  if (!isAuth0Authenticated) {
+    loginWithRedirect({
+      appState: {
+        returnTo: window.location.pathname,
+      },
+      authorizationParams: {
+        redirect_uri: window.location.origin,
+      },
+    });
+    return null; // Return null while redirecting
+  }
 
 	return (
 		<>
@@ -70,3 +86,5 @@ export const AppRouter = () => {
 		</>
 	);
 };
+
+export default AppRouter;

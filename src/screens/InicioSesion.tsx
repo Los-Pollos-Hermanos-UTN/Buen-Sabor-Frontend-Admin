@@ -14,6 +14,7 @@ import {
 import { useDispatch } from "react-redux";
 import { login } from "../features/auth/AuthSlice";
 import { selectEmpresa } from "../features/empresa/EmpresaSlice";
+import { useAuth0 } from "@auth0/auth0-react";
 
 export const InicioSesion = () => {
 	const CONSTANTS = getConstants();
@@ -22,19 +23,62 @@ export const InicioSesion = () => {
 	const handleOpen = () => setOpen(true);
 	const handleClose = () => setOpen(false);
 
+	console.log(localStorage);
+
 	const [empresas, setEmpresas] = useState<Empresa[]>([]);
+	const { getAccessTokenSilently } = useAuth0();
+	const [userRole, setUserRole] = useState("");
 
 	useEffect(() => {
 		const getEmpresas = async () => {
 			try {
-				const response = await getData<Empresa[]>(CONSTANTS.empresa.getUrl);
-				setEmpresas(response);
+				const token = await getAccessTokenSilently({
+					authorizationParams: {
+						audience: import.meta.env.VITE_AUTH0_AUDIENCE,
+					},
+				});
+
+				localStorage.setItem("Token", token);
+
+				if (token) {
+					const response = await getData<Empresa[]>(
+						CONSTANTS.empresa.getUrl,
+						token
+					);
+					setEmpresas(response);
+				}
 			} catch (error) {
 				console.error(error);
 			}
 		};
 		getEmpresas();
 	}, [open]);
+
+	useEffect(() => {
+		const fetchUserRole = async () => {
+			try {
+				const token = await getAccessTokenSilently({
+					authorizationParams: {
+						audience: import.meta.env.VITE_AUTH0_AUDIENCE,
+					},
+				});
+
+				const response = await fetch("http://localhost:8080/api/user/role", {
+					headers: {
+						Authorization: `Bearer ${token}`,
+					},
+				});
+
+				const data = await response.json();
+				setUserRole(data.role);
+				console.log("Rol del usuario:", data.role);
+			} catch (error) {
+				console.error("Error fetching user role:", error);
+			}
+		};
+
+		fetchUserRole();
+	}, [getAccessTokenSilently]);
 
 	const handleSelectEmpresa = (empresa: Empresa) => {
 		dispatch(selectEmpresa(empresa));

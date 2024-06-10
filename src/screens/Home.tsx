@@ -27,7 +27,7 @@ export const Home = () => {
 				<>
 					<Stack direction="row" height="30%" width="100%" spacing={2}>
 						{quickAccess.map((access) => (
-							<QuickAccessPaper key={access.title} title={access.title} navigateTo={access.route}/>
+							<QuickAccessPaper key={access.title} title={access.title} navigateTo={access.route} />
 						))}
 					</Stack>
 				</>
