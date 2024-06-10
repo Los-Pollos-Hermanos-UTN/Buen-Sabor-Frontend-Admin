@@ -1,18 +1,9 @@
 // Función generica para obtener datos mediante una solicitud GET
 export async function getData<T>(path: string): Promise<T> {
-	const token = localStorage.getItem("Token");
 	try {
-		const headers: HeadersInit = {
-			"Content-Type": "application/json",
-		};
-
-		if (token) {
-			headers["Authorization"] = `Bearer ${token}`;
-		}
-
 		const response = await fetch(`${path}`, {
 			method: "GET",
-			headers: headers,
+			headers: getHeadersWithToken("application/json"),
 		});
 
 		if (!response.ok) {
@@ -49,6 +40,7 @@ export async function putFormData<T>(
 	try {
 		const response = await fetch(path, {
 			method: "PUT",
+			headers: getHeadersWithToken(),
 			body: formData,
 		});
 
@@ -83,6 +75,7 @@ export async function postFormData<T>(
 	try {
 		const response = await fetch(path, {
 			method: "POST",
+			headers: getHeadersWithToken(),
 			body: formData,
 		});
 
@@ -103,10 +96,7 @@ export async function postData<T>(path: string, data: T): Promise<T> {
 	try {
 		const response = await fetch(`${path}`, {
 			method: "POST",
-			headers: {
-				Accept: "application/json",
-				"Content-Type": "application/json",
-			},
+			headers: getHeadersWithToken("application/json"),
 			body: JSON.stringify(data),
 		});
 		if (!response.ok) {
@@ -123,10 +113,7 @@ export async function putData<T>(path: string, data: T): Promise<T> {
 	try {
 		const response = await fetch(`${path}`, {
 			method: "PUT",
-			headers: {
-				Accept: "application/json",
-				"Content-Type": "application/json",
-			},
+			headers: getHeadersWithToken("application/json"),
 			body: JSON.stringify(data),
 		});
 
@@ -144,9 +131,7 @@ export async function deleteData(path: string) {
 	try {
 		const response = await fetch(`${path}`, {
 			method: "DELETE",
-			headers: {
-				"Content-Type": "application/json",
-			},
+			headers: getHeadersWithToken("application/json"),
 		});
 		if (!response.ok) {
 			throw Error(response.statusText);
@@ -155,3 +140,18 @@ export async function deleteData(path: string) {
 		console.error(error);
 	}
 }
+
+const getHeadersWithToken = (contentType?: "application/json") => {
+	const token = localStorage.getItem("Token");
+	const headers: HeadersInit = contentType
+		? {
+				"Content-Type": "application/json",
+		  }
+		: {};
+
+	if (token) {
+		headers["Authorization"] = `Bearer ${token}`;
+	}
+
+	return headers;
+};
