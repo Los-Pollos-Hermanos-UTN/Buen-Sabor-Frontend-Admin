@@ -17,7 +17,19 @@ export function MyBarChart() {
 	};
 
 	useEffect(() => {
-		fetch(`http://localhost:8080/report/top-selling-products?limit=${itemNb}`)
+		const token = localStorage.getItem("Token");
+		const headers: HeadersInit = {
+			"Content-Type": "application/json",
+		};
+
+		if (token) {
+			headers["Authorization"] = `Bearer ${token}`;
+		}
+
+		fetch(`http://localhost:8080/report/top-selling-products?limit=${itemNb}`, {
+			method: "GET",
+			headers: headers,
+		})
 			.then((response) => response.json())
 			.then((data) => {
 				const seriesData = [
