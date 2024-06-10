@@ -22,7 +22,7 @@ export const EmpresaValidationSchemas = [
 			.required("La razón social de la empresa es requerida"),
 		cuil: yup
 			.string()
-			.length(13, "El CUIL debe tener 13 caracteres")
+			.length(11, "El CUIL debe tener 11 caracteres")
 			.required("El CUIL de la empresa es requerido"),
 		sucursales: yup.array(),
 	}),
