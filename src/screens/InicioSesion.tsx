@@ -41,10 +41,7 @@ export const InicioSesion = () => {
 				localStorage.setItem("Token", token);
 
 				if (token) {
-					const response = await getData<Empresa[]>(
-						CONSTANTS.empresa.getUrl,
-						token
-					);
+					const response = await getData<Empresa[]>(CONSTANTS.empresa.getUrl);
 					setEmpresas(response);
 				}
 			} catch (error) {
