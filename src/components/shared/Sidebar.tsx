@@ -22,7 +22,7 @@ import RequestPageOutlinedIcon from "@mui/icons-material/RequestPageOutlined";
 
 import { useSelector } from "react-redux";
 import { RootState } from "../../store/store";
-import { NavBar } from "./NavBar";
+import { NavBar } from "./Navbar";
 
 interface SidebarProps {
 	drawerWidth?: number;
