@@ -27,6 +27,7 @@ export const InicioSesion = () => {
 
 	const [empresas, setEmpresas] = useState<Empresa[]>([]);
 	const { getAccessTokenSilently } = useAuth0();
+	const [userRole, setUserRole] = useState("");
 
 	useEffect(() => {
 		const getEmpresas = async () => {
@@ -49,6 +50,32 @@ export const InicioSesion = () => {
 		};
 		getEmpresas();
 	}, [open]);
+
+	useEffect(() => {
+		const fetchUserRole = async () => {
+			try {
+				const token = await getAccessTokenSilently({
+					authorizationParams: {
+						audience: import.meta.env.VITE_AUTH0_AUDIENCE,
+					},
+				});
+
+				const response = await fetch("http://localhost:8080/api/user/role", {
+					headers: {
+						Authorization: `Bearer ${token}`,
+					},
+				});
+
+				const data = await response.json();
+				setUserRole(data.role);
+				console.log("Rol del usuario:", data.role);
+			} catch (error) {
+				console.error("Error fetching user role:", error);
+			}
+		};
+
+		fetchUserRole();
+	}, [getAccessTokenSilently]);
 
 	const handleSelectEmpresa = (empresa: Empresa) => {
 		dispatch(selectEmpresa(empresa));
