@@ -74,8 +74,8 @@ export const EmpleadoFormSteps: FormStep[] = [
 		fields: <EmpleadoStep2 />,
 	},
 	{
-		number: 2,
-		icon: 2,
+		number: 3,
+		icon: 3,
 		label: "Imagen",
 		isSubstep: false,
 		substeps: 0,
