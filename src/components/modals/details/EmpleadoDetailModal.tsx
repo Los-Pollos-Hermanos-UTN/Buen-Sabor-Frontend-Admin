@@ -1,11 +1,4 @@
-import {
-	Modal,
-	Typography,
-	Stack,
-	Divider,
-	Button,
-	Chip,
-} from "@mui/material";
+import { Modal, Typography, Stack, Divider, Button, Chip } from "@mui/material";
 import { Empleado } from "../../../types/Empleado";
 
 const style = {
@@ -39,13 +32,13 @@ export const EmpleadoDetailModal = ({
 			<Stack
 				sx={{
 					...style,
-					width: width ? width : 800,
+					width: width ? width : "800",
 					height: height ? height : "auto",
 					maxWidth: 800,
 					maxHeight: 800,
 				}}
 			>
-				<Typography variant="h6">{`Empleado: ${empleado.nombre} ${empleado.apellido}`}</Typography>
+				<Typography variant="h5">{`Empleado: ${empleado.nombre} ${empleado.apellido}`}</Typography>
 				<Divider sx={{ my: 1.5 }} />
 				<Stack spacing={2}>
 					<Stack
@@ -63,7 +56,7 @@ export const EmpleadoDetailModal = ({
 					</Stack>
 				</Stack>
 				<Divider sx={{ my: 1.5 }} />
-				<Stack height="100%" justifyContent="space-between">
+				<Stack height="100%" justifyContent="space-between" spacing={3}>
 					<Stack spacing={2} direction="row">
 						<Stack spacing={2} width="50%">
 							<Typography variant="h6">Información Personal</Typography>
@@ -78,18 +71,8 @@ export const EmpleadoDetailModal = ({
 							<Typography>{`Nombre de Usuario: ${empleado.usuarioEmpleado.userName}`}</Typography>
 						</Stack>
 					</Stack>
-					<Stack spacing={2} direction="row">
-						<Typography variant="subtitle1" fontWeight="bold">
-							Pedidos:
-						</Typography>
-						<Stack spacing={1} direction="row">
-							{empleado.pedidos.map((pedido, index) => (
-								<Chip key={index} label={`Pedido #${pedido.id}`} />
-							))}
-						</Stack>
-					</Stack>
 					<Stack direction="row" width="100%" justifyContent="space-between">
-						<Typography variant="h6">{`Sucursal: ${empleado.sucursal?.id}`}</Typography>
+						<Typography variant="h6">{`Sucursal: ${empleado.sucursal?.nombre}`}</Typography>
 						<Button
 							onClick={handleClose}
 							variant="contained"

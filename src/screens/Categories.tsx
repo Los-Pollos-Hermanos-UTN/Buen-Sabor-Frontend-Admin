@@ -12,7 +12,6 @@ import { useEffect, useState } from "react";
 import { getConstants } from "../constants/constants";
 import { deleteData, getData } from "../services/RequestExecutor";
 import { searchInObject } from "../utils/SearchUtils";
-import { CategoriaDetailModal } from "../components/modals/details/CategoriaDetailModal";
 
 export const Categories = () => {
 	const CONSTANTS = getConstants();

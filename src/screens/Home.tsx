@@ -1,33 +1,42 @@
-import { Stack } from "@mui/material";
+import { Stack, Typography } from "@mui/material";
 import { QuickAccessPaper } from "../components/papers/QuickAccessPaper";
 import { useWindowResize } from "../hooks/useWindowResize";
 import { ChartPaper } from "../components/papers/ChartPaper";
 import { MyBarChart } from "../components/charts/BarChart";
 import { MyPieChart } from "../components/charts/PieChart";
+import { useSelector } from "react-redux";
+import { RootState } from "../store/store";
 
 const quickAccess = [
 	{
 		title: "Articulos",
-		route: "/manufacturados"
+		route: "/manufacturados",
 	},
 	{
 		title: "Sucursales",
-		route: "/empresa"
+		route: "/empresa",
 	},
 ];
 
 export const Home = () => {
 	const { isSmall } = useWindowResize();
+	const userRole = useSelector((state: RootState) => state.auth.userRole);
 
 	return (
 		<Stack direction="column" m="3%" spacing={5}>
-			{isSmall ? (
-				<></>
+			{isSmall || userRole !== "admin" ? (
+				<Typography variant="h4">
+					Estadísticas
+				</Typography>
 			) : (
 				<>
 					<Stack direction="row" height="30%" width="100%" spacing={2}>
 						{quickAccess.map((access) => (
-							<QuickAccessPaper key={access.title} title={access.title} navigateTo={access.route} />
+							<QuickAccessPaper
+								key={access.title}
+								title={access.title}
+								navigateTo={access.route}
+							/>
 						))}
 					</Stack>
 				</>

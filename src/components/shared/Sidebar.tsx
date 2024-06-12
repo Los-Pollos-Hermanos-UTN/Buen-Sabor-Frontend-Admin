@@ -65,7 +65,6 @@ export function SideBar({ drawerWidth }: SidebarProps) {
 			name: empresa?.nombre,
 			requiredRoles: ["admin"],
 			style: {
-				height: "55px",
 				borderRadius: "10px",
 				justifyContent: "center",
 			},
@@ -131,7 +130,7 @@ export function SideBar({ drawerWidth }: SidebarProps) {
 	];
 
 	const MyDrawer = (
-		<Stack justifyContent="center" alignItems="center">
+		<Stack justifyContent="center" alignItems="center" mt={1}>
 			{drawerItems.map(
 				(item) =>
 					isAuthenticated &&

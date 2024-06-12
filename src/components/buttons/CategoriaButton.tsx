@@ -21,6 +21,8 @@ import { EditButton } from "./EditButton";
 import { TableDeleteButton } from "../table/TableDeleteButton";
 import { TableShowInfoButton } from "../table/TableShowInfoButton";
 import { CategoriaDetailModal } from "../modals/details/CategoriaDetailModal"; // Importa el modal de detalles
+import { useSelector } from "react-redux";
+import { RootState } from "../../store/store";
 
 interface CategoriaButtonProps {
 	categoria: Categoria;
@@ -39,6 +41,8 @@ export const CategoriaButton: FC<CategoriaButtonProps> = ({
 	const [open, setOpen] = useState<boolean>(false);
 	const handleOpen = () => setOpen(true);
 	const handleClose = () => setOpen(false);
+
+	const userRole = useSelector((state: RootState) => state.auth.userRole);
 
 	const [selectedCategoria, setSelectedCategoria] = useState<Categoria | null>(
 		null
@@ -131,7 +135,11 @@ export const CategoriaButton: FC<CategoriaButtonProps> = ({
 								height="30px"
 								handleClick={() => handleEdit(categoria)}
 							/>
-							<TableDeleteButton handleClick={() => handleDelete(categoria)} />
+							{userRole === "admin" && (
+								<TableDeleteButton
+									handleClick={() => handleDelete(categoria)}
+								/>
+							)}
 						</Stack>
 					</Stack>
 				</AccordionSummary>

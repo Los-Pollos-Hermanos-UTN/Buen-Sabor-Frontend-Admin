@@ -9,7 +9,7 @@ interface PedidoCardProps {
 
 export const PedidoCard = ({ pedido, onShowInfo }: PedidoCardProps) => {
 	return (
-		<Card variant="outlined" sx={{ width: 180, borderRadius: "8px" }}>
+		<Card variant="outlined" sx={{ width: 170, borderRadius: "8px" }}>
 			<Stack
 				direction="row"
 				justifyContent="space-between"

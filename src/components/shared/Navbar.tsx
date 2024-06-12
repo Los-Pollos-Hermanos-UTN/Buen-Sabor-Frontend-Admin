@@ -5,8 +5,10 @@ import Typography from "@mui/material/Typography";
 import MenuIcon from "@mui/icons-material/Menu";
 import { Box, Tooltip, Avatar, Menu, MenuItem, Stack } from "@mui/material";
 import React from "react";
-import { useDispatch } from "react-redux";
-import { logout } from "../../features/auth/AuthSlice";
+import { useDispatch, useSelector } from "react-redux";
+import { logout as reduxLogout } from "../../features/auth/AuthSlice";
+import { RootState } from "../../store/store";
+import { useAuth0 } from "@auth0/auth0-react";
 
 interface NavbarProps {
 	title: string;
@@ -19,6 +21,8 @@ export function NavBar({
 	drawerWidth,
 	handleDrawerToggle,
 }: NavbarProps) {
+	const { logout } = useAuth0();
+
 	const dispatch = useDispatch();
 	const [anchorElNav, setAnchorElNav] = React.useState<null | HTMLElement>(
 		null
@@ -26,6 +30,8 @@ export function NavBar({
 	const [anchorElUser, setAnchorElUser] = React.useState<null | HTMLElement>(
 		null
 	);
+
+	const userRole = useSelector((state: RootState) => state.auth.userRole);
 
 	const handleOpenNavMenu = (event: React.MouseEvent<HTMLElement>) => {
 		setAnchorElNav(event.currentTarget);
@@ -43,7 +49,8 @@ export function NavBar({
 	};
 
 	const handleLogout = () => {
-		dispatch(logout());
+		dispatch(reduxLogout());
+		logout({ logoutParams: { returnTo: window.location.origin } });
 		handleCloseUserMenu();
 	};
 
@@ -72,11 +79,17 @@ export function NavBar({
 					>
 						<MenuIcon />
 					</IconButton>
-					<Typography variant="h5" fontFamily="Roboto" noWrap component="div">
-						{title}
-					</Typography>
+					<Stack direction="row" justifyContent="space-between" width="95%">
+						<Typography variant="h5" fontFamily="Roboto" noWrap component="div">
+							{title}
+						</Typography>
+						<Typography variant="h5" fontFamily="Roboto" noWrap component="div">
+							{`${userRole?.charAt(0).toUpperCase()}${userRole?.substring(1)}`}
+						</Typography>
+					</Stack>
+
 					<Box sx={{ flexGrow: 0 }}>
-						<Tooltip title="Open settings">
+						<Tooltip title="Opciones de perfil">
 							<IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
 								<Avatar alt="Remy Sharp" />
 							</IconButton>

@@ -15,6 +15,8 @@ import "./CustomTableStyles.css";
 import CheckIcon from "@mui/icons-material/Check";
 import CloseIcon from "@mui/icons-material/Close";
 import { TableShowInfoButton } from "./TableShowInfoButton";
+import { RootState } from "../../store/store";
+import { useSelector } from "react-redux";
 
 export interface TableColumn {
 	label: string;
@@ -43,6 +45,8 @@ export const CustomTable = <T,>({
 }: TableProps<T>) => {
 	const [page, setPage] = useState(0);
 	const [rowsPerPage, setRowsPerPage] = useState(10);
+
+	const userRole = useSelector((state: RootState) => state.auth.userRole);
 
 	const handleChangePage = (_: unknown, newPage: number) => {
 		setPage(newPage);
@@ -128,11 +132,13 @@ export const CustomTable = <T,>({
 																		handleEdit(row);
 																	}}
 																/>
-																<TableDeleteButton
-																	handleClick={() => {
-																		handleDelete(row);
-																	}}
-																/>
+																{userRole === "admin" && (
+																	<TableDeleteButton
+																		handleClick={() => {
+																			handleDelete(row);
+																		}}
+																	/>
+																)}
 															</Stack>
 														) : column.isBoolean ? (
 															row[column.key] ? (
