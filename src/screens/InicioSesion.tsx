@@ -12,22 +12,21 @@ import {
 	EmpresaValidationSchemas,
 } from "../components/forms/empresa/EmpresaFormData";
 import { useDispatch } from "react-redux";
-import { login } from "../features/auth/AuthSlice";
+import { login, setUserRole } from "../features/auth/AuthSlice";
 import { selectEmpresa } from "../features/empresa/EmpresaSlice";
 import { useAuth0 } from "@auth0/auth0-react";
+import { useNavigate } from "react-router-dom";
 
 export const InicioSesion = () => {
 	const CONSTANTS = getConstants();
+	const navigate = useNavigate();
 	const dispatch = useDispatch();
 	const [open, setOpen] = useState<boolean>(false);
 	const handleOpen = () => setOpen(true);
 	const handleClose = () => setOpen(false);
 
-	console.log(localStorage);
-
 	const [empresas, setEmpresas] = useState<Empresa[]>([]);
 	const { getAccessTokenSilently } = useAuth0();
-	const [userRole, setUserRole] = useState("");
 
 	useEffect(() => {
 		const getEmpresas = async () => {
@@ -67,7 +66,7 @@ export const InicioSesion = () => {
 				});
 
 				const data = await response.json();
-				setUserRole(data.role);
+				dispatch(setUserRole(data.role)); // Despacha la acción para establecer el rol
 				console.log("Rol del usuario:", data.role);
 			} catch (error) {
 				console.error("Error fetching user role:", error);
@@ -75,11 +74,12 @@ export const InicioSesion = () => {
 		};
 
 		fetchUserRole();
-	}, [getAccessTokenSilently]);
+	}, [getAccessTokenSilently, dispatch]);
 
 	const handleSelectEmpresa = (empresa: Empresa) => {
 		dispatch(selectEmpresa(empresa));
 		dispatch(login());
+		navigate("/pedidos");
 	};
 
 	return (

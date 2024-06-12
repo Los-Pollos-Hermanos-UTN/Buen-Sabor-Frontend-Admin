@@ -17,8 +17,6 @@ export const PromocionStep1 = (props: any) => {
 	];
 
 	const handleTipoPromocionChange = (_: any, value: any | null) => {
-		console.log(touched);
-
 		setFieldValue("tipoPromocion", value ? value.value : "");
 	};
 

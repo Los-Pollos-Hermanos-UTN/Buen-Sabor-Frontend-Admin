@@ -32,6 +32,10 @@ export function SideBar({ drawerWidth }: SidebarProps) {
 	const empresa = useSelector(
 		(state: RootState) => state.empresa.selectedEmpresa
 	);
+	const isAuthenticated = useSelector(
+		(state: RootState) => state.auth.isAuthenticated
+	);
+	const userRole = useSelector((state: RootState) => state.auth.userRole);
 
 	const location = useLocation();
 	const currentPathname = location.pathname;
@@ -59,6 +63,7 @@ export function SideBar({ drawerWidth }: SidebarProps) {
 	const drawerItems = [
 		{
 			name: empresa?.nombre,
+			requiredRoles: ["admin"],
 			style: {
 				height: "55px",
 				borderRadius: "10px",
@@ -69,15 +74,17 @@ export function SideBar({ drawerWidth }: SidebarProps) {
 		},
 		{
 			name: "Inicio",
+			requiredRoles: ["admin", "cajero"],
 			style: {
 				backgroundColor: "#E8E8E8",
 				borderRadius: "10px",
 			},
-			route: "/",
+			route: "/inicio",
 			icon: <DataUsageOutlinedIcon />,
 		},
 		{
 			name: "Pedidos",
+			requiredRoles: ["admin", "cocinero", "cajero", "delivery"],
 			style: {
 				backgroundColor: "#E8E8E8",
 				borderRadius: "10px",
@@ -87,15 +94,37 @@ export function SideBar({ drawerWidth }: SidebarProps) {
 		},
 		{
 			name: "Articulos",
+			requiredRoles: ["admin", "cocinero", "cajero"],
 			route: "/manufacturados",
 			icon: <WalletOutlinedIcon />,
 		},
-		{ name: "Promociones", route: "/promociones", icon: <SellOutlinedIcon /> },
-		{ name: "Empresa", route: "/empresa", icon: <FolderSharedOutlinedIcon /> },
-		{ name: "Usuarios", route: "/usuarios", icon: <PeopleAltOutlinedIcon /> },
-		{ name: "Categorias", route: "/categorias", icon: <StyleOutlinedIcon /> },
+		{
+			name: "Promociones",
+			requiredRoles: ["admin", "cajero"],
+			route: "/promociones",
+			icon: <SellOutlinedIcon />,
+		},
+		{
+			name: "Empresa",
+			requiredRoles: ["admin"],
+			route: "/empresa",
+			icon: <FolderSharedOutlinedIcon />,
+		},
+		{
+			name: "Usuarios",
+			requiredRoles: ["admin"],
+			route: "/usuarios",
+			icon: <PeopleAltOutlinedIcon />,
+		},
+		{
+			name: "Categorias",
+			requiredRoles: ["admin", "cocinero", "cajero"],
+			route: "/categorias",
+			icon: <StyleOutlinedIcon />,
+		},
 		{
 			name: "Unidades de Medida",
+			requiredRoles: ["admin", "cocinero", "cajero"],
 			route: "/unidades",
 			icon: <StraightenIcon />,
 		},
@@ -103,81 +132,92 @@ export function SideBar({ drawerWidth }: SidebarProps) {
 
 	const MyDrawer = (
 		<Stack justifyContent="center" alignItems="center">
-			{drawerItems.map((item) => (
-				<React.Fragment key={item.name}>
-					{item.name === "Articulos" ? (
-						<>
-							<Divider
-								orientation="horizontal"
-								sx={{
-									mt: "5%",
-									width: "100%",
-								}}
-							/>
-							<Accordion elevation={0} defaultExpanded>
-								<AccordionSummary
-									expandIcon={<ExpandMoreIcon />}
-									aria-controls="panel1-content"
-									id="panel1-header"
-								>
-									{item.name}
-								</AccordionSummary>
-								{["Manufacturados", "Insumos"].map((subItem, index) => (
-									<ListItem
-										key={`${subItem}${index}`}
-										component={Link}
-										to={`/${subItem.toLowerCase()}`}
-									>
-										<ListItemButton
-											key={`${subItem}${index}`}
-											sx={{
-												...item.style,
-												color: "black",
-												borderRadius: "10px",
-												backgroundColor:
-													currentPathname === `/${subItem.toLowerCase()}`
-														? "#E8E8E8"
-														: "transparent",
-											}}
+			{drawerItems.map(
+				(item) =>
+					isAuthenticated &&
+					userRole &&
+					item.requiredRoles.includes(userRole) && (
+						<React.Fragment key={item.name}>
+							{item.name === "Articulos" ? (
+								<>
+									<Divider
+										orientation="horizontal"
+										sx={{
+											mt: "5%",
+											width: "100%",
+										}}
+									/>
+									<Accordion elevation={0} defaultExpanded>
+										<AccordionSummary
+											expandIcon={<ExpandMoreIcon />}
+											aria-controls="panel1-content"
+											id="panel1-header"
 										>
-											<Stack direction="row" spacing={1} alignItems="center">
-												{subItem === "Manufacturados" ? (
-													<RestaurantIcon />
-												) : (
-													<MenuBookIcon />
-												)}
-												<ListItemText primary={subItem} />
-											</Stack>
-										</ListItemButton>
-									</ListItem>
-								))}
-							</Accordion>
-						</>
-					) : (
-						<ListItem
-							key={`${item.name}${item.route}`}
-							component={Link}
-							to={item.route}
-						>
-							<ListItemButton
-								key={`${item.name}${item.route}`}
-								sx={{
-									...item.style,
-									color: "black",
-									borderRadius: "10px",
-									backgroundColor:
-										currentPathname === item.route ? "#E8E8E8" : "transparent",
-								}}
-							>
-								<Stack direction="row" spacing={1} alignItems="center">
-									{item.icon}
-									<ListItemText primary={item.name} />
-								</Stack>
-							</ListItemButton>
-						</ListItem>
-					)}
-				</React.Fragment>
-			))}
+											{item.name}
+										</AccordionSummary>
+										{["Manufacturados", "Insumos"].map((subItem, index) => (
+											<ListItem
+												key={`${subItem}${index}`}
+												component={Link}
+												to={`/${subItem.toLowerCase()}`}
+											>
+												<ListItemButton
+													key={`${subItem}${index}`}
+													sx={{
+														...item.style,
+														color: "black",
+														borderRadius: "10px",
+														backgroundColor:
+															currentPathname === `/${subItem.toLowerCase()}`
+																? "#E8E8E8"
+																: "transparent",
+													}}
+												>
+													<Stack
+														direction="row"
+														spacing={1}
+														alignItems="center"
+													>
+														{subItem === "Manufacturados" ? (
+															<RestaurantIcon />
+														) : (
+															<MenuBookIcon />
+														)}
+														<ListItemText primary={subItem} />
+													</Stack>
+												</ListItemButton>
+											</ListItem>
+										))}
+									</Accordion>
+								</>
+							) : (
+								<ListItem
+									key={`${item.name}${item.route}`}
+									component={Link}
+									to={item.route}
+								>
+									<ListItemButton
+										key={`${item.name}${item.route}`}
+										sx={{
+											...item.style,
+											color: "black",
+											borderRadius: "10px",
+											backgroundColor:
+												currentPathname === item.route
+													? "#E8E8E8"
+													: "transparent",
+										}}
+									>
+										<Stack direction="row" spacing={1} alignItems="center">
+											{item.icon}
+											<ListItemText primary={item.name} />
+										</Stack>
+									</ListItemButton>
+								</ListItem>
+							)}
+						</React.Fragment>
+					)
+			)}
 		</Stack>
 	);
 

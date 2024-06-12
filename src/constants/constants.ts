@@ -58,7 +58,13 @@ export const getConstants = () => {
 					postURL: "http://localhost:8080/pedido/save",
 					putURL: "http://localhost:8080/pedido/edit/",
 					deleteURL: "http://localhost:8080/pedido/",
-				}
+				},
+				empleados: {
+					getUrl: `http://localhost:8080/empleado`,
+					postURL: "http://localhost:8080/empleado/save",
+					putURL: "http://localhost:8080/empleado/edit/",
+					deleteURL: "http://localhost:8080/empleado/",
+				},
 		  }
 		: {
 				sucursal: {
@@ -127,6 +133,12 @@ export const getConstants = () => {
 					postURL: "http://localhost:8080/pedido/save",
 					putURL: "http://localhost:8080/pedido/edit/",
 					deleteURL: "http://localhost:8080/pedido/",
-				}
+				},
+				empleados: {
+					getUrl: `http://localhost:8080/empleado`,
+					postURL: "http://localhost:8080/empleado/save",
+					putURL: "http://localhost:8080/empleado/edit/",
+					deleteURL: "http://localhost:8080/empleado/",
+				},
 		  };
 };

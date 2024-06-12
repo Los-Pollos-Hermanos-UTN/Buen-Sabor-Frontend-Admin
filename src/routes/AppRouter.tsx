@@ -1,3 +1,4 @@
+import React from "react";
 import { Route, Routes } from "react-router-dom";
 import { Home } from "../screens/Home";
 import { Categories } from "../screens/Categories";
@@ -14,28 +15,35 @@ import { useSelector } from "react-redux";
 import { RootState } from "../store/store";
 import { useAuth0 } from "@auth0/auth0-react";
 import { PedidosPage } from "../screens/PedidosPage";
+import PrivateRoute from "./PrivateRoute"; // Importa tu componente PrivateRoute
 
 const drawerWidth: number = 280;
 
 export const AppRouter = () => {
-  const { isAuthenticated: isAuth0Authenticated, isLoading, loginWithRedirect } = useAuth0();
-  const isAuthenticated = useSelector((state: RootState) => state.auth.isAuthenticated);
+	const {
+		isAuthenticated: isAuth0Authenticated,
+		isLoading,
+		loginWithRedirect,
+	} = useAuth0();
+	const isAuthenticated = useSelector(
+		(state: RootState) => state.auth.isAuthenticated
+	);
 
-  if (isLoading) {
-    return <div>Loading...</div>;
-  }
+	if (isLoading) {
+		return <div>Loading...</div>;
+	}
 
-  if (!isAuth0Authenticated) {
-    loginWithRedirect({
-      appState: {
-        returnTo: window.location.pathname,
-      },
-      authorizationParams: {
-        redirect_uri: window.location.origin,
-      },
-    });
-    return null; // Return null while redirecting
-  }
+	if (!isAuth0Authenticated) {
+		loginWithRedirect({
+			appState: {
+				returnTo: window.location.pathname,
+			},
+			authorizationParams: {
+				redirect_uri: window.location.origin,
+			},
+		});
+		return null; // Return null while redirecting
+	}
 
 	return (
 		<>
@@ -60,15 +68,80 @@ export const AppRouter = () => {
 					>
 						<Toolbar />
 						<Routes>
-							<Route path="/" element={<Home />} />
-							<Route path="/pedidos" element={<PedidosPage />} />
-							<Route path="/manufacturados" element={<ManufacturadosPage />} />
-							<Route path="/insumos" element={<InsumosPage />} />
-							<Route path="/promociones" element={<Promotions />} />
-							<Route path="/empresa" element={<Company />} />
-							<Route path="/usuarios" element={<Users />} />
-							<Route path="/categorias" element={<Categories />} />
-							<Route path="/unidades" element={<UnidadMedidaPage />} />
+							<Route
+								path="/inicio"
+								element={
+									<PrivateRoute requiredRoles={["admin", "cajero"]}>
+										<Home />
+									</PrivateRoute>
+								}
+							/>
+							<Route
+								path="/pedidos"
+								element={
+									<PrivateRoute
+										requiredRoles={["admin", "cocinero", "cajero", "delivery"]}
+									>
+										<PedidosPage />
+									</PrivateRoute>
+								}
+							/>
+							<Route
+								path="/manufacturados"
+								element={
+									<PrivateRoute requiredRoles={["admin", "cocinero", "cajero"]}>
+										<ManufacturadosPage />
+									</PrivateRoute>
+								}
+							/>
+							<Route
+								path="/insumos"
+								element={
+									<PrivateRoute requiredRoles={["admin", "cocinero", "cajero"]}>
+										<InsumosPage />
+									</PrivateRoute>
+								}
+							/>
+							<Route
+								path="/promociones"
+								element={
+									<PrivateRoute requiredRoles={["admin", "cajero"]}>
+										<Promotions />
+									</PrivateRoute>
+								}
+							/>
+							<Route
+								path="/empresa"
+								element={
+									<PrivateRoute requiredRoles={["admin"]}>
+										<Company />
+									</PrivateRoute>
+								}
+							/>
+							<Route
+								path="/usuarios"
+								element={
+									<PrivateRoute requiredRoles={["admin"]}>
+										<Users />
+									</PrivateRoute>
+								}
+							/>
+							<Route
+								path="/categorias"
+								element={
+									<PrivateRoute requiredRoles={["admin", "cocinero", "cajero"]}>
+										<Categories />
+									</PrivateRoute>
+								}
+							/>
+							<Route
+								path="/unidades"
+								element={
+									<PrivateRoute requiredRoles={["admin", "cocinero", "cajero"]}>
+										<UnidadMedidaPage />
+									</PrivateRoute>
+								}
+							/>
 						</Routes>
 					</Box>
 				</Box>
