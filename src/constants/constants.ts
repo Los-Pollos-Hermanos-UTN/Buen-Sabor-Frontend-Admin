@@ -1,69 +1,89 @@
 import { useSelector } from "react-redux";
 import { RootState } from "../store/store";
 
-const env = "local";
-
 export const getConstants = () => {
 	const empresa = useSelector(
 		(state: RootState) => state.empresa.selectedEmpresa
 	);
 
+	let env = "prod";
 	return env !== "local"
 		? {
 				sucursal: {
-					getUrl: "https://buensaborfix.onrender.com/sucursal/short",
-					postURL: "https://buensaborfix.onrender.com/sucursal/",
+					getUrl: `https://buensaborfix-8w6n.onrender.com/sucursal/listByEmpresa/${empresa?.id}`,
+					postURL: "https://buensaborfix-8w6n.onrender.com/sucursal/",
+					putURL: "https://buensaborfix-8w6n.onrender.com/sucursal/",
+					deleteURL: "https://buensaborfix-8w6n.onrender.com/sucursal/",
 				},
 				empresa: {
-					getUrl: "https://buensaborfix.onrender.com/empresa/short",
-					postURL: "https://buensaborfix.onrender.com/empresa/",
+					getUrl: "https://buensaborfix-8w6n.onrender.com/empresa/short",
+					postURL: "https://buensaborfix-8w6n.onrender.com/empresa/save",
+					putURL: "https://buensaborfix-8w6n.onrender.com/empresa/",
+					deleteURL: "https://buensaborfix-8w6n.onrender.com/sucursal/",
 				},
 				manufacturado: {
-					getUrl: "https://buensaborfix.onrender.com/articuloManufacturado",
+					getUrl: `https://buensaborfix-8w6n.onrender.com/articuloManufacturado/listByEmpresa/${empresa?.id}`,
 					postURL:
-						"https://buensaborfix.onrender.com/articuloManufacturado/save",
+						"https://buensaborfix-8w6n.onrender.com/articuloManufacturado/save",
+					putURL:
+						"https://buensaborfix-8w6n.onrender.com/articuloManufacturado/edit/",
+					deleteURL:
+						"https://buensaborfix-8w6n.onrender.com/articuloManufacturado/",
 				},
 				insumo: {
-					getUrl: "https://buensaborfix.onrender.com/articuloInsumo",
-					postURL: "https://buensaborfix.onrender.com/articuloInsumo/save",
+					getUrl: `https://buensaborfix-8w6n.onrender.com/articuloInsumo/listByEmpresa/${empresa?.id}`,
+					postURL: "https://buensaborfix-8w6n.onrender.com/articuloInsumo/save",
+					putURL: "https://buensaborfix-8w6n.onrender.com/articuloInsumo/edit/",
+					deleteURL: "https://buensaborfix-8w6n.onrender.com/articuloInsumo/",
 				},
 				unidadMedida: {
-					getUrl: "https://buensaborfix.onrender.com/unidadMedida",
-					postURL: "https://buensaborfix.onrender.com/unidadMedida/",
+					getUrl: "https://buensaborfix-8w6n.onrender.com/unidadMedida",
+					postURL: "https://buensaborfix-8w6n.onrender.com/unidadMedida/",
+					putURL: "https://buensaborfix-8w6n.onrender.com/unidadMedida/",
+					deleteURL: "https://buensaborfix-8w6n.onrender.com/unidadMedida/",
 				},
 				categorias: {
-					getUrl: "https://buensaborfix.onrender.com/categoria/getAll",
-					postURL: "https://buensaborfix.onrender.com/categoria/save",
+					getUrl: `https://buensaborfix-8w6n.onrender.com/categoria/listByEmpresa/${empresa?.id}`,
+					getByIdUrl: `https://buensaborfix-8w6n.onrender.com/categoria/`,
+					postURL: "https://buensaborfix-8w6n.onrender.com/categoria/save",
+					putURL: "https://buensaborfix-8w6n.onrender.com/categoria/edit/",
+					deleteURL: "https://buensaborfix-8w6n.onrender.com/categoria/",
 				},
 				paises: {
-					getUrl: "https://buensaborfix.onrender.com/paises",
-					postURL: "https://buensaborfix.onrender.com/paises/",
+					getUrl: "https://buensaborfix-8w6n.onrender.com/pais",
+					postURL: "https://buensaborfix-8w6n.onrender.com/pais/",
+					putURL: "https://buensaborfix-8w6n.onrender.com/pais/",
+					deleteURL: "https://buensaborfix-8w6n.onrender.com/pais/",
 				},
 				provincias: {
-					getUrl: "https://buensaborfix.onrender.com/provincias",
-					postURL: "https://buensaborfix.onrender.com/provincias/",
+					getUrl: "https://buensaborfix-8w6n.onrender.com/provincia",
+					postURL: "https://buensaborfix-8w6n.onrender.com/provincia/",
+					putURL: "https://buensaborfix-8w6n.onrender.com/provincia/",
+					deleteURL: "https://buensaborfix-8w6n.onrender.com/provincia/",
 				},
 				localidades: {
-					getUrl: "https://buensaborfix.onrender.com/localidades",
-					postURL: "https://buensaborfix.onrender.com/localidades/",
+					getUrl: "https://buensaborfix-8w6n.onrender.com/localidad",
+					postURL: "https://buensaborfix-8w6n.onrender.com/localidad/",
+					putURL: "https://buensaborfix-8w6n.onrender.com/localidad/",
+					deleteURL: "https://buensaborfix-8w6n.onrender.com/localidad/",
 				},
 				promociones: {
-					getUrl: "http://localhost:8080/promociones",
-					postURL: "http://localhost:8080/promociones/",
-					putURL: "http://localhost:8080/promociones/",
-					deleteURL: "http://localhost:8080/promociones/",
+					getUrl: "https://buensaborfix-8w6n.onrender.com/promocion",
+					postURL: "https://buensaborfix-8w6n.onrender.com/promocion/save",
+					putURL: "https://buensaborfix-8w6n.onrender.com/promocion/edit/",
+					deleteURL: "https://buensaborfix-8w6n.onrender.com/promocion/",
 				},
 				pedidos: {
-					getUrl: `http://localhost:8080/pedido/listByEmpresa/${empresa?.id}`,
-					postURL: "http://localhost:8080/pedido/save",
-					putURL: "http://localhost:8080/pedido/edit/",
-					deleteURL: "http://localhost:8080/pedido/",
+					getUrl: `https://buensaborfix-8w6n.onrender.com/pedido/listByEmpresa/${empresa?.id}`,
+					postURL: "https://buensaborfix-8w6n.onrender.com/pedido/save",
+					putURL: "https://buensaborfix-8w6n.onrender.com/pedido/edit/",
+					deleteURL: "https://buensaborfix-8w6n.onrender.com/pedido/",
 				},
 				empleados: {
-					getUrl: `http://localhost:8080/empleado`,
-					postURL: "http://localhost:8080/empleado/save",
-					putURL: "http://localhost:8080/empleado/edit/",
-					deleteURL: "http://localhost:8080/empleado/",
+					getUrl: `https://buensaborfix-8w6n.onrender.com/empleado`,
+					postURL: "https://buensaborfix-8w6n.onrender.com/empleado/save",
+					putURL: "https://buensaborfix-8w6n.onrender.com/empleado/edit/",
+					deleteURL: "https://buensaborfix-8w6n.onrender.com/empleado/",
 				},
 		  }
 		: {
