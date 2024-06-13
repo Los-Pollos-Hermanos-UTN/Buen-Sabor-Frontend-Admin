@@ -6,7 +6,7 @@ export const getConstants = () => {
 		(state: RootState) => state.empresa.selectedEmpresa
 	);
 
-	let env = "prod";
+	let env = "local";
 	return env !== "local"
 		? {
 				sucursal: {
