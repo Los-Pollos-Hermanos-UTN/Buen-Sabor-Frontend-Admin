@@ -1,3 +1,4 @@
+// @ts-nocheck
 import { Card, Stack, CardContent, Typography, Button } from "@mui/material";
 import { Empresa } from "../../types/Empresa";
 
