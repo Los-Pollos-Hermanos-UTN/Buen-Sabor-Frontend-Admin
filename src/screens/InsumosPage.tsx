@@ -13,10 +13,13 @@ import {
 } from "../components/forms/insumo/InsumoFormData";
 import { searchInObject } from "../utils/SearchUtils";
 import { InsumoDetailModal } from "../components/modals/details/InsumoDetailModal";
+import { useSelector } from "react-redux";
+import { RootState } from "../store/store";
 
 export const InsumosPage = () => {
 	const CONSTANTS = getConstants();
 	const [searchTerm, setSearchTerm] = useState("");
+	const userRole = useSelector((state: RootState) => state.auth.userRole);
 
 	const [open, setOpen] = useState<boolean>(false);
 	const handleOpen = () => setOpen(true);
@@ -76,7 +79,11 @@ export const InsumosPage = () => {
 	return (
 		<>
 			<Stack direction="column" m="3%" spacing={5}>
-				<SearchBar onSearch={handleSearch} handleOpen={handleOpen} />
+				<SearchBar
+					onSearch={handleSearch}
+					handleOpen={handleOpen}
+					showAddButton={userRole === "admin"}
+				/>
 				<CustomTable<ArticuloInsumo>
 					data={filteredSupplies}
 					columns={insumoColumns}

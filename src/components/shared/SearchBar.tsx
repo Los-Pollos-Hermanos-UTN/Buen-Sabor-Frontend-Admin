@@ -8,6 +8,7 @@ interface SearchBarProps {
 	showAddButton?: boolean;
 	onSearch?: (searchTerm: string) => void;
 	handleOpen?: () => void;
+	disabledAddButton?: boolean;
 }
 
 export function SearchBar({
@@ -15,6 +16,7 @@ export function SearchBar({
 	showAddButton = true,
 	onSearch,
 	handleOpen,
+	disabledAddButton,
 }: SearchBarProps) {
 	const [searchTerm, setSearchTerm] = useState("");
 
@@ -59,7 +61,9 @@ export function SearchBar({
 					<Search />
 				</IconButton>
 			</Box>
-			{showAddButton && <AddButton handleClick={handleOpen!} />}
+			{showAddButton && (
+				<AddButton handleClick={handleOpen!} disabled={disabledAddButton} />
+			)}
 			{extraButtons}
 		</Stack>
 	);

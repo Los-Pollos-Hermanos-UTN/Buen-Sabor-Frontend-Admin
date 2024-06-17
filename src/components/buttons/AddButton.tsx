@@ -7,6 +7,7 @@ interface AddButtonProps {
 	height?: string;
 	tooltipText?: string;
 	tooltipPlacement?: "top" | "bottom" | "left" | "right";
+	disabled?: boolean;
 }
 
 export function AddButton({
@@ -15,12 +16,14 @@ export function AddButton({
 	height,
 	tooltipText,
 	tooltipPlacement,
+	disabled,
 }: AddButtonProps) {
 	return (
 		<Tooltip title={tooltipText} placement={tooltipPlacement} arrow>
 			<IconButton
 				type="submit"
 				onClick={handleClick}
+				disabled={disabled}
 				sx={{
 					p: "10px",
 					borderRadius: "8px",
@@ -28,7 +31,6 @@ export function AddButton({
 					width: height ? height : "50px",
 					backgroundColor: "#49111C",
 				}}
-				aria-label="search"
 			>
 				<AddIcon sx={{ color: "#fff" }} />
 			</IconButton>
