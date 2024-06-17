@@ -59,7 +59,7 @@ export const InicioSesion = () => {
 					},
 				});
 
-				const response = await fetch("http://localhost:8080/api/user/role", {
+				const response = await fetch(`${import.meta.env.VITE_API_URL}/api/user/role`, {
 					headers: {
 						Authorization: `Bearer ${token}`,
 					},
