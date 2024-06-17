@@ -18,7 +18,7 @@ export function MyPieChart() {
 			Authorization: `Bearer ${token}`,
 		};
 
-		fetch("http://localhost:8080/report/orders-by-category", { headers })
+		fetch(`${import.meta.env.VITE_API_URL}/report/orders-by-category`, { headers })
 			.then((response) => {
 				if (!response.ok) {
 					throw new Error(`HTTP error! status: ${response.status}`);

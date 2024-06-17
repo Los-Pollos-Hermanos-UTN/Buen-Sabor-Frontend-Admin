@@ -27,7 +27,7 @@ export function MyBarChart() {
 			headers["Authorization"] = `Bearer ${token}`;
 		}
 
-		fetch(`http://localhost:8080/report/top-selling-products?limit=${itemNb}`, {
+		fetch(`${import.meta.env.VITE_API_URL}/report/top-selling-products?limit=${itemNb}`, {
 			method: "GET",
 			headers: headers,
 		})
