@@ -1,30 +1,33 @@
-# React + TypeScript + Vite
+# Buen Sabor Admin
+## Objetivo
+El objetivo de este proyecto es desarrollar una interfaz funcional del sistema de gestión para una cadena de restaurantes, facilitando la administración de sucursales, categorías, artículos (insumos y manufacturados), promociones y empleados.
+## Deploy en Vercel
+https://buen-sabor-frontend-admin.vercel.app/
+## Roles de prueba
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+### Admin
+Username: admin@mail.com
 
-Currently, two official plugins are available:
+Password: Admin123
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+### Cajero
+Username: cajero@mail.com
 
-## Expanding the ESLint configuration
+Password: Cajero123
 
-If you are developing a production application, we recommend updating the configuration to enable type aware lint rules:
+### Cocinero
+Username: cocinero@mail.com
 
-- Configure the top-level `parserOptions` property like this:
+Password: Cocinero123
 
-```js
-export default {
-  // other rules...
-  parserOptions: {
-    ecmaVersion: 'latest',
-    sourceType: 'module',
-    project: ['./tsconfig.json', './tsconfig.node.json'],
-    tsconfigRootDir: __dirname,
-  },
-}
-```
+### Delivery
+Username: delivery@mail.com
 
-- Replace `plugin:@typescript-eslint/recommended` to `plugin:@typescript-eslint/recommended-type-checked` or `plugin:@typescript-eslint/strict-type-checked`
-- Optionally add `plugin:@typescript-eslint/stylistic-type-checked`
-- Install [eslint-plugin-react](https://github.com/jsx-eslint/eslint-plugin-react) and add `plugin:react/recommended` & `plugin:react/jsx-runtime` to the `extends` list
+Password: Delivery123
+
+## Tecnologías Principales
+- React + Typescript + Vite
+- Material UI
+- Formik
+- Redux
+- Auth0
