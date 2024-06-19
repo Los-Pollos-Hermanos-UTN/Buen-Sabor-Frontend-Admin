@@ -89,7 +89,6 @@ export const PedidoDetailModal = ({
 	};
 
 	const getMessage = (): string => {
-		debugger;
 		if (
 			(nextEstado === "CANCELADO" || nextEstado === "RECHAZADO") &&
 			pedido.estado.toString() === "PENDIENTE"
