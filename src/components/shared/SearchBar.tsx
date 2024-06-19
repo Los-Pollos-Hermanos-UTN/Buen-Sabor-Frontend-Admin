@@ -34,7 +34,7 @@ export function SearchBar({
 	};
 
 	return (
-		<Stack direction="row" spacing={1}>
+		<Stack direction="row" spacing={2}>
 			<Box
 				width="70%"
 				display="flex"

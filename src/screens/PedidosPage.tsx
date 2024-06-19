@@ -7,6 +7,9 @@ import { searchInObject } from "../utils/SearchUtils";
 import { Pedido } from "../types/Pedido";
 import { PedidoDetailModal } from "../components/modals/details/PedidoDetailModal";
 import { PedidosBoard } from "../components/board/PedidosBoard";
+import dayjs, { Dayjs } from "dayjs";
+import { DatePicker } from "@mui/x-date-pickers";
+import { formatFecha } from "../utils/DateTimeUtils";
 
 export const PedidosPage = () => {
 	const CONSTANTS = getConstants();
@@ -15,20 +18,32 @@ export const PedidosPage = () => {
 	const [pedidos, setPedidos] = useState<Pedido[]>([]);
 	const [selectedPedido, setSelectedPedido] = useState<Pedido | null>(null);
 
+	const [fecha, setFecha] = useState<string | Date | Dayjs>(
+		dayjs().format("YYYY-MM-DD")
+	);
+
 	const [detailOpen, setDetailOpen] = useState<boolean>(false);
 	const [detailPedido, setDetailPedido] = useState<Pedido | null>(null);
 
 	useEffect(() => {
 		const getPedidos = async () => {
 			try {
-				const response = await getData<Pedido[]>(CONSTANTS.pedidos.getUrl);
-				setPedidos(response);
+				const response = await getData<Pedido[]>(
+					`${CONSTANTS.pedidos.getByDayUrl}${fecha}`
+				);
+
+				if (response.length === 0) {
+					setPedidos([]);
+				} else {
+					setPedidos(response);
+				}
 			} catch (error) {
 				console.error(error);
+				setPedidos([]);
 			}
 		};
 		getPedidos();
-	}, []);
+	}, [fecha]);
 
 	const handleSearch = (newSearchTerm: string) => {
 		setSearchTerm(newSearchTerm);
@@ -63,7 +78,27 @@ export const PedidosPage = () => {
 	return (
 		<>
 			<Stack direction="column" m="3%" spacing={5} height="85%">
-				<SearchBar showAddButton={false} onSearch={handleSearch} />
+				<SearchBar
+					showAddButton={false}
+					onSearch={handleSearch}
+					extraButtons={[
+						<DatePicker
+							key="datepicker"
+							sx={{
+								bgcolor: "#fff",
+								borderRadius: "5px",
+								height: "50px",
+								"& .MuiOutlinedInput-root": {
+									"& fieldset": {
+										border: "none",
+									},
+								},
+							}}
+							value={fecha ? dayjs(fecha) : null}
+							onChange={(date) => setFecha(formatFecha(date))}
+						/>,
+					]}
+				/>
 				<PedidosBoard
 					pedidos={filteredPedidos}
 					onEdit={handleEdit}

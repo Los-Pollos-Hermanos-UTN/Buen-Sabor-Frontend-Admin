@@ -82,6 +82,9 @@ export const getConstants = () => {
 					getUrl: `${import.meta.env.VITE_API_URL}/pedido/listByEmpresa/${
 						empresa?.id
 					}`,
+					getByDayUrl: `${import.meta.env.VITE_API_URL}/pedido/empresa/${
+						empresa?.id
+					}/listByDay?fecha=`,
 					postURL: `${import.meta.env.VITE_API_URL}/pedido/save`,
 					putURL: `${import.meta.env.VITE_API_URL}/pedido/edit/`,
 					deleteURL: `${import.meta.env.VITE_API_URL}/pedido/`,
@@ -167,6 +170,9 @@ export const getConstants = () => {
 					getUrl: `${import.meta.env.VITE_API_URL}/pedido/listByEmpresa/${
 						empresa?.id
 					}`,
+					getByDayUrl: `${import.meta.env.VITE_API_URL}/pedido/empresa/${
+						empresa?.id
+					}/listByDay?fecha=`,
 					postURL: `${import.meta.env.VITE_API_URL}/pedido/save`,
 					putURL: `${import.meta.env.VITE_API_URL}/pedido/edit/`,
 					deleteURL: `${import.meta.env.VITE_API_URL}/pedido/`,
