@@ -48,7 +48,11 @@ export const PedidoDetailModal = ({
 
 	const handleEstadoChange = (event: SelectChangeEvent) => {
 		const newEstado = event.target.value as string;
-		if (newEstado === Estado[4] || newEstado === Estado[5]) {
+		if (
+			newEstado === Estado[4] ||
+			newEstado === Estado[5] ||
+			newEstado === Estado[0]
+		) {
 			setNextEstado(newEstado);
 			setConfirmOpen(true);
 		} else {
@@ -59,6 +63,7 @@ export const PedidoDetailModal = ({
 	const handleConfirm = () => {
 		if (nextEstado) {
 			onMove(pedido, nextEstado);
+			handleClose();
 		}
 		setConfirmOpen(false);
 		setNextEstado(null);
@@ -75,11 +80,35 @@ export const PedidoDetailModal = ({
 			case "ENTREGADO":
 				return [];
 			case "CANCELADO":
-				return [];
+				return [Estado[0]];
 			case "RECHAZADO":
-				return [];
+				return [Estado[0]];
 			default:
 				return [];
+		}
+	};
+
+	const getMessage = (): string => {
+		debugger;
+		if (
+			(nextEstado === "CANCELADO" || nextEstado === "RECHAZADO") &&
+			pedido.estado.toString() === "PENDIENTE"
+		) {
+			return `Esta acción repondrá el stock utilizado. ¿Estás seguro de que deseas continuar?`;
+		} else if (
+			nextEstado === "PENDIENTE" &&
+			(pedido.estado.toString() === "CANCELADO" ||
+				pedido.estado.toString() === "RECHAZADO")
+		) {
+			return `Esta acción disminuirá el stock utilizado. ¿Estás seguro de que deseas continuar?`;
+		} else if (
+			(nextEstado === "CANCELADO" || nextEstado === "RECHAZADO") &&
+			(pedido.estado.toString() === "CANCELADO" ||
+				pedido.estado.toString() === "RECHAZADO")
+		) {
+			return `Si ves esto contactá al desarrollador (Bruno Mastropietro)`;
+		} else {
+			return `Esta acción no afectará el stock. ¿Estás seguro de que deseas continuar?`;
 		}
 	};
 
@@ -189,9 +218,7 @@ export const PedidoDetailModal = ({
 				open={confirmOpen}
 				onClose={() => setConfirmOpen(false)}
 				onConfirm={handleConfirm}
-				message={`Esta acción ${
-					nextEstado === "CANCELADO" ? "repondrá" : "afectará"
-				} el stock utilizado. ¿Estás seguro de que deseas continuar?`}
+				message={getMessage()}
 			/>
 		</>
 	);
