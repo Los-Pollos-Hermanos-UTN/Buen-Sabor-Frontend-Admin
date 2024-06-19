@@ -1,15 +1,4 @@
-import {
-	Stack,
-	TextField,
-	Checkbox,
-	FormControlLabel,
-	FormControl,
-	InputLabel,
-	MenuItem,
-	Select,
-	createFilterOptions,
-	Autocomplete,
-} from "@mui/material";
+import { Stack, TextField, Autocomplete } from "@mui/material";
 import { useState, useEffect } from "react";
 import { getConstants } from "../../../../constants/constants";
 import { getData } from "../../../../services/RequestExecutor";
@@ -46,6 +35,17 @@ export const InsumoStep2 = (props: any) => {
 		getUnidadesMedida();
 	}, [open]);
 
+	useEffect(() => {
+		if (!values.esParaElaborar) {
+			const unidad = unidadesMedida.find(
+				(unidad) => unidad.denominacion === "Unidad"
+			);
+			if (unidad) {
+				setFieldValue("unidadMedida", unidad);
+			}
+		}
+	}, [values.esParaElaborar, unidadesMedida, setFieldValue]);
+
 	const handleUnidadMedidaChange = (_: any, value: UnidadMedida | null) => {
 		setFieldValue(
 			"unidadMedida",
@@ -79,17 +79,15 @@ export const InsumoStep2 = (props: any) => {
 						<AddButton handleClick={handleOpen} />
 					</Stack>
 				) : (
-					<>
-						{() => {
-							setFieldValue(
-								"unidadMedida",
-								unidadesMedida.find(
-									(unidad) => unidad.denominacion === "Unidad"
-								) || null
-							);
-							return <></>;
-						}}
-					</>
+					<TextField
+						fullWidth
+						id="unidadMedida"
+						name="unidadMedida"
+						label="Unidad de Medida"
+						value="Unidad"
+						disabled
+						variant="outlined"
+					/>
 				)}
 
 				<TextField
