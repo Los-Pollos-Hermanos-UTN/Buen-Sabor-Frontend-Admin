@@ -1,9 +1,14 @@
 import * as React from "react";
 import Box from "@mui/material/Box";
 import { PieChart } from "@mui/x-charts/PieChart";
+import { useSelector } from "react-redux";
+import { RootState } from "../../store/store";
 
 export function MyPieChart() {
 	const [data, setData] = React.useState([]);
+	const empresa = useSelector(
+        (state: RootState) => state.empresa.selectedEmpresa
+    );
 
 	React.useEffect(() => {
 		const token = localStorage.getItem("Token");
@@ -18,7 +23,7 @@ export function MyPieChart() {
 			Authorization: `Bearer ${token}`,
 		};
 
-		fetch(`${import.meta.env.VITE_API_URL}/report/orders-by-category`, { headers })
+		fetch(`${import.meta.env.VITE_API_URL}/report/empresa/${empresa.id}/orders-by-category`, { headers })
 			.then((response) => {
 				if (!response.ok) {
 					throw new Error(`HTTP error! status: ${response.status}`);

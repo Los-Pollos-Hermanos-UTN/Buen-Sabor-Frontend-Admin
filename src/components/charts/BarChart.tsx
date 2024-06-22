@@ -4,11 +4,16 @@ import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
 import Slider from "@mui/material/Slider";
 import { BarChart } from "@mui/x-charts/BarChart";
+import { useSelector } from "react-redux";
+import { RootState } from "../../store/store";
 
 export function MyBarChart() {
 	const [series, setSeries] = useState([]);
 	const [productNames, setProductNames] = useState([]);
 	const [itemNb, setItemNb] = useState(5); // Estado para la cantidad de ítems
+	const empresa = useSelector(
+        (state: RootState) => state.empresa.selectedEmpresa
+    );
 
 	const handleItemNbChange = (
 		_: any,
@@ -27,7 +32,7 @@ export function MyBarChart() {
 			headers["Authorization"] = `Bearer ${token}`;
 		}
 
-		fetch(`${import.meta.env.VITE_API_URL}/report/top-selling-products?limit=${itemNb}`, {
+		fetch(`${import.meta.env.VITE_API_URL}/report/empresa/${empresa.id}/top-selling-products?limit=${itemNb}`, {
 			method: "GET",
 			headers: headers,
 		})
